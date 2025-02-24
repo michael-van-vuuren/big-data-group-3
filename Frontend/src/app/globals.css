@@ -1,0 +1,77 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+
+body {
+  --sb-track-color: #000000;
+  --sb-thumb-color-top: #64748b;
+  --sb-thumb-color-bottom: #64748b;
+  @apply text-text dark:text-darkText;
+}
+
+body::-webkit-scrollbar {
+  width: 0px;
+}
+
+body::-webkit-scrollbar-track {
+  background: var(--sb-track-color);
+}
+
+body::-webkit-scrollbar-thumb {
+  background-image: linear-gradient(180deg, var(--sb-thumb-color-top) 0%, var(--sb-thumb-color-bottom) 99%);
+  border: 2px solid rgba(0, 0, 0, 1);
+}
+
+@supports not selector(::-webkit-scrollbar) {
+  body {
+    scrollbar-color: var(--sb-thumb-color) var(--sb-track-color);
+  }
+}
+
+@layer utilities {
+  .grid-bg-light {
+    background-image: linear-gradient(to right, #80808033 1px, transparent 1px),
+                      linear-gradient(to bottom, #80808033 1px, transparent 1px);
+    background-size: 70px 70px;
+    background-position: 0px 50px;
+    z-index: -1;
+  }
+
+  .grid-bg-dark {
+    background-image: linear-gradient(to right, #d2d2d238 1px, transparent 1px),
+                      linear-gradient(to bottom, #d2d2d238 1px, transparent 1px);
+    background-size: 70px 70px;
+    background-position: 0px 50px;
+    z-index: -1;
+  }
+
+  .grid-bg-dot {
+    background-image: radial-gradient(circle, #000000 1.5px, rgba(0, 0, 0, 0) 1px);
+    background-size: 70px 70px;
+    background-position: 0px -10px;
+    z-index: -1;
+  }
+  
+  .grainy-texture {
+    position: relative;
+  }
+
+  .grainy-texture::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background-image: url("https://plus.unsplash.com/premium_photo-1701090935443-6eed4071f624?fm=jpg&q=60&w=3000&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTd8fHBhcGVyJTIwdGV4dHVyZXxlbnwwfHwwfHx8MA%3D%3Dhttps://images-wixmp-ed30a86b8c4ca887773594c2.wixmp.com/f/ace41584-bf35-4a8c-ac80-358c7cdf2f77/d7pfdwz-839e0ce6-0053-45d0-a4b6-26fa36adf725.jpg/v1/fill/w_1600,h_2201,q_75,strp/paper_grain_texture_by_justinbhb_d7pfdwz-fullview.jpg?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1cm46YXBwOjdlMGQxODg5ODIyNjQzNzNhNWYwZDQxNWVhMGQyNmUwIiwiaXNzIjoidXJuOmFwcDo3ZTBkMTg4OTgyMjY0MzczYTVmMGQ0MTVlYTBkMjZlMCIsIm9iaiI6W1t7ImhlaWdodCI6Ijw9MjIwMSIsInBhdGgiOiJcL2ZcL2FjZTQxNTg0LWJmMzUtNGE4Yy1hYzgwLTM1OGM3Y2RmMmY3N1wvZDdwZmR3ei04MzllMGNlNi0wMDUzLTQ1ZDAtYTRiNi0yNmZhMzZhZGY3MjUuanBnIiwid2lkdGgiOiI8PTE2MDAifV1dLCJhdWQiOlsidXJuOnNlcnZpY2U6aW1hZ2Uub3BlcmF0aW9ucyJdfQ.EVbtHnTUHQ5IQTouL39Sk1mW1NITDqZz20N6-y6Stjg");
+    background-size: 100%;
+    background-repeat: repeat;
+    mix-blend-mode: multiply;
+    opacity: 0.6;
+    pointer-events: none;
+    z-index: 0;
+  }
+}
