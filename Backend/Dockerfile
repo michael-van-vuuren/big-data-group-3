@@ -1,9 +1,12 @@
-FROM openjdk:8-jdk-alpine
-VOLUME /tmp
-ARG JAVA_OPTS
-ENV JAVA_OPTS=$JAVA_OPTS
-COPY build/libs/big-data-group-3-0.0.1-SNAPSHOT.jar bigdatagroup3.jar
+# Build
+FROM gradle:8.5-jdk21 AS build
+WORKDIR /app
+COPY --chown=gradle:gradle . .
+RUN gradle bootJar --no-daemon
+
+# Run
+FROM amazoncorretto:21
+WORKDIR /app
+COPY --from=build /app/build/libs/*.jar app.jar
 EXPOSE 8080
-ENTRYPOINT exec java $JAVA_OPTS -jar bigdatagroup3.jar
-# For Spring-Boot project, use the entrypoint below to reduce Tomcat startup time.
-#ENTRYPOINT exec java $JAVA_OPTS -Djava.security.egd=file:/dev/./urandom -jar bigdatagroup3.jar
+CMD ["java", "-jar", "app.jar"]
