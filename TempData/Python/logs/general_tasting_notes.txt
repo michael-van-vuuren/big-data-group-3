@@ -1,0 +1,25 @@
+#N/A
+Acidic
+Balanced
+Berries
+Caramel
+Cereal
+Chocolate
+Citrus Fruit
+Clean
+Common Fruit
+Complex
+Creamy
+Dried Fruit
+Earthy
+Fermented
+Floral
+Herbal
+Nutty
+Roasty
+Spiced
+Stone Fruit
+Sweet
+Tea Like
+Tropical Fruit
+Vegetal
