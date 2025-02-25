@@ -24,8 +24,7 @@ Thumbs.db
 *.state
 
 # --- Environment Variables and Secrets ---
-.env
-.env.local
+.env*
 *.pem
 *.crt
 *.key
