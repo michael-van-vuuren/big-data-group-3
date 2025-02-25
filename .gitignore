@@ -1,3 +1,56 @@
+# --- OS-specific Files ---
 .DS_Store
+Thumbs.db
+
+# --- Editor and IDE Settings ---
+.vscode/
+.idea/
+*.iml
+*.sublime-workspace
+
+# --- Logs and Temporary Files ---
+*.log
+*.tmp
+*.lock
+*.cache
+*.bak
+*.swp
+*.swo
+*.swn
+
+# --- System-Specific Files ---
+*.pid
+*.seed
+*.state
+
+# --- Environment Variables and Secrets ---
+.env*
+*.pem
+*.crt
+*.key
+*.pfx
+
+# --- Dependency Caches (General) ---
+/vendor/
+.cache/
+node_modules/
+out/
+dist/
+build/
+
+# --- Coverage and Testing Output ---
+/coverage/
+*.lcov
+/target/
+
+# --- Virtual Environments ---
 venv/
 .venv/
+
+# --- Miscellaneous ---
+/tmp/
+.npmrc
+*.DS_Store
+*.log
+*.sqlite
+*.db
