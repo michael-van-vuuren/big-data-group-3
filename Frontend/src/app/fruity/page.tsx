@@ -1,5 +1,5 @@
 import Image from 'next/image';
-import styles from './styles.module.css';
+import styles from '../../sections/styles.module.css';
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
 import React from 'react';
@@ -9,17 +9,14 @@ export default function Header() {
     <header className={`${styles.starBg} flex min-h-[300dvh] w-full flex-col items-center justify-center`}>
       <div className="mx-auto w-container max-w-full px-5 py-[110px] text-center lg:py-[150px] relative">
         <h1 className="text-white text-3xl font-heading md:text-4xl lg:text-5xl">
-          Coffee Galaxy!
+          Fruity Planet
         </h1>
-        <h2 className="text-white text-xl md:text-2xl lg:text-3xl mt-4">
-          Explore the flavor notes associated with coffee beans
-        </h2>
 
         {/* Planet Container */}
         <div className="grid grid-cols-2 gap-y-8 mt-10" style={{ height: 'auto' }}>
           {/* Rotating Planet1 Image */}
           <div className="relative flex justify-center items-center">
-            <Link href="/fruity" passHref>
+            <Link href="/citrus" passHref>
               <div className="relative w-full h-full"> {/* Rotation container */}
                 <Image 
                   src="/planet2.jpg" 
@@ -29,7 +26,7 @@ export default function Header() {
                   className={styles.rotate} // Apply animation class directly to image
                 />
                 <p className="absolute text-white top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 font-bold bg-black bg-opacity-50 p-3 rounded-lg font-serif">
-                  Fruity Planet
+                  Citrus Planet
                 </p>
               </div>
             </Link>
@@ -39,7 +36,7 @@ export default function Header() {
           {/* Rotating Planet2 Image */}
           <div></div>
           <div className="relative flex justify-center items-center">
-            <Link href="/herbal" passHref>
+            <Link href="/apple" passHref>
               <div className="relative w-full h-full"> {/* Rotation container */}
                 <Image 
                   src="/earth1.jpg" 
@@ -49,7 +46,7 @@ export default function Header() {
                   className={styles.rotate} // Apply animation class directly to image
                 />
                 <p className="absolute text-white top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 font-bold bg-black bg-opacity-50 p-3 rounded-lg font-serif">
-                  Herbal Planet
+                  Apple Planet
                 </p>
               </div>
             </Link>
@@ -57,7 +54,7 @@ export default function Header() {
 
           {/* Rotating Planet3 Image */}
           <div className="relative flex justify-center items-center">
-            <Link href="/savory" passHref>
+            <Link href="/pear" passHref>
               <div className="relative w-full h-full"> {/* Rotation container */}
                 <Image 
                   src="/planet4.jpg" 
@@ -67,7 +64,7 @@ export default function Header() {
                   className={styles.rotate} // Apply animation class directly to image
                 />
                 <p className="absolute text-white top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 font-bold bg-black bg-opacity-50 p-3 rounded-lg font-serif">
-                  Savory Planet
+                  Pear Planet
                 </p>
               </div>
             </Link>
@@ -77,7 +74,7 @@ export default function Header() {
           {/* Rotating Planet4 Image */}
           <div></div>
           <div className="relative flex justify-center items-center">
-            <Link href="/warm" passHref>
+            <Link href="/grape" passHref>
               <div className="relative w-full h-full"> {/* Rotation container */}
                 <Image 
                   src="/mercury1.jpg" 
@@ -87,7 +84,7 @@ export default function Header() {
                   className={styles.rotate} // Apply animation class directly to image
                 />
                 <p className="absolute text-white top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 font-bold bg-black bg-opacity-50 p-3 rounded-lg font-serif">
-                  Warm Planet
+                  Grape Planet
                 </p>
               </div>
             </Link>
@@ -95,7 +92,7 @@ export default function Header() {
 
           {/* Rotating Planet5 Image */}
           <div className="relative flex justify-center items-center">
-            <Link href="/sweet" passHref>
+            <Link href="/tropical" passHref>
               <div className="relative w-full h-full"> {/* Rotation container */}
                 <Image 
                   src="/planet3.jpg" 
@@ -105,19 +102,71 @@ export default function Header() {
                   className={styles.rotate} // Apply animation class directly to image
                 />
                 <p className="absolute text-white top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 font-bold bg-black bg-opacity-50 p-3 rounded-lg font-serif">
-                  Sweet Planet
+                  Tropical Fruit Planet
                 </p>
               </div>
             </Link>
           </div>
           <div></div>
+
+          {/* Rotating Planet6 Image */}
+          <div></div>
+          <div className="relative flex justify-center items-center">
+              <Link href="/stone" passHref>
+              <div className="relative w-full h-full"> {/* Rotation container */}
+                <Image 
+                  src="/mercury1.jpg" 
+                  alt="Fourth Planet" 
+                  width={400} 
+                  height={200} 
+                  className={styles.rotate} // Apply animation class directly to image
+                />
+                <p className="absolute text-white top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 font-bold bg-black bg-opacity-50 p-3 rounded-lg font-serif">
+                  Stone Fruit Planet
+                </p>
+              </div>
+            </Link>
+          </div>
+
+          {/* Rotating Planet7 Image */}
+          <div className="relative flex justify-center items-center">
+            <Link href="/berry" passHref>
+              <div className="relative w-full h-full"> {/* Rotation container */}
+                <Image 
+                  src="/planet3.jpg" 
+                  alt="Fifth Planet" 
+                  width={400} 
+                  height={200} 
+                  className={styles.rotate} // Apply animation class directly to image
+                />
+                <p className="absolute text-white top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 font-bold bg-black bg-opacity-50 p-3 rounded-lg font-serif">
+                  Berry Planet
+                </p>
+              </div>
+            </Link>
+          </div>
+          <div></div>
+
+          {/* Rotating Planet8 Image */}
+          <div></div>
+          <div className="relative flex justify-center items-center">
+            <Link href="/dried" passHref>
+              <div className="relative w-full h-full"> {/* Rotation container */}
+                <Image 
+                  src="/mercury1.jpg" 
+                  alt="Fourth Planet" 
+                  width={400} 
+                  height={200} 
+                  className={styles.rotate} // Apply animation class directly to image
+                />
+                <p className="absolute text-white top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 font-bold bg-black bg-opacity-50 p-3 rounded-lg font-serif">
+                  Dried Fruit Planet
+                </p>
+              </div>
+            </Link>
+          </div>
         </div>
 
-        <Link href="/subpage1" passHref>
-          <Button size="lg" className="h-12 text-base font-heading md:text-lg lg:h-14 lg:text-xl">
-            Login & Take the Quiz
-          </Button>
-        </Link>
       </div>
     </header>
   );
