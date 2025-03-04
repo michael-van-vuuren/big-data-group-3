@@ -2,27 +2,21 @@ import Image from 'next/image';
 import styles from './styles.module.css';
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
+import React from 'react';
+import wheel from '../TempData/tasting-notes-wheel.json';
 
 export default function Header() {
   return (
-    <header 
-      className="dark:bg-secondaryBlack inset-0 flex min-h-[60dvh] w-full flex-col items-center justify-center bg-slate-800 grid-bg-dark"
-      style={{
-        backgroundImage: 'url("/background1.jpg")',
-        backgroundSize: 'cover', // This makes the image cover the whole area
-        backgroundPosition: 'center', // This centers the image
-        backgroundRepeat: 'no-repeat', // Prevents the image from repeating
-      }}
-    >
+    <header className={`${styles.starBg} flex min-h-[400dvh] w-full flex-col items-center justify-center`}>
       <div className="mx-auto w-container max-w-full px-5 py-[110px] text-center lg:py-[150px] relative">
         <h1 className="text-white text-3xl font-heading md:text-4xl lg:text-5xl">
           Coffee Galaxy!
         </h1>
 
         {/* Planet Container */}
-        <div className="flex space-x-8 flex-wrap relative" style={{ height: '900px' }}>
+        <div className="grid grid-cols-2 gap-y-8 mt-10" style={{ height: 'auto' }}>
           {/* Rotating Planet1 Image */}
-          <div className="absolute" style={{ left: '25px', top: '0px' }}>
+          <div className="flex justify-center">
             <Image 
               src="/planet2.jpg" 
               alt="First Planet" 
@@ -31,8 +25,10 @@ export default function Header() {
               className={styles.rotate} // Apply animation class directly to image
             />
           </div>
+          <div></div>
           {/* Rotating Planet2 Image */}
-          <div className="absolute" style={{ right: '25px', top: '0px' }}>
+          <div></div>
+          <div className="flex justify-center">
             <Image 
               src="/earth1.jpg" 
               alt="Second Planet" 
@@ -42,7 +38,7 @@ export default function Header() {
             />
           </div>
           {/* Rotating Planet3 Image */}
-          <div className="absolute" style={{ left: '350px', top: '50px' }}>
+          <div className="flex justify-center">
             <Image 
               src="/neptune1.jpg" 
               alt="Third Planet" 
@@ -51,8 +47,10 @@ export default function Header() {
               className={styles.rotate} // Apply animation class directly to image
             />
           </div>
+          <div></div>
           {/* Rotating Planet4 Image */}
-          <div className="absolute" style={{ left: '350x', top: '400px' }}>
+          <div></div>
+          <div className="flex justify-center">
             <Image 
               src="/mercury1.jpg" 
               alt="Fourth Planet" 
@@ -62,7 +60,7 @@ export default function Header() {
             />
           </div>
           {/* Rotating Planet5 Image */}
-          <div className="absolute" style={{ left: '375px', top: '450px' }}>
+          <div className="flex justify-center">
             <Image 
               src="/planet3.jpg" 
               alt="Fifth Planet" 
@@ -71,8 +69,10 @@ export default function Header() {
               className={styles.rotate} // Apply animation class directly to image
             />
           </div>
+          <div></div>
           {/* Rotating Planet6 Image */}
-          <div className="absolute" style={{ right: '25px', top: '400px' }}>
+          <div></div>
+          <div className="flex justify-center">
             <Image 
               src="/planet4.jpg" 
               alt="Sixth Planet" 
