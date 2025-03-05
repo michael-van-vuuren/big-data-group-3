@@ -15,9 +15,6 @@ export default function Home() {
       <Divider />
       <Visualization />
       <Divider />
-      {/* <Community />
-      <Faq /> */}
-      <Pricing />
       <Footer />
     </>
   )
