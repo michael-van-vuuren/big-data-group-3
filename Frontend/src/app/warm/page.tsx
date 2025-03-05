@@ -16,32 +16,40 @@ export default function Header() {
         <div className="grid grid-cols-2 gap-y-8 mt-10" style={{ height: 'auto' }}>
           {/* Rotating Planet1 Image */}
           <div className="relative flex justify-center items-center">
-            <Image 
-              src="/planet2.jpg" 
-              alt="First Planet" 
-              width={400} 
-              height={200} 
-              className={styles.rotate} // Apply animation class directly to image
-            />
-            <p className="absolute text-white top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 font-bold bg-black bg-opacity-50 p-3 rounded-lg font-serif">
-              Grain Planet
-            </p>
+            <Link href="/grain" passHref>
+              <div className="relative w-full h-full"> {/* Rotation container */}
+                <Image 
+                  src="/planet2.jpg" 
+                  alt="First Planet" 
+                  width={400} 
+                  height={200} 
+                  className={styles.rotate} // Apply animation class directly to image
+                />
+                <p className="absolute text-white top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 font-bold bg-black bg-opacity-50 p-3 rounded-lg font-serif">
+                  Grain Planet
+                </p>
+              </div>
+            </Link>
           </div>
           <div></div>
 
           {/* Rotating Planet2 Image */}
           <div></div>
           <div className="relative flex justify-center items-center">
-            <Image 
-              src="/earth1.jpg" 
-              alt="Second Planet" 
-              width={400} 
-              height={200} 
-              className={styles.rotate} // Apply animation class directly to image
-            />
-            <p className="absolute text-white top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 font-bold bg-black bg-opacity-50 p-3 rounded-lg font-serif">
-              Nut Planet
-            </p>
+            <Link href="/nut" passHref>
+              <div className="relative w-full h-full"> {/* Rotation container */}
+                <Image 
+                  src="/earth1.jpg" 
+                  alt="Second Planet" 
+                  width={400} 
+                  height={200} 
+                  className={styles.rotate} // Apply animation class directly to image
+                />
+                <p className="absolute text-white top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 font-bold bg-black bg-opacity-50 p-3 rounded-lg font-serif">
+                  Nut Planet
+                </p>
+              </div>
+            </Link>
           </div>
         </div>
 

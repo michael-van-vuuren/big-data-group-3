@@ -16,62 +16,78 @@ export default function Header() {
         <div className="grid grid-cols-2 gap-y-8 mt-10" style={{ height: 'auto' }}>
           {/* Rotating Planet1 Image */}
           <div className="relative flex justify-center items-center">
-            <Image 
-              src="/planet2.jpg" 
-              alt="First Planet" 
-              width={400} 
-              height={200} 
-              className={styles.rotate} // Apply animation class directly to image
-            />
-            <p className="absolute text-white top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 font-bold bg-black bg-opacity-50 p-3 rounded-lg font-serif">
-              Sugary Planet
-            </p>
+            <Link href="/sugary" passHref>
+              <div className="relative w-full h-full"> {/* Rotation container */}
+                <Image 
+                  src="/planet2.jpg" 
+                  alt="First Planet" 
+                  width={400} 
+                  height={200} 
+                  className={styles.rotate} // Apply animation class directly to image
+                />
+                <p className="absolute text-white top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 font-bold bg-black bg-opacity-50 p-3 rounded-lg font-serif">
+                  Sugary Planet
+                </p>
+              </div>
+            </Link>
           </div>
           <div></div>
 
           {/* Rotating Planet2 Image */}
           <div></div>
           <div className="relative flex justify-center items-center">
-            <Image 
-              src="/earth1.jpg" 
-              alt="Second Planet" 
-              width={400} 
-              height={200} 
-              className={styles.rotate} // Apply animation class directly to image
-            />
-            <p className="absolute text-white top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 font-bold bg-black bg-opacity-50 p-3 rounded-lg font-serif">
-              Chocolate Planet
-            </p>
+            <Link href="/chocolate" passHref>
+              <div className="relative w-full h-full"> {/* Rotation container */}
+                <Image 
+                  src="/earth1.jpg" 
+                  alt="Second Planet" 
+                  width={400} 
+                  height={200} 
+                  className={styles.rotate} // Apply animation class directly to image
+                />
+                <p className="absolute text-white top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 font-bold bg-black bg-opacity-50 p-3 rounded-lg font-serif">
+                  Chocolate Planet
+                </p>
+              </div>
+            </Link>
           </div>
 
           {/* Rotating Planet3 Image */}
           <div className="relative flex justify-center items-center">
-            <Image 
-              src="/planet4.jpg" 
-              alt="Third Planet" 
-              width={400} 
-              height={200} 
-              className={styles.rotate} // Apply animation class directly to image
-            />
-            <p className="absolute text-white top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 font-bold bg-black bg-opacity-50 p-3 rounded-lg font-serif">
-              Confectionary Planet
-            </p>
+            <Link href="/confectionary" passHref>
+              <div className="relative w-full h-full"> {/* Rotation container */}
+                <Image 
+                  src="/planet4.jpg" 
+                  alt="Third Planet" 
+                  width={400} 
+                  height={200} 
+                  className={styles.rotate} // Apply animation class directly to image
+                />
+                <p className="absolute text-white top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 font-bold bg-black bg-opacity-50 p-3 rounded-lg font-serif">
+                  Confectionary Planet
+                </p>
+              </div>
+            </Link>
           </div>
           <div></div>
 
           {/* Rotating Planet4 Image */}
           <div></div>
           <div className="relative flex justify-center items-center">
-            <Image 
-              src="/mercury1.jpg" 
-              alt="Fourth Planet" 
-              width={400} 
-              height={200} 
-              className={styles.rotate} // Apply animation class directly to image
-            />
-            <p className="absolute text-white top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 font-bold bg-black bg-opacity-50 p-3 rounded-lg font-serif">
-              Liqueur Planet
-            </p>
+            <Link href="/liqueur" passHref>
+              <div className="relative w-full h-full"> {/* Rotation container */}
+                <Image 
+                  src="/mercury1.jpg" 
+                  alt="Fourth Planet" 
+                  width={400} 
+                  height={200} 
+                  className={styles.rotate} // Apply animation class directly to image
+                />
+                <p className="absolute text-white top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 font-bold bg-black bg-opacity-50 p-3 rounded-lg font-serif">
+                  Liqueur Planet
+                </p>
+              </div>
+            </Link>
           </div>
         </div>
 
