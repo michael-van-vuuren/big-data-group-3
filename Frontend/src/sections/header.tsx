@@ -1,124 +1,68 @@
+import { Card, CardContent } from '@/components/ui/card';
+import {
+  Carousel,
+  CarouselContent,
+  CarouselItem,
+  CarouselNext,
+  CarouselPrevious,
+} from '@/components/ui/carousel';
 import Image from 'next/image';
+import Link from 'next/link';
 import styles from './styles.module.css';
 import { Button } from '@/components/ui/button';
-import Link from 'next/link';
-import React from 'react';
 
-export default function Header() {
+
+const planets = [
+  { name: 'Fruity Planet', image: '/planet2.jpg', link: '/fruity' },
+  { name: 'Herbal Planet', image: '/earth1.jpg', link: '/herbal' },
+  { name: 'Savory Planet', image: '/planet4.jpg', link: '/savory' },
+  { name: 'Warm Planet', image: '/mercury1.jpg', link: '/warm' },
+  { name: 'Sweet Planet', image: '/planet3.jpg', link: '/sweet' },
+];
+
+export default function PlanetCarousel() {
   return (
-    <header className={`${styles.starBg} flex min-h-[300dvh] w-full flex-col items-center justify-center`}>
-      <div className="mx-auto w-container max-w-full px-5 py-[110px] text-center lg:py-[150px] relative">
-        <h1 className="text-white text-3xl font-heading md:text-4xl lg:text-5xl">
-          Coffee Galaxy!
-        </h1>
-        <h2 className="text-white text-xl md:text-2xl lg:text-3xl mt-4">
-          Explore the flavor notes associated with coffee beans
-        </h2>
-
-        {/* Planet Container */}
-        <div className="grid grid-cols-2 gap-y-8 mt-10" style={{ height: 'auto' }}>
-          {/* Rotating Planet1 Image */}
-          <div className="relative flex justify-center items-center">
-            <Link href="/fruity" passHref>
-              <div className="relative w-full h-full"> {/* Rotation container */}
-                <Image 
-                  src="/planet2.jpg" 
-                  alt="First Planet" 
-                  width={400} 
-                  height={200} 
-                  className={styles.rotate} // Apply animation class directly to image
-                />
-                <p className="absolute text-white top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 font-bold bg-black bg-opacity-50 p-3 rounded-lg font-serif">
-                  Fruity Planet
-                </p>
-              </div>
-            </Link>
-          </div>
-          <div></div>
-
-          {/* Rotating Planet2 Image */}
-          <div></div>
-          <div className="relative flex justify-center items-center">
-            <Link href="/herbal" passHref>
-              <div className="relative w-full h-full"> {/* Rotation container */}
-                <Image 
-                  src="/earth1.jpg" 
-                  alt="Second Planet" 
-                  width={400} 
-                  height={200} 
-                  className={styles.rotate} // Apply animation class directly to image
-                />
-                <p className="absolute text-white top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 font-bold bg-black bg-opacity-50 p-3 rounded-lg font-serif">
-                  Herbal Planet
-                </p>
-              </div>
-            </Link>
-          </div>
-
-          {/* Rotating Planet3 Image */}
-          <div className="relative flex justify-center items-center">
-            <Link href="/savory" passHref>
-              <div className="relative w-full h-full"> {/* Rotation container */}
-                <Image 
-                  src="/planet4.jpg" 
-                  alt="Third Planet" 
-                  width={400} 
-                  height={200} 
-                  className={styles.rotate} // Apply animation class directly to image
-                />
-                <p className="absolute text-white top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 font-bold bg-black bg-opacity-50 p-3 rounded-lg font-serif">
-                  Savory Planet
-                </p>
-              </div>
-            </Link>
-          </div>
-          <div></div>
-
-          {/* Rotating Planet4 Image */}
-          <div></div>
-          <div className="relative flex justify-center items-center">
-            <Link href="/warm" passHref>
-              <div className="relative w-full h-full"> {/* Rotation container */}
-                <Image 
-                  src="/mercury1.jpg" 
-                  alt="Fourth Planet" 
-                  width={400} 
-                  height={200} 
-                  className={styles.rotate} // Apply animation class directly to image
-                />
-                <p className="absolute text-white top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 font-bold bg-black bg-opacity-50 p-3 rounded-lg font-serif">
-                  Warm Planet
-                </p>
-              </div>
-            </Link>
-          </div>
-
-          {/* Rotating Planet5 Image */}
-          <div className="relative flex justify-center items-center">
-            <Link href="/sweet" passHref>
-              <div className="relative w-full h-full"> {/* Rotation container */}
-                <Image 
-                  src="/planet3.jpg" 
-                  alt="Fifth Planet" 
-                  width={400} 
-                  height={200} 
-                  className={styles.rotate} // Apply animation class directly to image
-                />
-                <p className="absolute text-white top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 font-bold bg-black bg-opacity-50 p-3 rounded-lg font-serif">
-                  Sweet Planet
-                </p>
-              </div>
-            </Link>
-          </div>
-          <div></div>
-        </div>
-
+    <>
+      <div className="flex justify-center items-center w-full py-10 bg-slate-900">
+        <Carousel className="w-full max-w-[800px]">
+          <CarouselContent>
+            {planets.map((planet, index) => (
+              <CarouselItem key={index}>
+                <div className="p-4">
+                  <Card className="shadow-none">
+                    <CardContent className="flex flex-col items-center justify-center p-6 bg-slate-900">
+                      <Link href={planet.link} passHref>
+                        <div className="relative">
+                          <Image
+                            src={planet.image}
+                            alt={planet.name}
+                            width={360}
+                            height={360}
+                            objectFit="cover"
+                            className={styles.rotate}
+                          />
+                        </div>
+                      </Link>
+                      <p className="text-white font-bold bg-black bg-opacity-50 p-2 rounded-lg mt-3 text-lg">
+                        {planet.name}
+                      </p>
+                    </CardContent>
+                  </Card>
+                </div>
+              </CarouselItem>
+            ))}
+          </CarouselContent>
+          <CarouselPrevious />
+          <CarouselNext />
+        </Carousel>
+      </div>
+      <div className="flex justify-center items-center w-full py-10 bg-gray-900">
         <Link href="/subpage1" passHref>
           <Button size="lg" className="h-12 text-base font-heading md:text-lg lg:h-14 lg:text-xl">
             Login & Take the Quiz
           </Button>
         </Link>
       </div>
-    </header>
+    </>
   );
 }
