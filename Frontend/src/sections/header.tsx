@@ -13,11 +13,11 @@ import { Button } from '@/components/ui/button';
 
 
 const planets = [
-  { name: 'Fruity Planet', image: '/planet2.jpg', link: '/fruity' },
-  { name: 'Herbal Planet', image: '/earth1.jpg', link: '/herbal' },
-  { name: 'Savory Planet', image: '/planet4.jpg', link: '/savory' },
-  { name: 'Warm Planet', image: '/mercury1.jpg', link: '/warm' },
-  { name: 'Sweet Planet', image: '/planet3.jpg', link: '/sweet' },
+  { name: 'Fruity Planet', image: '/planet2.jpg', link: '/planets/fruity' },
+  { name: 'Herbal Planet', image: '/earth1.jpg', link: '/planets/herbal' },
+  { name: 'Savory Planet', image: '/planet4.jpg', link: '/planets/savory' },
+  { name: 'Warm Planet', image: '/mercury1.jpg', link: '/planets/warm' },
+  { name: 'Sweet Planet', image: '/planet3.jpg', link: '/planets/sweet' },
 ];
 
 export default function PlanetCarousel() {
