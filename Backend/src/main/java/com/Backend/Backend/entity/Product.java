@@ -5,6 +5,8 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.math.BigDecimal;
+import java.util.HashSet;
+import java.util.Set;
 
 @Getter
 @Setter
@@ -31,8 +33,10 @@ public class Product {
 
     private BigDecimal bulkPricePerCup;
 
+    @Column(length = 400)
     private String webpage;
 
+    @Column(length = 400)
     private String image;
 
     @Enumerated(EnumType.STRING)
@@ -41,4 +45,12 @@ public class Product {
     public enum Availability {
         YES, NO
     }
+
+    @ManyToMany
+    @JoinTable(
+            name = "product_flavor",
+            joinColumns = @JoinColumn(name = "product_id"),
+            inverseJoinColumns = @JoinColumn(name = "flavor_id")
+    )
+    private Set<Flavor> flavors = new HashSet<>();
 }
