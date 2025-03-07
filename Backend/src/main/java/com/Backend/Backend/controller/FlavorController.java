@@ -1,10 +1,12 @@
 package com.Backend.Backend.controller;
 
-import com.Backend.Backend.service.FlavorService;
+import java.util.List;
+
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
+import com.Backend.Backend.entity.Flavor;
+import com.Backend.Backend.service.FlavorService;
 
 @RestController
 @RequestMapping("/api/flavors")
@@ -25,9 +27,9 @@ public class FlavorController {
     @GetMapping("/all")
     public ResponseEntity<List<String>> getAllFlavors() {
         List<String> flavors = flavorService.getAllFlavors()
-                                            .stream()
-                                            .map(flavor -> flavor.getName())
-                                            .toList();
+                .stream()
+                .map(Flavor::getName)
+                .toList();
         return ResponseEntity.ok(flavors);
     }
 }

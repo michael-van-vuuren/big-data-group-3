@@ -17,7 +17,7 @@ SELECT f.id, f.name
 FROM flavor f
 JOIN product_flavor pf ON f.id = pf.flavor_id
 JOIN product p ON pf.product_id = p.id
-WHERE p.bean_id = '10286';
+WHERE p.bean_id = '10311';
 
 -- reset autoincrement
 ALTER TABLE product

@@ -1,12 +1,13 @@
 package com.Backend.Backend.controller;
 
-import com.Backend.Backend.entity.Product;
-import com.Backend.Backend.service.ProductService;
+import java.util.List;
+
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import com.Backend.Backend.dto.ProductFlavorLink;
 
-import java.util.List;
+import com.Backend.Backend.dto.ProductFlavorLink;
+import com.Backend.Backend.entity.Product;
+import com.Backend.Backend.service.ProductService;
 
 @RestController
 @RequestMapping("/api/products")
