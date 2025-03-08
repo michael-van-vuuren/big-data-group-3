@@ -37,7 +37,7 @@ const Subpage1 = () => {
   }
 
   return (
-    <div className="flex items-center justify-center min-h-screen">
+    <div className="flex items-center justify-center py-32">
       <div className="text-center space-y-6">
         <h1 className="text-xl font-bold">Login before taking the quiz</h1>
         <Form {...form}>

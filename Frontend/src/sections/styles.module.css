@@ -8,27 +8,6 @@
 }
 
 .rotate {
-  animation: rotate 10s linear infinite;
+  animation: rotate 20s linear infinite;
   transform-origin: center;
 }
-
-@keyframes twinkling {
-  0% { opacity: 0.3; }
-  50% { opacity: 1; }
-  100% { opacity: 0.3; }
-}
-
-.starBg {
-  background-color: black;
-  background-image: radial-gradient(2px 2px at 20% 30%, white, transparent), 
-                    radial-gradient(2px 2px at 40% 80%, white, transparent),
-                    radial-gradient(2px 2px at 60% 50%, white, transparent),
-                    radial-gradient(2px 2px at 80% 10%, white, transparent),
-                    radial-gradient(1.5px 1.5px at 90% 70%, white, transparent),
-                    radial-gradient(2px 2px at 10% 90%, white, transparent);
-  background-size: cover;
-  /* animation: twinkling 10s infinite alternate ease-in-out; */ /* Remove or comment out */
-}
-
-
-
