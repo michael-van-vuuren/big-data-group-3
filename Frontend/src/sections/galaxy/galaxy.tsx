@@ -1,11 +1,13 @@
 "use client";
 
+import * as THREE from "three";
 import { Canvas } from "@react-three/fiber";
 import { OrbitControls } from "@react-three/drei";
 import { useRef, useState } from "react";
 import { Bloom, EffectComposer } from "@react-three/postprocessing";
 import Planet from "./planet";
-import * as THREE from "three";
+import Stars from "./stars";
+
 
 const PLANETS = [
     { radius: 25, color: "#7F5E74", size: 2, speed: -0.07, name: "Planet A" },
@@ -46,6 +48,8 @@ export default function Galaxy({ setPlanetName }: { setPlanetName: (name: string
             <EffectComposer>
                 <Bloom intensity={2.2} luminanceThreshold={0.8} luminanceSmoothing={0.1} />
             </EffectComposer>
+
+            <Stars count={1600} minRadius={400} maxRadius={600} />
 
             <mesh>
                 <sphereGeometry args={[8, 40, 40]} />
