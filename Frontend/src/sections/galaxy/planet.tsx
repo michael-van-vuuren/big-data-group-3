@@ -58,6 +58,7 @@ export default function PlanetSystem({
                 onClick={() => onClick(planetRef.current, name)}
             >
                 <sphereGeometry args={[size, 38, 38]} />
+                <ambientLight intensity={8} />
                 <meshStandardMaterial
                     map={gradientTexture}
                     emissive={isHovered ? color : "black"}

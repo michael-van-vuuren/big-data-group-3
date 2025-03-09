@@ -17,8 +17,8 @@ export default function Home() {
                         left: "50%",
                         transform: "translate(-50%, -50%)",
                         padding: "8px 16px",
-                        backgroundColor: "white",
-                        color: "black",
+                        backgroundColor: "black",
+                        color: "white",
                         borderRadius: "4px",
                         textAlign: "center",
                     }}

@@ -5,8 +5,10 @@ import { Canvas } from "@react-three/fiber";
 import { OrbitControls } from "@react-three/drei";
 import { useRef, useState } from "react";
 import { Bloom, EffectComposer } from "@react-three/postprocessing";
+
 import Planet from "./planet";
 import Stars from "./stars";
+import CameraController from "./cameracontroller";
 
 
 const PLANETS = [
@@ -40,7 +42,7 @@ export default function Galaxy({ setPlanetName }: { setPlanetName: (name: string
     };
 
     return (
-        <Canvas camera={{ position: [0, 30, 70] }} style={{ background: "#010817" }}>
+        <Canvas camera={{ position: [0, 30, 70] }} style={{ background: "#101528" }}>
             <ambientLight intensity={2} />
             <pointLight position={[0, 0, 0]} intensity={10} distance={100} />
             <OrbitControls ref={controlsRef} makeDefault />
@@ -48,6 +50,18 @@ export default function Galaxy({ setPlanetName }: { setPlanetName: (name: string
             <EffectComposer>
                 <Bloom intensity={2.2} luminanceThreshold={0.8} luminanceSmoothing={0.1} />
             </EffectComposer>
+
+            <CameraController
+                targetRef={targetRef}
+                reset={reset}
+                onResetComplete={handleResetComplete}
+                controlsRef={controlsRef}
+                planetSize={
+                    targetRef
+                        ? (targetRef.geometry as THREE.SphereGeometry).parameters.radius || 1
+                        : 1
+                }
+            />
 
             <Stars count={1600} minRadius={400} maxRadius={600} />
 
