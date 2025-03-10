@@ -1,5 +1,6 @@
 import { Mesh } from "three";
 import { Button } from "@/components/ui/button";
+import BeanLibrary from "./beanlibrary";
 
 interface PlanetData {
     name: string;
@@ -42,6 +43,9 @@ const PlanetMenu: React.FC<PlanetMenuProps> = ({
                         {planet.name}
                     </Button>
                 ))}
+            </div>
+            <div className="overflow-scroll p-1 my-12 bg-black text-white rounded-base text-center">
+                <BeanLibrary />
             </div>
         </div>
     );
