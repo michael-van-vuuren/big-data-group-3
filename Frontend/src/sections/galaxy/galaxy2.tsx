@@ -1,0 +1,97 @@
+import { useRef, useState } from "react";
+import * as THREE from "three";
+import { Canvas } from "@react-three/fiber";
+import { OrbitControls } from "@react-three/drei";
+import { Bloom, EffectComposer } from "@react-three/postprocessing";
+
+import Planet from "./planet";
+import Stars from "./stars";
+import CameraController from "./cameracontroller";
+
+const getRandomColor = () => `#${Math.floor(Math.random() * 0xFFFFFF).toString(16).padStart(6, "0")}`;
+
+export default function Galaxy({ setPlanetName, planetsData }: { 
+    setPlanetName: (name: string | null) => void, 
+    planetsData: string[]
+}) {
+    const [targetRef, setTargetRef] = useState<THREE.Mesh | null>(null);
+    const [reset, setReset] = useState(false);
+    const controlsRef = useRef<any>(null);
+
+    const planetDataRef = useRef(
+        planetsData.map((name, index, arr) => {
+            const middleIndex = (arr.length - 1) / 2;
+            const variance = Math.pow(arr.length / 8, 2);
+            const gaussianSize = Math.exp(-Math.pow(index - middleIndex, 2) / (2 * variance));
+    
+            const randomVariation = (Math.random() - 0.5) * 1.5;
+
+            return {
+                radius: 25 + index * 16,
+                color: getRandomColor(),
+                size: Math.max(2, 1 + gaussianSize * 5 + randomVariation),
+                speed: (0.05 + Math.random() * 0.2) / (index + 1),
+                name,
+            };
+        })
+    );
+
+    const handlePlanetClick = (planet: THREE.Mesh, name: string) => {
+        if (targetRef === planet) {
+            setReset(true);
+            setPlanetName(null);
+        } else {
+            setTargetRef(planet);
+            setReset(false);
+            setPlanetName(name);
+        }
+    };
+
+    const handleResetComplete = () => {
+        setTargetRef(null);
+        setReset(false);
+        setPlanetName(null);
+    };
+
+    const backgroundColor = "#203568";
+    const initialCameraPosition = new THREE.Vector3(0, 50, 90);
+
+    return (
+        <Canvas camera={{ position: initialCameraPosition }} style={{ background: backgroundColor }}>
+            <pointLight position={[0, 0, 0]} intensity={50} distance={100} />
+            <OrbitControls ref={controlsRef} makeDefault />
+
+            <EffectComposer>
+                <Bloom intensity={2.2} luminanceThreshold={0.9} luminanceSmoothing={0.1} />
+            </EffectComposer>
+
+            <CameraController
+                targetRef={targetRef}
+                reset={reset}
+                onResetComplete={handleResetComplete}
+                controlsRef={controlsRef}
+                planetSize={
+                    targetRef
+                        ? (targetRef.geometry as THREE.SphereGeometry).parameters.radius || 1
+                        : 1
+                }
+                defaultPosition={initialCameraPosition}
+            />
+
+            <Stars background={backgroundColor} />
+
+            <mesh>
+                <sphereGeometry args={[8, 40, 40]} />
+                <meshStandardMaterial
+                    color="#FFFF00"
+                    emissive="#FFFF00"
+                    emissiveIntensity={70}
+                />
+            </mesh>
+
+            {planetDataRef.current.map((planet) => (
+                <Planet key={planet.name} {...planet} onClick={handlePlanetClick} />
+            ))}
+        </Canvas>
+    );
+}
