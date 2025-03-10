@@ -6,9 +6,15 @@ interface StarsProps {
     count?: number;
     minRadius?: number;
     maxRadius?: number;
+    background?: string; // New background prop
 }
 
-export default function Stars({ count = 1000, minRadius = 20, maxRadius = 200 }: StarsProps) {
+export default function Stars({
+    count = 1000,
+    minRadius = 20,
+    maxRadius = 200,
+    background = "#000000",
+}: StarsProps) {
     const ref = useRef<THREE.Points>(null!);
 
     const { positions, colors, shimmerSpeeds, shimmerOffsets, flickerIntensities } = useMemo(() => {
@@ -53,12 +59,22 @@ export default function Stars({ count = 1000, minRadius = 20, maxRadius = 200 }:
             const time = clock.getElapsedTime();
             const colorAttribute = ref.current.geometry.attributes.color as THREE.BufferAttribute;
 
+            const bgColor = new THREE.Color(background);
+            const bgR = bgColor.r;
+            const bgG = bgColor.g;
+            const bgB = bgColor.b;
+
             for (let i = 0; i < count; i++) {
                 const shimmer = 0.5 + 0.5 * Math.sin(time * shimmerSpeeds[i] + shimmerOffsets[i]);
                 const flicker = flickerIntensities[i] * (0.6 + 0.4 * Math.sin(time * 2 + shimmerOffsets[i]));
                 
                 const finalIntensity = shimmer * flicker;
-                colorAttribute.setXYZ(i, finalIntensity, finalIntensity, finalIntensity);
+
+                const r = bgR + (1 - bgR) * finalIntensity;
+                const g = bgG + (1 - bgG) * finalIntensity;
+                const b = bgB + (1 - bgB) * finalIntensity;
+
+                colorAttribute.setXYZ(i, r, g, b);
             }
 
             colorAttribute.needsUpdate = true;

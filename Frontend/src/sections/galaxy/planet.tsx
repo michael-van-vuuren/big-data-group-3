@@ -21,21 +21,25 @@ export default function PlanetSystem({
     name,
 }: PlanetProps) {
     const planetRef = useRef<THREE.Mesh>(null!);
+    const outlineRef = useRef<THREE.Mesh>(null!);
     const [isHovered, setIsHovered] = useState(false);
 
     const phase = useMemo(() => (Math.random() * 2 - 1) * Math.PI / 2 - Math.PI / 2, []);
     const gradientTexture = useMemo(() => createGradientTexture(color), [color]);
 
     useFrame(({ clock }) => {
-        if (planetRef.current) {
+        if (planetRef.current && outlineRef.current) {
             const time = clock.getElapsedTime() * speed;
             const angle = time + phase;
-            planetRef.current.position.x = radius * Math.cos(angle);
-            planetRef.current.position.z = radius * Math.sin(angle);
+
+            const x = -radius * Math.cos(angle);
+            const z = radius * Math.sin(angle);
+
+            planetRef.current.position.set(x, 0, z);
+            outlineRef.current.position.set(x, 0, z);
         }
     });
 
-    // Orbit Ring
     const points = useMemo(() => {
         const pointsArray = [];
         const segments = 200;
@@ -45,19 +49,40 @@ export default function PlanetSystem({
             pointsArray.push(new THREE.Vector3(Math.cos(angle) * radius, 0, Math.sin(angle) * radius));
         }
 
-        return new THREE.BufferGeometry().setFromPoints(pointsArray);
+        return new THREE.CatmullRomCurve3(pointsArray);
     }, [radius]);
+
+    const tubeGeometry = useMemo(() => {
+        return new THREE.TubeGeometry(points, 200, 0.1, 8, false);
+    }, [points]);
+
+    const resolution = 32;
 
     return (
         <>
-            {/* Planet */}
+            {/* outline */}
+            <mesh
+                ref={outlineRef}
+                onPointerOver={() => setIsHovered(true)}
+                onPointerOut={() => setIsHovered(false)}
+                onClick={() => onClick(planetRef.current, name)}
+                scale={[1.1, 1.1, 1.1]}
+            >
+                <sphereGeometry args={[size, resolution, resolution]} />
+                <meshBasicMaterial
+                    color="black"
+                    side={THREE.BackSide}
+                />
+            </mesh>
+
+            {/* planet */}
             <mesh
                 ref={planetRef}
                 onPointerOver={() => setIsHovered(true)}
                 onPointerOut={() => setIsHovered(false)}
                 onClick={() => onClick(planetRef.current, name)}
             >
-                <sphereGeometry args={[size, 38, 38]} />
+                <sphereGeometry args={[size, resolution, resolution]} />
                 <ambientLight intensity={8} />
                 <meshStandardMaterial
                     map={gradientTexture}
@@ -68,11 +93,11 @@ export default function PlanetSystem({
                 />
             </mesh>
 
-            {/* Orbit Ring */}
-            <line>
-                <bufferGeometry attach="geometry" {...points} />
-                <lineBasicMaterial attach="material" color="white" transparent opacity={0.05} />
-            </line>
+            {/* orbit path */}
+            <mesh>
+                <primitive object={tubeGeometry} />
+                <meshBasicMaterial color="#000" />
+            </mesh>
         </>
     );
 }

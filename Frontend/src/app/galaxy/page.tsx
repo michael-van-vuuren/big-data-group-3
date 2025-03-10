@@ -20,7 +20,7 @@ export default function Home() {
                     className="rounded-base w-full border-2 border-border text-mtext shadow-shadow"
                 >
                     {/* menu */}
-                    <ResizablePanel defaultSize={20}>
+                    <ResizablePanel defaultSize={30}>
                         <div className="flex h-full items-center justify-center bg-main p-0">
                             {planetName ? (
                                 <div
@@ -43,7 +43,7 @@ export default function Home() {
                     <ResizableHandle />
 
                     {/* galaxy scene */}
-                    <ResizablePanel defaultSize={80}>
+                    <ResizablePanel defaultSize={70}>
                         <div className="flex h-full items-center justify-center bg-main p-0">
                             <Galaxy setPlanetName={setPlanetName} />
                         </div>

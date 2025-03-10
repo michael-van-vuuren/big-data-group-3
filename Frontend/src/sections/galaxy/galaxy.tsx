@@ -12,11 +12,11 @@ import CameraController from "./cameracontroller";
 
 
 const PLANETS = [
-    { radius: 25, color: "#7F5E74", size: 2, speed: -0.07, name: "Planet A" },
-    { radius: 45, color: "#726F50", size: 2.5, speed: 0.09, name: "Planet B" },
-    { radius: 70, color: "#576981", size: 4, speed: 0.05, name: "Planet C" },
-    { radius: 95, color: "#A5685B", size: 6, speed: 0.06, name: "Planet D" },
-    { radius: 125, color: "#40E0D0", size: 2, speed: -0.03, name: "Planet E" },
+    { radius: 25, color: "#7F5E74", size: 2, speed: 0.07, name: "Planet A" },
+    { radius: 45, color: "#726F50", size: 2.5, speed: 0.12, name: "Planet B" },
+    { radius: 65, color: "#576981", size: 4, speed: 0.1, name: "Planet C" },
+    { radius: 85, color: "#A5685B", size: 6, speed: 0.05, name: "Planet D" },
+    { radius: 105, color: "#A020F0", size: 2.5, speed: 0.1, name: "Planet E" },
 ];
 
 export default function Galaxy({ setPlanetName }: { setPlanetName: (name: string | null) => void }) {
@@ -41,8 +41,11 @@ export default function Galaxy({ setPlanetName }: { setPlanetName: (name: string
         setPlanetName(null);
     };
 
+    const backgroundColor = "#203568";
+    const initialCameraPosition = new THREE.Vector3(0, 40, 80);
+
     return (
-        <Canvas camera={{ position: [0, 30, 70] }} style={{ background: "#101528" }}>
+        <Canvas camera={{ position: initialCameraPosition }} style={{ background: backgroundColor }}>
             <ambientLight intensity={2} />
             <pointLight position={[0, 0, 0]} intensity={10} distance={100} />
             <OrbitControls ref={controlsRef} makeDefault />
@@ -61,9 +64,10 @@ export default function Galaxy({ setPlanetName }: { setPlanetName: (name: string
                         ? (targetRef.geometry as THREE.SphereGeometry).parameters.radius || 1
                         : 1
                 }
+                defaultPosition={initialCameraPosition}
             />
 
-            <Stars count={1600} minRadius={400} maxRadius={600} />
+            <Stars count={1600} minRadius={400} maxRadius={600} background={backgroundColor} />
 
             <mesh>
                 <sphereGeometry args={[8, 40, 40]} />

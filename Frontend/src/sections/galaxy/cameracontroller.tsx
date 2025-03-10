@@ -7,6 +7,7 @@ interface CameraControllerProps {
     onResetComplete: () => void;
     controlsRef: React.RefObject<any>;
     planetSize: number;
+    defaultPosition: THREE.Vector3;
 }
 
 export default function CameraController({
@@ -14,11 +15,11 @@ export default function CameraController({
     reset,
     onResetComplete,
     controlsRef,
-    planetSize
+    planetSize,
+    defaultPosition
 }: CameraControllerProps) {
     const { camera } = useThree();
     const lerpSpeed = 0.2;
-    const defaultPosition = new THREE.Vector3(0, 20, 50);
 
     useFrame(() => {
         if (reset) {
