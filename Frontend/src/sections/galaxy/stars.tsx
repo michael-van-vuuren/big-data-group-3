@@ -1,54 +1,29 @@
 import { useRef, useMemo } from "react";
 import { useFrame } from "@react-three/fiber";
 import * as THREE from "three";
+import starData from "@/data/stars.json"; // Load the precomputed stars
 
-interface StarsProps {
-    count?: number;
-    minRadius?: number;
-    maxRadius?: number;
-    background?: string; // New background prop
-}
-
-export default function Stars({
-    count = 1000,
-    minRadius = 20,
-    maxRadius = 200,
-    background = "#000000",
-}: StarsProps) {
+export default function Stars({ background = "#000000" }) {
     const ref = useRef<THREE.Points>(null!);
 
     const { positions, colors, shimmerSpeeds, shimmerOffsets, flickerIntensities } = useMemo(() => {
+        const count = starData.length;
         const positions = new Float32Array(count * 3);
-        const colors = new Float32Array(count * 3); 
+        const colors = new Float32Array(count * 3);
         const shimmerSpeeds = new Float32Array(count);
         const shimmerOffsets = new Float32Array(count);
         const flickerIntensities = new Float32Array(count);
 
-        for (let i = 0; i < count; i++) {
-            let r, x, y, z;
-            do {
-                const theta = Math.random() * Math.PI * 2;
-                const phi = Math.acos(2 * Math.random() - 1);
-                r = minRadius + Math.random() * (maxRadius - minRadius);
-
-                x = r * Math.sin(phi) * Math.cos(theta);
-                y = r * Math.sin(phi) * Math.sin(theta);
-                z = r * Math.cos(phi);
-            } while (r < minRadius);
-
-            positions.set([x, y, z], i * 3);
-
-            const baseColor = Math.random() * 0.5 + 0.5;
-            const colorVariation = Math.random() * 0.15;
-            colors.set([baseColor + colorVariation, baseColor, baseColor - colorVariation], i * 3);
-
-            shimmerSpeeds[i] = 1.2 + Math.random() * 1.5;
-            shimmerOffsets[i] = Math.random() * Math.PI * 2;
-            flickerIntensities[i] = 0.3 + Math.random() * 0.7;
-        }
+        starData.forEach((star, i) => {
+            positions.set(star.position, i * 3);
+            colors.set(star.color, i * 3);
+            shimmerSpeeds[i] = star.shimmerSpeed;
+            shimmerOffsets[i] = star.shimmerOffset;
+            flickerIntensities[i] = star.flickerIntensity;
+        });
 
         return { positions, colors, shimmerSpeeds, shimmerOffsets, flickerIntensities };
-    }, [count, minRadius, maxRadius]);
+    }, []);
 
     const starGeometry = new THREE.BufferGeometry();
     starGeometry.setAttribute("position", new THREE.BufferAttribute(positions, 3));
@@ -64,7 +39,7 @@ export default function Stars({
             const bgG = bgColor.g;
             const bgB = bgColor.b;
 
-            for (let i = 0; i < count; i++) {
+            for (let i = 0; i < starData.length; i++) {
                 const shimmer = 0.5 + 0.5 * Math.sin(time * shimmerSpeeds[i] + shimmerOffsets[i]);
                 const flicker = flickerIntensities[i] * (0.6 + 0.4 * Math.sin(time * 2 + shimmerOffsets[i]));
                 

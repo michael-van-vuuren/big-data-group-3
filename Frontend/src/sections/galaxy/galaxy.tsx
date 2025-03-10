@@ -67,7 +67,7 @@ export default function Galaxy({ setPlanetName }: { setPlanetName: (name: string
                 defaultPosition={initialCameraPosition}
             />
 
-            <Stars count={1600} minRadius={400} maxRadius={600} background={backgroundColor} />
+            <Stars background={backgroundColor} />
 
             <mesh>
                 <sphereGeometry args={[8, 40, 40]} />
