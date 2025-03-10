@@ -27,16 +27,24 @@ export default function PlanetSystem({
     const phase = useMemo(() => (Math.random() * 2 - 1) * Math.PI / 2 - Math.PI / 2, []);
     const gradientTexture = useMemo(() => createGradientTexture(color), [color]);
 
+    const rotationAxis = useMemo(() => {
+        const axis = new THREE.Vector3(Math.random(), Math.random(), Math.random()).normalize();
+        return axis;
+    }, []);
+
     useFrame(({ clock }) => {
         if (planetRef.current && outlineRef.current) {
             const time = clock.getElapsedTime() * speed;
             const angle = time + phase;
 
-            const x = -radius * Math.cos(angle);
+            const x = radius * Math.cos(angle);
             const z = radius * Math.sin(angle);
 
             planetRef.current.position.set(x, 0, z);
             outlineRef.current.position.set(x, 0, z);
+
+            const rotationSpeed = Math.random() * 2;
+            planetRef.current.rotateOnAxis(rotationAxis, rotationSpeed * 0.005);
         }
     });
 
@@ -69,10 +77,7 @@ export default function PlanetSystem({
                 scale={[1.1, 1.1, 1.1]}
             >
                 <sphereGeometry args={[size, resolution, resolution]} />
-                <meshBasicMaterial
-                    color="black"
-                    side={THREE.BackSide}
-                />
+                <meshBasicMaterial color="black" side={THREE.BackSide} />
             </mesh>
 
             {/* planet */}
@@ -86,8 +91,8 @@ export default function PlanetSystem({
                 <ambientLight intensity={8} />
                 <meshStandardMaterial
                     map={gradientTexture}
-                    emissive={isHovered ? color : "black"}
-                    emissiveIntensity={isHovered ? 3.0 : 0}
+                    emissive={isHovered ? "white" : "black"}
+                    emissiveIntensity={isHovered ? 0.3 : 0}
                     roughness={0.1}
                     metalness={0.9}
                 />
