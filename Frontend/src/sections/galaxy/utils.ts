@@ -6,11 +6,11 @@ export function getRandomColor(baseColor: string): string {
     const hsl = { h: 0, s: 0, l: 0 };
     base.getHSL(hsl);
 
-    const offsetAngle = (Math.random() < 0.5 ? -30 : 30) / 360;
+    const offsetAngle = (Math.random() < 0.5 ? -45 : 45) / 360;
     const analogousHue = (hsl.h + offsetAngle) % 1;
 
-    const randomSaturation = Math.random() * 0.4 + 0.8;
-    const randomLightness = Math.random() * 0.2 + 0.4;
+    const randomSaturation = Math.random() * 0.2 + 0.8;
+    const randomLightness = Math.random() * 0.1 + 0.5;
 
     const analogousColor = new THREE.Color().setHSL(analogousHue, randomSaturation, randomLightness);
 

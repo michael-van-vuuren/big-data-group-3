@@ -10,24 +10,31 @@ import CameraController from "./cameracontroller";
 
 const getRandomColor = () => `#${Math.floor(Math.random() * 0xFFFFFF).toString(16).padStart(6, "0")}`;
 
-export default function Galaxy({ setPlanetName, planetsData }: { 
-    setPlanetName: (name: string | null) => void, 
-    planetsData: string[]
+export default function Galaxy({ 
+    planetsData, 
+    targetRef, 
+    handlePlanetClick,
+    reset,
+    onResetComplete
+}: { 
+    planetsData: string[];
+    targetRef: THREE.Mesh | null;
+    handlePlanetClick: (planet: THREE.Object3D, name: string) => void;
+    reset: boolean;
+    onResetComplete: () => void;
 }) {
-    const [targetRef, setTargetRef] = useState<THREE.Mesh | null>(null);
-    const [reset, setReset] = useState(false);
     const controlsRef = useRef<any>(null);
 
     const planetDataRef = useRef(
         planetsData.map((name, index, arr) => {
             const middleIndex = (arr.length - 1) / 2;
-            const variance = Math.pow(arr.length / 8, 2);
+            const variance = Math.pow(arr.length / 7, 2);
             const gaussianSize = Math.exp(-Math.pow(index - middleIndex, 2) / (2 * variance));
     
             const randomVariation = (Math.random() - 0.5) * 1.5;
 
             return {
-                radius: 25 + index * 16,
+                radius: 25 + index * 16 + Math.random() * 5,
                 color: getRandomColor(),
                 size: Math.max(2, 1 + gaussianSize * 5 + randomVariation),
                 speed: (0.05 + Math.random() * 0.2) / (index + 1),
@@ -36,25 +43,8 @@ export default function Galaxy({ setPlanetName, planetsData }: {
         })
     );
 
-    const handlePlanetClick = (planet: THREE.Mesh, name: string) => {
-        if (targetRef === planet) {
-            setReset(true);
-            setPlanetName(null);
-        } else {
-            setTargetRef(planet);
-            setReset(false);
-            setPlanetName(name);
-        }
-    };
-
-    const handleResetComplete = () => {
-        setTargetRef(null);
-        setReset(false);
-        setPlanetName(null);
-    };
-
     const backgroundColor = "#203568";
-    const initialCameraPosition = new THREE.Vector3(0, 50, 90);
+    const initialCameraPosition = new THREE.Vector3(0, 60, 90);
 
     return (
         <Canvas camera={{ position: initialCameraPosition }} style={{ background: backgroundColor }}>
@@ -62,17 +52,17 @@ export default function Galaxy({ setPlanetName, planetsData }: {
             <OrbitControls ref={controlsRef} makeDefault />
 
             <EffectComposer>
-                <Bloom intensity={2.2} luminanceThreshold={0.9} luminanceSmoothing={0.1} />
+                <Bloom intensity={0.8} luminanceThreshold={0} luminanceSmoothing={0.1} />
             </EffectComposer>
 
             <CameraController
                 targetRef={targetRef}
                 reset={reset}
-                onResetComplete={handleResetComplete}
+                onResetComplete={onResetComplete}
                 controlsRef={controlsRef}
                 planetSize={
-                    targetRef
-                        ? (targetRef.geometry as THREE.SphereGeometry).parameters.radius || 1
+                    targetRef && targetRef.geometry instanceof THREE.SphereGeometry
+                        ? targetRef.geometry.parameters.radius || 1
                         : 1
                 }
                 defaultPosition={initialCameraPosition}
@@ -90,8 +80,14 @@ export default function Galaxy({ setPlanetName, planetsData }: {
             </mesh>
 
             {planetDataRef.current.map((planet) => (
-                <Planet key={planet.name} {...planet} onClick={handlePlanetClick} />
+                <Planet 
+                    key={planet.name} 
+                    {...planet} 
+                    onClick={(mesh) => handlePlanetClick(mesh, planet.name)}
+                />
             ))}
         </Canvas>
     );
 }
+
+

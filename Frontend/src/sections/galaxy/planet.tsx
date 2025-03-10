@@ -37,7 +37,7 @@ export default function PlanetSystem({
             const time = clock.getElapsedTime() * speed;
             const angle = time + phase;
 
-            const x = radius * Math.cos(angle);
+            const x = -radius * Math.cos(angle);
             const z = radius * Math.sin(angle);
 
             planetRef.current.position.set(x, 0, z);
@@ -61,7 +61,7 @@ export default function PlanetSystem({
     }, [radius]);
 
     const tubeGeometry = useMemo(() => {
-        return new THREE.TubeGeometry(points, 200, 0.1, 8, false);
+        return new THREE.TubeGeometry(points, 200, 0.15, 8, false);
     }, [points]);
 
     const resolution = 32;
@@ -74,7 +74,7 @@ export default function PlanetSystem({
                 onPointerOver={() => setIsHovered(true)}
                 onPointerOut={() => setIsHovered(false)}
                 onClick={() => onClick(planetRef.current, name)}
-                scale={[1.1, 1.1, 1.1]}
+                scale={[1.15, 1.15, 1.15]}
             >
                 <sphereGeometry args={[size, resolution, resolution]} />
                 <meshBasicMaterial color="black" side={THREE.BackSide} />
@@ -88,7 +88,7 @@ export default function PlanetSystem({
                 onClick={() => onClick(planetRef.current, name)}
             >
                 <sphereGeometry args={[size, resolution, resolution]} />
-                <ambientLight intensity={8} />
+                <ambientLight intensity={6} color={"#bbb"}/>
                 <meshStandardMaterial
                     map={gradientTexture}
                     emissive={isHovered ? "white" : "black"}

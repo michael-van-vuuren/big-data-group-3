@@ -7,7 +7,7 @@ interface CameraControllerProps {
     onResetComplete: () => void;
     controlsRef: React.RefObject<any>;
     planetSize: number;
-    defaultPosition: THREE.Vector3;
+    defaultPosition: THREE.Vector3
 }
 
 export default function CameraController({
@@ -31,8 +31,8 @@ export default function CameraController({
                 if (controlsRef.current) controlsRef.current.enabled = true;
             }
         } else if (targetRef) {
-            const offset = planetSize * 3;
-            const targetPosition = targetRef.position.clone().add(new THREE.Vector3(0, offset / 1.5, 0));
+            const offset = planetSize * 5;
+            const targetPosition = targetRef.position.clone().add(new THREE.Vector3(0, offset / 2, 0));
             const sunPosition = new THREE.Vector3(0, 0, 0);
             const direction = targetPosition.clone().sub(sunPosition).normalize();
             const newPosition = targetPosition

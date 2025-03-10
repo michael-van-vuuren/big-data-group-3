@@ -2,6 +2,8 @@
 
 import Galaxy from "@/sections/galaxy/galaxy2";
 import { useState } from "react";
+import * as THREE from "three";
+import { Button } from "@/components/ui/button"
 
 import {
     ResizableHandle,
@@ -14,6 +16,9 @@ import notesData from "@/data/tasting-notes-wheel.json";
 export default function NotesPage({ params }: { params: { path?: string[] } }) {
     const path = params.path ?? [];
     const [planetName, setPlanetName] = useState<string | null>(null);
+    const [targetRef, setTargetRef] = useState<THREE.Mesh | null>(null);
+    const [reset, setReset] = useState(false);
+
     let currentLevel = notesData.Notes as Record<string, unknown>;
 
     for (const segment of path) {
@@ -28,6 +33,25 @@ export default function NotesPage({ params }: { params: { path?: string[] } }) {
         ? Object.keys(currentLevel)
         : [];
 
+    const handlePlanetClick = (planet: THREE.Object3D, name: string) => {
+        if (planet instanceof THREE.Mesh) {
+            if (targetRef === planet) {
+                setReset(true);
+                setPlanetName(null);
+            } else {
+                setTargetRef(planet);
+                setReset(false);
+                setPlanetName(name);
+            }
+        }
+    };
+
+    const handleResetComplete = () => {
+        setTargetRef(null);
+        setReset(false);
+        setPlanetName(null);
+    };
+
     return (
         <>
             <div style={{ height: "80vh", width: "100vw" }}>
@@ -37,22 +61,34 @@ export default function NotesPage({ params }: { params: { path?: string[] } }) {
                 >
                     {/* menu */}
                     <ResizablePanel defaultSize={30}>
-                        <div className="flex h-full items-center justify-center bg-main p-0">
-                            {planetName ? (
-                                <div
-                                    style={{
-                                        padding: "8px 16px",
-                                        backgroundColor: "black",
-                                        color: "white",
-                                        borderRadius: "4px",
-                                        textAlign: "center",
-                                    }}
-                                >
-                                    {planetName}
-                                </div>
-                            ) : (
-                                <span className="font-base">No planet selected</span>
-                            )}
+                        <div>
+                            <div className="flex h-full items-center justify-center bg-main p-0">
+                                {planetName ? (
+                                    <div
+                                        style={{
+                                            padding: "8px 16px",
+                                            backgroundColor: "black",
+                                            color: "white",
+                                            borderRadius: "4px",
+                                            textAlign: "center",
+                                        }}
+                                    >
+                                        {planetName}
+                                    </div>
+                                ) : (
+                                    <span className="font-base">No planet selected</span>
+                                )}
+                            </div>
+                            <div className="m-2">
+                                {planetData.map((planet) => (
+                                    <Button 
+                                        key={planet} 
+                                        onClick={() => handlePlanetClick(targetRef as THREE.Object3D, planet)}
+                                    >
+                                        {planet}
+                                    </Button>
+                                ))}
+                            </div>
                         </div>
                     </ResizablePanel>
 
@@ -61,7 +97,13 @@ export default function NotesPage({ params }: { params: { path?: string[] } }) {
                     {/* galaxy scene */}
                     <ResizablePanel defaultSize={70}>
                         <div className="flex h-full items-center justify-center bg-main p-0">
-                            <Galaxy setPlanetName={setPlanetName} planetsData={planetData} />
+                            <Galaxy 
+                                planetsData={planetData} 
+                                targetRef={targetRef} 
+                                handlePlanetClick={handlePlanetClick}
+                                reset={reset}
+                                onResetComplete={handleResetComplete}
+                            />
                         </div>
                     </ResizablePanel>
                 </ResizablePanelGroup>
