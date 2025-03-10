@@ -206,6 +206,7 @@ const CarouselPrevious = React.forwardRef<
     <Button
       ref={ref}
       variant={"noShadow"}
+      color={"black"}
       size={size}
       className={cn(
         "absolute  h-8 w-8 rounded-base bg-black text-white",
@@ -235,6 +236,7 @@ const CarouselNext = React.forwardRef<
     <Button
       ref={ref}
       variant={"noShadow"}
+      color={"black"}
       size={size}
       className={cn(
         "absolute h-8 w-8 rounded-base bg-black text-white",

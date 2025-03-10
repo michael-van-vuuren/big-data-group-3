@@ -1,10 +1,11 @@
 import { useRef, useMemo } from "react";
 import { useFrame } from "@react-three/fiber";
-import * as THREE from "three";
-import starData from "@/data/stars.json"; // Load the precomputed stars
+import { Points, BufferGeometry, BufferAttribute, Color } from "three";
+
+import starData from "@/data/stars.json";
 
 export default function Stars({ background = "#000000" }) {
-    const ref = useRef<THREE.Points>(null!);
+    const ref = useRef<Points>(null!);
 
     const { positions, colors, shimmerSpeeds, shimmerOffsets, flickerIntensities } = useMemo(() => {
         const count = starData.length;
@@ -17,7 +18,7 @@ export default function Stars({ background = "#000000" }) {
         starData.forEach((star, i) => {
             positions.set(star.position, i * 3);
             colors.set(star.color, i * 3);
-            shimmerSpeeds[i] = star.shimmerSpeed;
+            shimmerSpeeds[i] = star.shimmerSpeed * 1.5;
             shimmerOffsets[i] = star.shimmerOffset;
             flickerIntensities[i] = star.flickerIntensity;
         });
@@ -25,16 +26,16 @@ export default function Stars({ background = "#000000" }) {
         return { positions, colors, shimmerSpeeds, shimmerOffsets, flickerIntensities };
     }, []);
 
-    const starGeometry = new THREE.BufferGeometry();
-    starGeometry.setAttribute("position", new THREE.BufferAttribute(positions, 3));
-    starGeometry.setAttribute("color", new THREE.BufferAttribute(colors, 3));
+    const starGeometry = new BufferGeometry();
+    starGeometry.setAttribute("position", new BufferAttribute(positions, 3));
+    starGeometry.setAttribute("color", new BufferAttribute(colors, 3));
 
     useFrame(({ clock }) => {
         if (ref.current) {
             const time = clock.getElapsedTime();
-            const colorAttribute = ref.current.geometry.attributes.color as THREE.BufferAttribute;
+            const colorAttribute = ref.current.geometry.attributes.color as BufferAttribute;
 
-            const bgColor = new THREE.Color(background);
+            const bgColor = new Color(background);
             const bgR = bgColor.r;
             const bgG = bgColor.g;
             const bgB = bgColor.b;

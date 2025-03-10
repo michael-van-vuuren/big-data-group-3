@@ -1,7 +1,6 @@
+import { forwardRef } from 'react'
 import { Slot } from '@radix-ui/react-slot'
 import { cva, type VariantProps } from 'class-variance-authority'
-
-import * as React from 'react'
 
 import { cn } from '@/lib/utils'
 
@@ -12,6 +11,8 @@ const buttonVariants = cva(
       variant: {
         default:
           'bg-main border-2 border-border dark:border-darkBorder shadow-light dark:shadow-dark hover:translate-x-boxShadowX hover:translate-y-boxShadowY hover:shadow-none dark:hover:shadow-none',
+        whiteText:
+            'bg-main text-white border-2 border-border dark:border-darkBorder shadow-light dark:shadow-dark hover:translate-x-boxShadowX hover:translate-y-boxShadowY hover:shadow-none dark:hover:shadow-none',
         noShadow: 'bg-main border-2 border-border dark:border-darkBorder',
         link: 'underline-offset-4 text-text dark:text-darkText hover:underline',
         neutral:
@@ -36,21 +37,27 @@ const buttonVariants = cva(
 export interface ButtonProps
   extends React.ButtonHTMLAttributes<HTMLButtonElement>,
     VariantProps<typeof buttonVariants> {
-  asChild?: boolean
+  asChild?: boolean;
 }
 
-const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
-  ({ className, variant, size, asChild = false, ...props }, ref) => {
-    const Comp = asChild ? Slot : 'button'
+const Button = forwardRef<HTMLButtonElement, ButtonProps>(
+  ({ className, variant, size, color = "white", asChild = false, ...props }, ref) => {
+    const Comp = asChild ? Slot : "button";
+
+    const dynamicStyle = {
+      backgroundColor: color,
+    };
+
     return (
       <Comp
         className={cn(buttonVariants({ variant, size, className }))}
         ref={ref}
+        style={dynamicStyle}
         {...props}
       />
-    )
-  },
-)
+    );
+  }
+);
 Button.displayName = 'Button'
 
 export { Button, buttonVariants }

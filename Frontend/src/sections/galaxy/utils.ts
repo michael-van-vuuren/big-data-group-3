@@ -1,7 +1,7 @@
-import * as THREE from "three";
+import { Color, Texture } from "three";
 
 export function getRandomColor(baseColor: string): string {
-    const base = new THREE.Color(baseColor);
+    const base = new Color(baseColor);
 
     const hsl = { h: 0, s: 0, l: 0 };
     base.getHSL(hsl);
@@ -12,14 +12,14 @@ export function getRandomColor(baseColor: string): string {
     const randomSaturation = Math.random() * 0.2 + 0.8;
     const randomLightness = Math.random() * 0.1 + 0.5;
 
-    const analogousColor = new THREE.Color().setHSL(analogousHue, randomSaturation, randomLightness);
+    const analogousColor = new Color().setHSL(analogousHue, randomSaturation, randomLightness);
 
     const finalColor = base.clone().lerp(analogousColor, 0.5);
 
     return finalColor.getStyle();
 }
 
-export function createGradientTexture(baseColor: string): THREE.Texture {
+export function createGradientTexture(baseColor: string): Texture {
     const canvas = document.createElement("canvas");
     canvas.width = 512;
     canvas.height = 512;
@@ -37,7 +37,7 @@ export function createGradientTexture(baseColor: string): THREE.Texture {
     context.fillStyle = gradient;
     context.fillRect(0, 0, canvas.width, canvas.height);
 
-    const texture = new THREE.Texture(canvas);
+    const texture = new Texture(canvas);
     texture.needsUpdate = true;
     return texture;
 }

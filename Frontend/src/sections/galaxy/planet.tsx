@@ -1,6 +1,7 @@
-import { useRef, useState, useMemo } from "react";
+import { useRef, useState, useMemo, useEffect } from "react";
 import { useFrame } from "@react-three/fiber";
-import * as THREE from "three";
+import { Mesh, Vector3, CatmullRomCurve3, TubeGeometry, BackSide } from "three";
+
 import { createGradientTexture } from "./utils";
 
 interface PlanetProps {
@@ -8,8 +9,9 @@ interface PlanetProps {
     color: string;
     size: number;
     speed: number;
-    onClick: (ref: THREE.Mesh, name: string) => void;
+    onClick: (ref: Mesh, name: string) => void;
     name: string;
+    setMeshRef: (mesh: Mesh | null) => void; // Ensure setMeshRef is correctly typed
 }
 
 export default function PlanetSystem({
@@ -19,17 +21,23 @@ export default function PlanetSystem({
     speed,
     onClick,
     name,
+    setMeshRef,
 }: PlanetProps) {
-    const planetRef = useRef<THREE.Mesh>(null!);
-    const outlineRef = useRef<THREE.Mesh>(null!);
+    const planetRef = useRef<Mesh>(null!);
+    const outlineRef = useRef<Mesh>(null!);
     const [isHovered, setIsHovered] = useState(false);
+
+    useEffect(() => {
+        if (planetRef.current) {
+            setMeshRef(planetRef.current);
+        }
+    }, [setMeshRef]);
 
     const phase = useMemo(() => (Math.random() * 2 - 1) * Math.PI / 2 - Math.PI / 2, []);
     const gradientTexture = useMemo(() => createGradientTexture(color), [color]);
 
     const rotationAxis = useMemo(() => {
-        const axis = new THREE.Vector3(Math.random(), Math.random(), Math.random()).normalize();
-        return axis;
+        return new Vector3(Math.random(), Math.random(), Math.random()).normalize();
     }, []);
 
     useFrame(({ clock }) => {
@@ -54,14 +62,14 @@ export default function PlanetSystem({
 
         for (let i = 0; i <= segments; i++) {
             const angle = (i / segments) * Math.PI * 2;
-            pointsArray.push(new THREE.Vector3(Math.cos(angle) * radius, 0, Math.sin(angle) * radius));
+            pointsArray.push(new Vector3(Math.cos(angle) * radius, 0, Math.sin(angle) * radius));
         }
 
-        return new THREE.CatmullRomCurve3(pointsArray);
+        return new CatmullRomCurve3(pointsArray);
     }, [radius]);
 
     const tubeGeometry = useMemo(() => {
-        return new THREE.TubeGeometry(points, 200, 0.15, 8, false);
+        return new TubeGeometry(points, 200, 0.15, 8, false);
     }, [points]);
 
     const resolution = 32;
@@ -77,7 +85,7 @@ export default function PlanetSystem({
                 scale={[1.15, 1.15, 1.15]}
             >
                 <sphereGeometry args={[size, resolution, resolution]} />
-                <meshBasicMaterial color="black" side={THREE.BackSide} />
+                <meshBasicMaterial color="black" side={BackSide} />
             </mesh>
 
             {/* planet */}
@@ -88,7 +96,7 @@ export default function PlanetSystem({
                 onClick={() => onClick(planetRef.current, name)}
             >
                 <sphereGeometry args={[size, resolution, resolution]} />
-                <ambientLight intensity={6} color={"#bbb"}/>
+                <ambientLight intensity={6} color={"#bbb"} />
                 <meshStandardMaterial
                     map={gradientTexture}
                     emissive={isHovered ? "white" : "black"}

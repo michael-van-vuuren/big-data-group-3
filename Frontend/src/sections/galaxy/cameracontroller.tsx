@@ -1,13 +1,13 @@
 import { useThree, useFrame } from "@react-three/fiber";
-import * as THREE from "three";
+import { Mesh, Vector3 } from "three";
 
 interface CameraControllerProps {
-    targetRef: THREE.Mesh | null;
+    targetRef: Mesh | null;
     reset: boolean;
     onResetComplete: () => void;
     controlsRef: React.RefObject<any>;
     planetSize: number;
-    defaultPosition: THREE.Vector3
+    defaultPosition: Vector3
 }
 
 export default function CameraController({
@@ -32,13 +32,13 @@ export default function CameraController({
             }
         } else if (targetRef) {
             const offset = planetSize * 5;
-            const targetPosition = targetRef.position.clone().add(new THREE.Vector3(0, offset / 2, 0));
-            const sunPosition = new THREE.Vector3(0, 0, 0);
+            const targetPosition = targetRef.position.clone().add(new Vector3(0, offset / 2, 0));
+            const sunPosition = new Vector3(0, 0, 0);
             const direction = targetPosition.clone().sub(sunPosition).normalize();
             const newPosition = targetPosition
                 .clone()
                 .addScaledVector(direction, offset)
-                .add(new THREE.Vector3(0, 0, 0));
+                .add(new Vector3(0, 0, 0));
 
             camera.position.lerp(newPosition, lerpSpeed);
             camera.lookAt(sunPosition);
