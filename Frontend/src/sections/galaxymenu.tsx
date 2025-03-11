@@ -15,12 +15,14 @@ interface PlanetMenuProps {
     setReset: (reset: boolean) => void;
     planets: PlanetData[];
     handlePlanetClick: (planet: Mesh, name: string) => void;
+    getNoteColor: (note: string | null) => string;
 }
 
 const PlanetMenu: React.FC<PlanetMenuProps> = ({
     planetName,
     planets,
     handlePlanetClick,
+    getNoteColor
 }) => {
     return (
         <div className="flex flex-col h-full items-center justify-center bg-main p-4">
@@ -33,7 +35,7 @@ const PlanetMenu: React.FC<PlanetMenuProps> = ({
                     <Button
                         key={planet.name}
                         variant="whiteText"
-                        color="#203568"
+                        color={getNoteColor(planet.name)}
                         onClick={() => {
                             if (planet.meshRef) {
                                 handlePlanetClick(planet.meshRef, planet.name);

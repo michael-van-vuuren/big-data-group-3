@@ -35,12 +35,12 @@ export default function Galaxy({
     const initialCameraPosition = new Vector3(0, 60, 90);
 
     return (
-        <Canvas camera={{ position: initialCameraPosition }} style={{ background: backgroundColor }}>
+        <Canvas camera={{ position: initialCameraPosition, far: 2000 }} dpr={[2, 4]} style={{ background: backgroundColor }}>
             <pointLight position={[0, 0, 0]} intensity={50} distance={100} />
             <OrbitControls ref={controlsRef} makeDefault />
 
             <EffectComposer>
-                <Bloom intensity={0.8} luminanceThreshold={0} luminanceSmoothing={0.1} />
+                <Bloom intensity={2.0} luminanceThreshold={0.5} luminanceSmoothing={0.2} />
             </EffectComposer>
 
             <CameraController

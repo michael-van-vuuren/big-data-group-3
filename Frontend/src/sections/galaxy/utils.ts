@@ -1,20 +1,19 @@
 import { Color, Texture } from "three";
 
-export function getRandomColor(baseColor: string): string {
+export function getRandomColor(baseColor: string, intensity: number = 0.3): string {
     const base = new Color(baseColor);
-
     const hsl = { h: 0, s: 0, l: 0 };
     base.getHSL(hsl);
 
-    const offsetAngle = (Math.random() < 0.5 ? -45 : 45) / 360;
+    const offsetAngle = (Math.random() < 0.5 ? -10 : 20) / 360;
     const analogousHue = (hsl.h + offsetAngle) % 1;
 
-    const randomSaturation = Math.random() * 0.2 + 0.8;
-    const randomLightness = Math.random() * 0.1 + 0.5;
+    const randomSaturation = Math.max(0, Math.min(1, hsl.s * (0.85 + Math.random() * 10.0)));
+    const randomLightness = Math.max(0, Math.min(1, hsl.l * (0.45 + Math.random() * 1.5)));
 
     const analogousColor = new Color().setHSL(analogousHue, randomSaturation, randomLightness);
 
-    const finalColor = base.clone().lerp(analogousColor, 0.5);
+    const finalColor = base.clone().lerp(analogousColor, intensity);
 
     return finalColor.getStyle();
 }
@@ -26,12 +25,30 @@ export function createGradientTexture(baseColor: string): Texture {
     const context = canvas.getContext("2d")!;
 
     const gradient = context.createRadialGradient(256, 256, 0, 256, 256, 256);
-    const colorStops = Math.random() * 10 + 5;
+
+    const colorStops = Math.floor(Math.random() * 20) + 3;
+
+    const base = new Color(baseColor);
+    const baseHSL = { h: 0, s: 0, l: 0 };
+    base.getHSL(baseHSL);
+
+    const hueShiftAmount = 0.1;
+
     gradient.addColorStop(0, baseColor);
 
     for (let i = 1; i <= colorStops; i++) {
-        const randomColor = getRandomColor(baseColor);
-        gradient.addColorStop(i / colorStops, randomColor);
+        const intensity = i % 2 === 0 ? 1.0 : 0.2;
+
+        const hueShift = i % 2 === 0 ? hueShiftAmount * (i / colorStops) : 0.0;
+        const newHue = (baseHSL.h + hueShift) % 1;
+        const shiftedColor = new Color().setHSL(newHue, baseHSL.s, baseHSL.l);
+
+        const color = colorStops > 12 && i % 6 === 0 ? "#000" : shiftedColor.getStyle();
+
+        const randomColor = getRandomColor(color, intensity);
+
+        const position = Math.pow(i / colorStops, 1.0);
+        gradient.addColorStop(position, randomColor);
     }
 
     context.fillStyle = gradient;
@@ -41,3 +58,5 @@ export function createGradientTexture(baseColor: string): Texture {
     texture.needsUpdate = true;
     return texture;
 }
+
+

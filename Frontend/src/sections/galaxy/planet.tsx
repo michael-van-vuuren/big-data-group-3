@@ -37,7 +37,7 @@ export default function PlanetSystem({
     const gradientTexture = useMemo(() => createGradientTexture(color), [color]);
 
     const rotationAxis = useMemo(() => {
-        return new Vector3(Math.random(), Math.random(), Math.random()).normalize();
+        return new Vector3(Math.random(), Math.random() * 0.2 + 0.8, Math.random()).normalize();
     }, []);
 
     useFrame(({ clock }) => {
@@ -96,7 +96,7 @@ export default function PlanetSystem({
                 onClick={() => onClick(planetRef.current, name)}
             >
                 <sphereGeometry args={[size, resolution, resolution]} />
-                <ambientLight intensity={6} color={"#bbb"} />
+                <ambientLight intensity={9} color={"#999"} />
                 <meshStandardMaterial
                     map={gradientTexture}
                     emissive={isHovered ? "white" : "black"}
