@@ -113,7 +113,7 @@
     "Eucalyptus": "#5F8575",
 
     "Savory": "#A52A2A",
-    "Umami": "#c83047",
+    "Umami": "#d83047",
     "Soy Sauce": "#654321",
     "Meat": "#8B0000",
     "Miso": "#D2B48C",
@@ -134,7 +134,7 @@
     "Szechuan Pepper": "#B22222",
     "Cardamom": "#A2A76F",
 
-    "Roasted": "#5B2513",
+    "Roasted": "#aB4533",
     "Burnt Sugar": "#5D3A1A",
     "Browned Butter": "#C68E17",
     "Toast": "#CD853F",
@@ -147,7 +147,7 @@
     "Balsamic Vinegar": "#6F4E37",
     "Tamarind": "#A52A2A",
 
-    "Alcohol": "#8B0000",
+    "Alcohol": "#8B0050",
     "Ale": "#FFD700",
     "Beer": "#F4A900",
     "Wine": "#722F37",

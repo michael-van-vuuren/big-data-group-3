@@ -89,23 +89,20 @@ export default function NotesPage({ params }: { params: { path?: string[] } }) {
                 direction="horizontal"
                 className="my-4 w-full border-4 border-border text-mtext shadow-shadow"
             >
-                {/* Menu - Now a separate component */}
+                {/* side menu */}
                 <ResizablePanel defaultSize={leftPanelInitialSize}>
                     <PlanetMenu
                         planetName={planetName}
-                        setPlanetName={setPlanetName}
-                        targetRef={targetRef}
-                        setTargetRef={setTargetRef}
-                        setReset={setReset}
                         planets={planetDataRef.current}
                         handlePlanetClick={handlePlanetClick}
                         getNoteColor={getNoteColor}
+                        path={path[0]}
                     />
                 </ResizablePanel>
 
                 <ResizableHandle />
 
-                {/* Galaxy scene */}
+                {/* galaxy scene */}
                 <ResizablePanel defaultSize={100 - leftPanelInitialSize}>
                     <Galaxy
                         planetsData={planetDataRef.current}

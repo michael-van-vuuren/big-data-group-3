@@ -35,10 +35,14 @@ const config: Config = {
       boxShadow: {
         light: '4px 4px 0px 0px #000',
         dark: '4px 4px 0px 0px #000',
+        lightSm: '2px 2px 0px 0px #000',
+        darkSm: '2px 2px 0px 0px #000',
       },
       translate: {
         boxShadowX: '4px',
         boxShadowY: '4px',
+        boxShadowXSm: '2px',
+        boxShadowYSm: '2px',
         reverseBoxShadowX: '-4px',
         reverseBoxShadowY: '-4px',
       },

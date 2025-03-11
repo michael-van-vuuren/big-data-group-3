@@ -40,7 +40,7 @@ export default function Galaxy({
             <OrbitControls ref={controlsRef} makeDefault />
 
             <EffectComposer>
-                <Bloom intensity={2.0} luminanceThreshold={0.5} luminanceSmoothing={0.2} />
+                <Bloom intensity={2.0} luminanceThreshold={0.0} luminanceSmoothing={0.2} />
             </EffectComposer>
 
             <CameraController
