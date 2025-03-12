@@ -19,7 +19,7 @@ export default function RootLayout({
     <html lang="en">
       <body className={dmSans.className}>
         <ThemeProvider attribute="class" disableTransitionOnChange>
-          <header className="flex justify-start p-1 bg-white">
+          <header className="flex justify-start bg-indigo-950 grid-bg-dark">
             <NavigationMenuDemo />
           </header>
           {children}

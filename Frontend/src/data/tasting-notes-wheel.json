@@ -18,17 +18,21 @@
                 "Cider",
                 "Apple"
             ],
-            "Pear": [
-                "Green Pear",
-                "Yellow Pear",
-                "Pear"
-            ],
             "Grape": [
                 "Red Grape",
                 "White Grape",
                 "Green Grape",
                 "Concord Grape",
                 "Grape"
+            ],
+            "Dried Fruit": [
+                "Raisin",
+                "Fig",
+                "Prune",
+                "Date",
+                "Dried Cherry",
+                "Dried Apricot",
+                "Dried Fruit"
             ],
             "Tropical Fruit": [
                 "Passion Fruit",
@@ -43,15 +47,7 @@
                 "Lychee",
                 "Tropical Fruit"
             ],
-            "Stone Fruit": [
-                "Peach",
-                "Nectarine",
-                "Apricot",
-                "Plum",
-                "Cherry",
-                "Persimmon",
-                "Stone Fruit"
-            ],
+            
             "Berry": [
                 "Cran Berry",
                 "Rasp Berry",
@@ -65,14 +61,20 @@
                 "Acai",
                 "Berry"
             ],
-            "Dried Fruit": [
-                "Raisin",
-                "Fig",
-                "Prune",
-                "Date",
-                "Dried Cherry",
-                "Dried Apricot",
-                "Dried Fruit"
+            
+            "Pear": [
+                "Green Pear",
+                "Yellow Pear",
+                "Pear"
+            ],
+            "Stone Fruit": [
+                "Peach",
+                "Nectarine",
+                "Apricot",
+                "Plum",
+                "Cherry",
+                "Persimmon",
+                "Stone Fruit"
             ]
         },
         "Herbal": {
