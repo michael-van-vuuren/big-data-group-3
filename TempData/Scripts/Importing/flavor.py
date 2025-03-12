@@ -13,7 +13,7 @@ with open(file_path, 'r', encoding='utf-8') as f:
 flavors_set = set()
 for coffee in data:
     if 'flavors' in coffee:
-        flavors_set.update(coffee['Flavors'])
+        flavors_set.update(coffee['flavors'])
 
 unique_flavors = list(flavors_set)
 print(unique_flavors)

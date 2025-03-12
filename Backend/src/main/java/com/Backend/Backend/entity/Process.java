@@ -2,31 +2,37 @@ package com.Backend.Backend.entity;
 
 import java.util.HashSet;
 import java.util.Set;
+
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
 @Getter
+@Setter
 @Entity
-@Table(name = "Flavor")
-public class Flavor {
-    // Primary key
+@Table(name = "Process")
+public class Process {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private Integer id;
 
-    // Required
-    @Setter
-    @Column(unique = true, nullable = false)
+    @Column(nullable = false)
     private String name;
 
-    // Many-to-many follower: flavor-to-product
-    @ManyToMany(mappedBy = "flavors")
+
+    @Column(nullable = false)
+    private String tags;
+
+    @ManyToMany(mappedBy = "processes")
     private Set<Product> products = new HashSet<>();
 
-    public Flavor() {}
 
-    public Flavor(String name) {
+    public Process() {
+    }
+
+    public Process(String name, String tags) {
         this.name = name;
+        this.tags = tags;
     }
 }

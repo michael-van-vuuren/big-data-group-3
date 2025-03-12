@@ -7,26 +7,30 @@ import lombok.Getter;
 import lombok.Setter;
 
 @Getter
+@Setter
 @Entity
-@Table(name = "Flavor")
-public class Flavor {
+@Table(name = "Roaster")
+public class Roaster {
+
+
     // Primary key
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private Long id;
 
-    // Required
-    @Setter
+    // Required table elements
     @Column(unique = true, nullable = false)
     private String name;
+    @Column(nullable = false)
+    private String country;
 
-    // Many-to-many follower: flavor-to-product
-    @ManyToMany(mappedBy = "flavors")
+    @ManyToMany(mappedBy = "roasters")
     private Set<Product> products = new HashSet<>();
 
-    public Flavor() {}
+    public Roaster() {}
 
-    public Flavor(String name) {
+    public Roaster(String name, String country) {
         this.name = name;
+        this.country = country;
     }
 }
