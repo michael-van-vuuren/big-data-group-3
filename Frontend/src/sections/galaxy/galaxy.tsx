@@ -13,7 +13,8 @@ export default function Galaxy({
     targetRef,
     handlePlanetClick,
     reset,
-    onResetComplete
+    onResetComplete,
+    path
 }: {
     planetsData: {
         name: string;
@@ -28,10 +29,25 @@ export default function Galaxy({
     handlePlanetClick: (planet: Object3D, name: string) => void;
     reset: boolean;
     onResetComplete: () => void;
+    path: string;
 }) {
     const controlsRef = useRef<any>(null);
 
-    const backgroundColor = "#203568";
+    const pathToBackgroundColor = {
+        "Fruity": "#036",
+        "Herbal": "#363",
+        "Savory": "#636",
+        "Warm": "#933",
+        "Sweet": "#936",
+    }
+
+    type PathKeys = keyof typeof pathToBackgroundColor;
+
+    const backgroundColor: string =
+        path in pathToBackgroundColor
+            ? pathToBackgroundColor[path as PathKeys]
+            : "#036";
+
     const initialCameraPosition = new Vector3(0, 60, 90);
 
     return (

@@ -2,7 +2,6 @@ import { useState } from "react";
 import { Mesh } from "three";
 import { Button } from "@/components/ui/button";
 import BeanLibrary from "./beanlibrary";
-
 import notesData from "@/data/tasting-notes-wheel.json";
 
 interface PlanetData {
@@ -32,11 +31,19 @@ export default function PlanetMenu({
             : null;
 
     const [selectedNotes, setSelectedNotes] = useState<string[]>([]);
+    const [selectedTopNote, setSelectedTopNote] = useState<string | null>(null);
 
     const toggleNote = (note: string) => {
         setSelectedNotes((prev) =>
             prev.includes(note) ? prev.filter((n) => n !== note) : [...prev, note]
         );
+    };
+
+    const handleTopNoteClick = (note: string, planet: PlanetData) => {
+        setSelectedTopNote((prev) => (prev === note ? null : note));
+        if (planet.meshRef) {
+            handlePlanetClick(planet.meshRef, planet.name);
+        }
     };
 
     return (
@@ -46,44 +53,54 @@ export default function PlanetMenu({
             </div>
 
             <div className="flex flex-col overflow-scroll justify-start">
+                {/* Top Notes Section */}
                 <div className="grid grid-cols-4 gap-3 m-4">
-                    {planets.map((planet) => (
-                        <Button
-                            key={planet.name}
-                            variant="whiteText"
-                            color={getNoteColor(planet.name)}
-                            onClick={() => {
-                                if (planet.meshRef) {
-                                    handlePlanetClick(planet.meshRef, planet.name);
-                                }
-                            }}
-                        >
-                            {planet.name}
-                        </Button>
-                    ))}
+                    {planets.map((planet) => {
+                        const isActive = selectedTopNote === planet.name;
+                        return (
+                            <Button
+                                key={planet.name}
+                                variant="whiteText"
+                                color={getNoteColor(planet.name)}
+                                active={isActive}
+                                onClick={() => handleTopNoteClick(planet.name, planet)}
+                            >
+                                {planet.name}
+                            </Button>
+                        );
+                    })}
                 </div>
-                
+
+                {/* Notes Section */}
                 {currentLevel && Array.isArray(currentLevel) && (
                     <div className="grid grid-cols-3 gap-3 m-6">
-                        {currentLevel.map((note) => (
-                            <div key={note} className="flex items-center gap-2">
-                                <Button 
-                                    variant="round" 
-                                    size="icon" 
-                                    color={getNoteColor(note)} 
-                                    onClick={() => toggleNote(note)}
-                                    className="relative"
-                                >
-                                    {selectedNotes.includes(note) && (
-                                        <span className="absolute w-3 h-3 bg-black rounded-full"></span>
-                                    )}
-                                </Button>
-                                <p className="text-sm">{note}</p>
-                            </div>
-                        ))}
+                        {currentLevel.map((note) => {
+                            const isSelected = selectedNotes.includes(note);
+                            return (
+                                <div key={note} className="flex items-center gap-2">
+                                    <Button
+                                        variant="round"
+                                        size="icon"
+                                        color={getNoteColor(note)}
+                                        activeSm={isSelected}
+                                        onClick={() => toggleNote(note)}
+                                        className="relative"
+                                    >
+                                        {isSelected && (
+                                            <>
+                                                <span className="absolute w-4 h-4 bg-white rounded-full"></span>
+                                                <span className="absolute w-2/4 h-1 bg-black rounded-full"></span>
+                                            </>
+                                        )}
+                                    </Button>
+                                    <p className="text-sm">{note}</p>
+                                </div>
+                            );
+                        })}
                     </div>
                 )}
 
+                {/* Bean Library Section */}
                 <div className="overflow-scroll p-1 m-4 min-h-96 bg-black">
                     <BeanLibrary />
                 </div>
