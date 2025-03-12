@@ -1,10 +1,11 @@
 package com.Backend.Backend.entity;
 
-import java.util.HashSet;
-import java.util.Set;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
+
+import java.util.HashSet;
+import java.util.Set;
 
 @Getter
 @Setter
@@ -29,7 +30,7 @@ public class Producer {
 
     @ManyToMany(mappedBy = "producers")
     private Set<Product> products = new HashSet<>();
-    // Constructors
+
     public Producer() {
     }
 

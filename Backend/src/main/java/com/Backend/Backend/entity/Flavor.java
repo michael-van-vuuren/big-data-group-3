@@ -1,10 +1,11 @@
 package com.Backend.Backend.entity;
 
-import java.util.HashSet;
-import java.util.Set;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
+
+import java.util.HashSet;
+import java.util.Set;
 
 @Getter
 @Entity
@@ -22,9 +23,10 @@ public class Flavor {
 
     // Many-to-many follower: flavor-to-product
     @ManyToMany(mappedBy = "flavors")
-    private Set<Product> products = new HashSet<>();
+    private final Set<Product> products = new HashSet<>();
 
-    public Flavor() {}
+    public Flavor() {
+    }
 
     public Flavor(String name) {
         this.name = name;

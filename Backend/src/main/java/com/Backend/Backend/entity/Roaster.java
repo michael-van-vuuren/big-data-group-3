@@ -1,17 +1,17 @@
 package com.Backend.Backend.entity;
 
-import java.util.HashSet;
-import java.util.Set;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
+import java.util.HashSet;
+import java.util.Set;
+
 
 @Getter
 @Setter
 @Entity
 @Table(name = "Roaster")
 public class Roaster {
-
 
     // Primary key
     @Id
@@ -27,7 +27,8 @@ public class Roaster {
     @ManyToMany(mappedBy = "roasters")
     private Set<Product> products = new HashSet<>();
 
-    public Roaster() {}
+    public Roaster() {
+    }
 
     public Roaster(String name, String country) {
         this.name = name;

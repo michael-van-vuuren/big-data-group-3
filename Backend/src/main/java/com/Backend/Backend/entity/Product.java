@@ -1,12 +1,13 @@
 package com.Backend.Backend.entity;
 
-import java.math.BigDecimal;
-import java.util.HashSet;
-import java.util.Set;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
-import com.fasterxml.jackson.annotation.JsonIgnore;
+
+import java.math.BigDecimal;
+import java.util.HashSet;
+import java.util.Set;
 
 @Getter
 @Setter
@@ -56,7 +57,6 @@ public class Product {
     private Set<Roaster> roasters = new HashSet<>();
 
 
-
     // Many-to-many leader: product-to-flavor
     @ManyToMany
     @JoinTable(
@@ -66,11 +66,6 @@ public class Product {
     )
     @JsonIgnore
     private Set<Flavor> flavors = new HashSet<>();
-
-    public enum Availability {
-        YES, NO
-    }
-
     @ManyToMany
     @JoinTable(
             name = "product_producer",
@@ -78,4 +73,8 @@ public class Product {
             inverseJoinColumns = @JoinColumn(name = "producer_id")
     )
     private Set<Producer> producers = new HashSet<>();
+
+    public enum Availability {
+        YES, NO
+    }
 }
