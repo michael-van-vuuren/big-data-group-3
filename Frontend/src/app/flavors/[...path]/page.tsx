@@ -1,87 +1,51 @@
 "use client";
 
-import { useState, useRef } from "react";
-import { Mesh, Object3D } from "three";
+import { useState } from "react";
+import { Mesh } from "three";
 
-import Galaxy from "@/sections/galaxy/galaxy";
+import Galaxy from "@/sections/galaxy/scene/galaxy";
 import {
     ResizableHandle,
     ResizablePanel,
     ResizablePanelGroup,
 } from "@/components/ui/resizable";
 
-import PlanetMenu from "@/sections/galaxymenu";
-import notesData from "@/data/tasting-notes-wheel.json";
-import notesColors from "@/data/notes-wheel-colors.json";
-
-const getNoteColor = (note: string | null) => {
-    let colors = notesColors as Record<string, string>;
-    if (note) {
-        return colors[note];
-    }
-    return "#AAAAAA";
-};
+import PlanetMenu from "@/sections/galaxy/menu/galaxymenu";
+import { getNoteColor } from "@/lib/colorutils";
+import { usePlanetData } from "@/sections/galaxy/hooks/usePlanetData";
+import type { PlanetData } from "@/sections/galaxy/types/planetdata"
 
 export default function NotesPage({ params }: { params: { path?: string[] } }) {
     const path = params.path ?? [];
-    const [planetName, setPlanetName] = useState<string | null>(null);
     const [targetRef, setTargetRef] = useState<Mesh | null>(null);
     const [reset, setReset] = useState(false);
+    const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
 
-    let currentLevel = notesData.Notes as Record<string, unknown>;
+    const planetDataRef = usePlanetData(path);
 
-    for (const segment of path) {
-        currentLevel = (currentLevel[segment] as Record<string, unknown>) ?? null;
-    }
-
-    const planetNames =
-        currentLevel && typeof currentLevel === "object"
-            ? Object.keys(currentLevel)
-            : [];
-
-    const planetDataRef = useRef(
-        planetNames.map((name, index, arr) => {
-            const middleIndex = (arr.length - 1) / 2;
-            const variance = Math.pow(arr.length / 6, 2);
-            const gaussianSize = Math.exp(
-                -Math.pow(index - middleIndex, 2) / (2 * variance)
-            );
-            const randomVariation = Math.random() * 2.5;
-
-            return {
-                radius: 25 + index * 18 + Math.random() * 5,
-                color: getNoteColor(name),
-                size: Math.max(3, gaussianSize * 6 + randomVariation),
-                speed: (0.05 + Math.random() * 0.2) / (index + 1),
-                name,
-                meshRef: null as Mesh | null,
-                setMeshRef: (mesh: Mesh | null) => {
-                    planetDataRef.current.find((p) => p.name === name)!.meshRef = mesh;
-                },
-            };
-        })
-    );
-
-    const handlePlanetClick = (planet: Object3D, name: string) => {
-        if (planet instanceof Mesh) {
-            if (targetRef === planet) {
-                setReset(true);
-                setPlanetName(null);
+    const handleSelection = (planet: PlanetData) => {
+        setSelectedCategory((prev) => prev === planet.name ? null : planet.name);
+        if (targetRef === planet.meshRef) {
+            setReset(true);
+            setSelectedCategory(null);
+        } else {
+            if (planet.meshRef instanceof Mesh) {
+                setTargetRef(planet.meshRef);
             } else {
-                setTargetRef(planet);
-                setReset(false);
-                setPlanetName(name);
+                setTargetRef(null);
             }
+            setReset(false);
+            setSelectedCategory(planet.name);
         }
     };
 
     const handleResetComplete = () => {
         setTargetRef(null);
         setReset(false);
-        setPlanetName(null);
+        setSelectedCategory(null);
     };
 
-    const leftPanelInitialSize = 33;
+    const leftPanelInitialSize = 40;
 
     return (
         <div style={{ height: "80vh", width: "100vw" }}>
@@ -90,13 +54,13 @@ export default function NotesPage({ params }: { params: { path?: string[] } }) {
                 className="my-4 w-full border-4 border-border text-mtext shadow-shadow"
             >
                 {/* side menu */}
-                <ResizablePanel defaultSize={leftPanelInitialSize}>
+                <ResizablePanel defaultSize={leftPanelInitialSize} className="min-w-4/10">
                     <PlanetMenu
-                        planetName={planetName}
-                        planets={planetDataRef.current}
-                        handlePlanetClick={handlePlanetClick}
+                        planetData={planetDataRef.current}
                         getNoteColor={getNoteColor}
                         path={path[0]}
+                        selectedCategory={selectedCategory}
+                        handleSelection={handleSelection}
                     />
                 </ResizablePanel>
 
@@ -105,11 +69,12 @@ export default function NotesPage({ params }: { params: { path?: string[] } }) {
                 {/* galaxy scene */}
                 <ResizablePanel defaultSize={100 - leftPanelInitialSize}>
                     <Galaxy
-                        planetsData={planetDataRef.current}
+                        planetData={planetDataRef.current}
                         targetRef={targetRef}
-                        handlePlanetClick={handlePlanetClick}
+                        handleSelection={handleSelection}
                         reset={reset}
                         onResetComplete={handleResetComplete}
+                        path={path[0]}
                     />
 
                 </ResizablePanel>

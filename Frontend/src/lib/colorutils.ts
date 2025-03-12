@@ -1,5 +1,15 @@
 import { Color, Texture } from "three";
 
+import notesColors from "@/data/notes-wheel-colors.json";
+
+export const getNoteColor = (note: string | null) => {
+    let colors = notesColors as Record<string, string>;
+    if (note) {
+        return colors[note];
+    }
+    return "#AAAAAA";
+};
+
 export function getRandomColor(baseColor: string, intensity: number = 0.3): string {
     const base = new Color(baseColor);
     const hsl = { h: 0, s: 0, l: 0 };
@@ -58,5 +68,3 @@ export function createGradientTexture(baseColor: string): Texture {
     texture.needsUpdate = true;
     return texture;
 }
-
-

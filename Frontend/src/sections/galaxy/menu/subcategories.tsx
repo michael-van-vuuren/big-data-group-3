@@ -1,0 +1,38 @@
+import { Button } from "@/components/ui/button";
+
+interface SubcategoriesProps {
+    notes: string[];
+    selected: string[];
+    getNoteColor: (note: string) => string;
+    toggle: (note: string) => void;
+}
+
+export default function Subcategories({ notes, selected, getNoteColor, toggle }: SubcategoriesProps) {
+    return (
+        <div className="grid grid-cols-3 gap-3 m-6">
+            {notes.map((note) => {
+                const isSelected = selected.includes(note);
+                return (
+                    <div key={note} className="flex items-center gap-2">
+                        <Button
+                            variant="round"
+                            size="icon"
+                            color={getNoteColor(note)}
+                            activeSm={isSelected}
+                            onClick={() => toggle(note)}
+                            className="relative"
+                        >
+                            {isSelected && (
+                                <>
+                                    <span className="absolute w-4 h-4 bg-white rounded-full"></span>
+                                    <span className="absolute w-2/4 h-1 bg-black rounded-full"></span>
+                                </>
+                            )}
+                        </Button>
+                        <p className="text-sm">{note}</p>
+                    </div>
+                );
+            })}
+        </div>
+    );
+}

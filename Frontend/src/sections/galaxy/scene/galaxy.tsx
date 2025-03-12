@@ -1,6 +1,6 @@
 import { useRef } from "react";
 import { Canvas } from "@react-three/fiber";
-import { Mesh, Object3D, Vector3, SphereGeometry } from "three";
+import { Mesh, Vector3, SphereGeometry } from "three";
 import { OrbitControls } from "@react-three/drei";
 import { Bloom, EffectComposer } from "@react-three/postprocessing";
 
@@ -8,29 +8,18 @@ import Planet from "./planet";
 import Stars from "./stars";
 import CameraController from "./cameracontroller";
 
-export default function Galaxy({
-    planetsData,
-    targetRef,
-    handlePlanetClick,
-    reset,
-    onResetComplete,
-    path
-}: {
-    planetsData: {
-        name: string;
-        radius: number;
-        color: string;
-        size: number;
-        speed: number;
-        meshRef: Mesh | null;
-        setMeshRef: (mesh: Mesh | null) => void;
-    }[];
+import type { PlanetData } from "@/sections/galaxy/types/planetdata";
+
+interface GalaxyProps {
+    planetData: PlanetData[];
     targetRef: Mesh | null;
-    handlePlanetClick: (planet: Object3D, name: string) => void;
+    handleSelection: (planet: PlanetData) => void;
     reset: boolean;
     onResetComplete: () => void;
     path: string;
-}) {
+}
+
+export default function Galaxy({ planetData, targetRef, handleSelection, reset, onResetComplete, path }: GalaxyProps) {
     const controlsRef = useRef<any>(null);
 
     const pathToBackgroundColor = {
@@ -83,15 +72,14 @@ export default function Galaxy({
                 />
             </mesh>
 
-            {planetsData.map((planet) => (
+            {planetData.map((planet) => (
                 <Planet
                     key={planet.name}
                     {...planet}
                     setMeshRef={planet.setMeshRef}
-                    onClick={(mesh) => {
-                        if (mesh instanceof Mesh) {
-                            planet.meshRef = mesh;
-                            handlePlanetClick(mesh, planet.name);
+                    onClick={() => {
+                        if (planet.meshRef) {
+                            handleSelection(planet);
                         }
                     }}
                 />

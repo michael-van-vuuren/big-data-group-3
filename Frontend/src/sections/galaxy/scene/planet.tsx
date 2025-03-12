@@ -2,27 +2,19 @@ import { useRef, useState, useMemo, useEffect } from "react";
 import { useFrame } from "@react-three/fiber";
 import { Mesh, Vector3, CatmullRomCurve3, TubeGeometry, BackSide } from "three";
 
-import { createGradientTexture } from "./utils";
+import { createGradientTexture } from "@/lib/colorutils";
 
 interface PlanetProps {
+    name: string;
     radius: number;
     color: string;
     size: number;
     speed: number;
+    setMeshRef: (mesh: Mesh | null) => void;
     onClick: (ref: Mesh, name: string) => void;
-    name: string;
-    setMeshRef: (mesh: Mesh | null) => void; // Ensure setMeshRef is correctly typed
 }
 
-export default function PlanetSystem({
-    radius,
-    color,
-    size,
-    speed,
-    onClick,
-    name,
-    setMeshRef,
-}: PlanetProps) {
+export default function PlanetSystem({ name, radius, color, size, speed, setMeshRef, onClick }: PlanetProps) {
     const planetRef = useRef<Mesh>(null!);
     const outlineRef = useRef<Mesh>(null!);
     const [isHovered, setIsHovered] = useState(false);
