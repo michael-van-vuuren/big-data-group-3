@@ -4,7 +4,6 @@
             "Citrus": [
                 "Lemon",
                 "Lime",
-                "Lemon Grass",
                 "Orange",
                 "Blood Orange",
                 "Grape Fruit",
@@ -32,7 +31,6 @@
             ],
             "Tropical Fruit": [
                 "Passion Fruit",
-                "Pineapple",
                 "Water Melon",
                 "Melon",
                 "Mango",
@@ -70,8 +68,6 @@
                 "Fig",
                 "Prune",
                 "Date",
-                "Dried Cherry",
-                "Dried Apricot",
                 "Dried Fruit"
             ]
         },
@@ -79,11 +75,7 @@
             "Floral": [
                 "Jasmine",
                 "Rose",
-                "Hibiscus",
                 "Bergamot",
-                "Orange Blossom",
-                "Lemon Blossom",
-                "Cherry Blossom",
                 "Lavender",
                 "Elder Flower",
                 "Flower",
@@ -91,8 +83,6 @@
             ],
             "Vegetal": [
                 "Cucumber",
-                "Peas",
-                "Mushroom",
                 "Rhubarb",
                 "Squash",
                 "Bell Pepper",
@@ -101,36 +91,27 @@
                 "Vegetal"
             ],
             "Earthy": [
-                "Olive",
-                "Leafy",
-                "Straw",
                 "Tobacco",
                 "Cedar",
                 "Wood",
-                "Soil",
                 "Grassy",
                 "Matcha",
-                "Mossy",
-                "Mushroom",
                 "Earthy"
             ],
             "Herb": [
                 "Basil",
                 "Tea",
-                "Rosemary",
                 "Sage",
                 "Dill",
                 "Mint",
                 "Chamomile",
                 "Thyme",
-                "Bay Leaf",
                 "Eucalyptus",
                 "Herb"
             ]
         },
         "Savory": {
             "Umami": [
-                "Soy Sauce",
                 "Meat",
                 "Miso",
                 "Fermented",
@@ -140,14 +121,12 @@
                 "Clove",
                 "Licorice",
                 "Anise",
-                "Cumin",
                 "Nutmeg",
                 "Ginger",
                 "Salted",
                 "Coriander",
                 "Cinnamon",
                 "Black Pepper",
-                "Turmeric",
                 "Szechuan Pepper",
                 "Cardamom",
                 "Spice"
@@ -156,17 +135,13 @@
                 "Burnt Sugar",
                 "Browned Butter",
                 "Toast",
-                "Carbon",
                 "Smoky",
-                "Charred Wood",
                 "Roasted"
             ],
             "Acidic": [
                 "Vinegar",
-                "Balsamic Vinegar",
                 "Tamarind",
-                "Acid",
-                "Acidic"
+                "Acid"
             ],
             "Alcohol": [
                 "Ale",
@@ -182,8 +157,7 @@
                 "Milk",
                 "Yogurt",
                 "Cheese",
-                "Cream",
-                "Dairy"
+                "Cream"
             ]
         },
         "Warm": {
@@ -197,10 +171,7 @@
                 "Pop Corn",
                 "Rye",
                 "Biscuit",
-                "Barley",
-                "Brown Rice",
-                "Toasted Rice",
-                "Grain"
+                "Barley"
             ],
             "Nut": [
                 "Almond",
@@ -218,7 +189,6 @@
         "Sweet": {
             "Sugary": [
                 "Caramel",
-                "Butter Scotch",
                 "Maple Syrup",
                 "Honey",
                 "Agave",
@@ -235,8 +205,7 @@
                 "Cotton Candy",
                 "Granita",
                 "Brown Sugar",
-                "Sugar",
-                "Sugary"
+                "Sugar"
             ],
             "Chocolate": [
                 "Cocoa",
@@ -246,13 +215,11 @@
                 "Chocolate Truffle",
                 "White Chocolate",
                 "Dark Chocolate",
-                "Bitter Sweet Chocolate",
                 "Cocoa Nib",
                 "Cocoa Powder",
                 "Chocolate"
             ],
             "Confectionary": [
-                "Donut",
                 "Nougat",
                 "Caramel",
                 "Cookie",
@@ -263,10 +230,8 @@
                 "Toffee",
                 "Pudding",
                 "Marzipan",
-                "Ice Cream",
                 "Flan",
                 "Praline",
-                "Cheese Cake",
                 "Biscotti",
                 "Confectionary"
             ],
