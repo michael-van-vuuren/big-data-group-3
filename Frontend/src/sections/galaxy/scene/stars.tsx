@@ -18,7 +18,7 @@ export default function Stars({ background = "#000000" }) {
         starData.forEach((star, i) => {
             positions.set(star.position, i * 3);
             colors.set(star.color, i * 3);
-            shimmerSpeeds[i] = star.shimmerSpeed * 1.5;
+            shimmerSpeeds[i] = star.shimmerSpeed * 1.8;
             shimmerOffsets[i] = star.shimmerOffset;
             flickerIntensities[i] = star.flickerIntensity;
         });
@@ -60,7 +60,7 @@ export default function Stars({ background = "#000000" }) {
     return (
         <points ref={ref}>
             <bufferGeometry attach="geometry" {...starGeometry} />
-            <pointsMaterial attach="material" color="white" size={2.0} transparent vertexColors />
+            <pointsMaterial attach="material" color="white" size={1.5} transparent vertexColors />
         </points>
     );
 }

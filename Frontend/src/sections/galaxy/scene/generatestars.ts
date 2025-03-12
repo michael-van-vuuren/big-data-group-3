@@ -1,6 +1,6 @@
 import fs from "fs";
 
-const generateStars = (count = 1600, minRadius = 400, maxRadius = 600) => {
+const generateStars = (count = 3000, minRadius = 400, maxRadius = 600) => {
     const stars = [];
 
     for (let i = 0; i < count; i++) {
@@ -27,5 +27,5 @@ const generateStars = (count = 1600, minRadius = 400, maxRadius = 600) => {
     return stars;
 };
 
-fs.writeFileSync("../../data/stars.json", JSON.stringify(generateStars(), null, 2));
+fs.writeFileSync("../../../data/stars.json", JSON.stringify(generateStars(), null, 2));
 console.log("Static stars saved to stars.json");

@@ -10,12 +10,27 @@ export const getNoteColor = (note: string | null) => {
     return "#AAAAAA";
 };
 
+export function getLighterDesaturatedColor(baseColor: string, lightnessIncrease: number = 0.1, desaturationAmount: number = 0.2, hueShiftAmount: number = -10): string {
+    const color = new Color(baseColor);
+    const hsl = { h: 0, s: 0, l: 0 };
+    color.getHSL(hsl);
+
+    const hueShiftNormalized = hueShiftAmount / 360;
+
+    hsl.h = (hsl.h + hueShiftNormalized) % 1;
+    hsl.s = Math.max(0, hsl.s - desaturationAmount);
+    hsl.l = Math.min(1, hsl.l + lightnessIncrease);
+
+    const newColor = new Color().setHSL(hsl.h, hsl.s, hsl.l);
+    return newColor.getStyle();
+}
+
 export function getRandomColor(baseColor: string, intensity: number = 0.3): string {
     const base = new Color(baseColor);
     const hsl = { h: 0, s: 0, l: 0 };
     base.getHSL(hsl);
 
-    const offsetAngle = (Math.random() < 0.5 ? -10 : 20) / 360;
+    const offsetAngle = (Math.random() < 0.5 ? -10 : 10) / 360;
     const analogousHue = (hsl.h + offsetAngle) % 1;
 
     const randomSaturation = Math.max(0, Math.min(1, hsl.s * (0.85 + Math.random() * 10.0)));
@@ -42,7 +57,7 @@ export function createGradientTexture(baseColor: string): Texture {
     const baseHSL = { h: 0, s: 0, l: 0 };
     base.getHSL(baseHSL);
 
-    const hueShiftAmount = 0.1;
+    const hueShiftAmount = 0.05;
 
     gradient.addColorStop(0, baseColor);
 

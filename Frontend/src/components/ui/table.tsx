@@ -10,7 +10,7 @@ const Table = React.forwardRef<
     <table
       ref={ref}
       className={cn(
-        "w-full caption-bottom border-slate-200 border-2 text-sm dark:border-slate-800",
+        "w-full caption-bottom border-black text-sm dark:border-slate-800",
         className,
       )}
       {...props}
@@ -61,7 +61,7 @@ const TableRow = React.forwardRef<
   <tr
     ref={ref}
     className={cn(
-      "border-b border-slate-200 text-mtext transition-colors bg-main font-base data-[state=selected]:bg-bw data-[state=selected]:text-mtext dark:border-slate-800",
+      "bg-white border-b border-black text-mtext transition-colors font-base data-[state=selected]:bg-bw data-[state=selected]:text-mtext dark:border-slate-800",
       className,
     )}
     {...props}
@@ -91,7 +91,7 @@ const TableCell = React.forwardRef<
   <td
     ref={ref}
     className={cn(
-      "text-black p-4 align-middle font-base [&:has([role=checkbox])]:pr-0",
+      "p-4 align-middle font-base [&:has([role=checkbox])]:pr-0",
       className,
     )}
     {...props}

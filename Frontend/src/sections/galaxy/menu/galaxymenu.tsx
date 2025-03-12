@@ -1,5 +1,4 @@
 import { useState } from "react";
-import { Mesh } from "three";
 
 import PlanetHeader from "./header";
 import Categories from "./categories";
@@ -10,13 +9,12 @@ import type { PlanetData } from "@/sections/galaxy/types/planetdata";
 
 interface PlanetMenuProps {
     planetData: PlanetData[];
-    getNoteColor: (note: string | null) => string;
     path: string;
     selectedCategory: string | null;
     handleSelection: (planet: PlanetData) => void;
 }
 
-export default function PlanetMenu({ planetData, getNoteColor, path, selectedCategory, handleSelection }: PlanetMenuProps) {
+export default function PlanetMenu({ planetData, path, selectedCategory, handleSelection }: PlanetMenuProps) {
     type NotePaths = keyof typeof notesData.Notes;
     const currentLevel: string[] | null =
         selectedCategory && path in notesData.Notes && selectedCategory in notesData.Notes[path as NotePaths]
@@ -32,14 +30,13 @@ export default function PlanetMenu({ planetData, getNoteColor, path, selectedCat
     };
 
     return (
-        <div className="flex flex-col h-full items-center justify-center bg-main p-4">
+        <div className="flex flex-col h-full items-center justify-center bg-slate-200 p-8">
             <PlanetHeader planetName={selectedCategory} />
 
             <div className="flex flex-col overflow-scroll justify-start">
                 <Categories
                     planetData={planetData}
                     selected={selectedCategory}
-                    getNoteColor={getNoteColor}
                     handleSelection={handleSelection}
                 />
 
@@ -47,12 +44,11 @@ export default function PlanetMenu({ planetData, getNoteColor, path, selectedCat
                     <Subcategories
                         notes={currentLevel}
                         selected={selectedSubCategory}
-                        getNoteColor={getNoteColor}
                         toggle={toggleButton}
                     />
                 )}
 
-                <div className="overflow-scroll p-1 m-4 min-h-96 bg-black">
+                <div className="overflow-scroll p-1 m-4 min-h-80 bg-black">
                     <BeanLibrary />
                 </div>
             </div>

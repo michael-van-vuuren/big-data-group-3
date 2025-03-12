@@ -1,16 +1,15 @@
 import { Button } from "@/components/ui/button";
-import { Mesh } from "three";
 
 import type { PlanetData } from "@/sections/galaxy/types/planetdata";
+import { getNoteColor } from "@/lib/colorutils";
 
 interface CategoriesProps {
     planetData: PlanetData[];
     selected: string | null;
-    getNoteColor: (note: string | null) => string;
     handleSelection: (planet: PlanetData) => void;
 }
 
-export default function Categories({ planetData, selected, getNoteColor, handleSelection }: CategoriesProps) {
+export default function Categories({ planetData, selected, handleSelection }: CategoriesProps) {
     return (
         <div className="grid grid-cols-4 gap-3 m-4">
             {planetData.map((planet) => {

@@ -11,7 +11,6 @@ import {
 } from "@/components/ui/resizable";
 
 import PlanetMenu from "@/sections/galaxy/menu/galaxymenu";
-import { getNoteColor } from "@/lib/colorutils";
 import { usePlanetData } from "@/sections/galaxy/hooks/usePlanetData";
 import type { PlanetData } from "@/sections/galaxy/types/planetdata"
 
@@ -48,7 +47,7 @@ export default function NotesPage({ params }: { params: { path?: string[] } }) {
     const leftPanelInitialSize = 40;
 
     return (
-        <div style={{ height: "80vh", width: "100vw" }}>
+        <div style={{ position: "absolute", top: "42px", width: "100vw", height: "calc(100vh - 42px)", overflow: "clip" }}>
             <ResizablePanelGroup
                 direction="horizontal"
                 className="my-4 w-full border-4 border-border text-mtext shadow-shadow"
@@ -57,7 +56,6 @@ export default function NotesPage({ params }: { params: { path?: string[] } }) {
                 <ResizablePanel defaultSize={leftPanelInitialSize} className="min-w-4/10">
                     <PlanetMenu
                         planetData={planetDataRef.current}
-                        getNoteColor={getNoteColor}
                         path={path[0]}
                         selectedCategory={selectedCategory}
                         handleSelection={handleSelection}

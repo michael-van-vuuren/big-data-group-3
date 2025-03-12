@@ -22,20 +22,38 @@ interface GalaxyProps {
 export default function Galaxy({ planetData, targetRef, handleSelection, reset, onResetComplete, path }: GalaxyProps) {
     const controlsRef = useRef<any>(null);
 
-    const pathToBackgroundColor = {
+    const colorMap = {
         "Fruity": "#036",
         "Herbal": "#363",
         "Savory": "#636",
-        "Warm": "#933",
-        "Sweet": "#936",
+        "Warm": "#603",
+        "Sweet": "#69C",
     }
+    const intensityMap = {
+        "Fruity": 1.7,
+        "Herbal": 1.3,
+        "Savory": 1.3,
+        "Warm": 1.3,
+        "Sweet": 1.3,
+    }
+    const planetIntensityMap = {
+        "Fruity": 9.0,
+        "Herbal": 20.0,
+        "Savory": 10.0,
+        "Warm": 30.0,
+        "Sweet": 25.0,
+    }
+    type PathKeys = keyof typeof colorMap;
 
-    type PathKeys = keyof typeof pathToBackgroundColor;
-
-    const backgroundColor: string =
-        path in pathToBackgroundColor
-            ? pathToBackgroundColor[path as PathKeys]
+    const backgroundColor: string = path in colorMap
+            ? colorMap[path as PathKeys]
             : "#036";
+    const bloomIntensity: number = path in intensityMap
+            ? intensityMap[path as PathKeys]
+            : 2.0;
+    const planetLightIntensity: number = path in planetIntensityMap
+            ? planetIntensityMap[path as PathKeys]
+            : 8.0;
 
     const initialCameraPosition = new Vector3(0, 60, 90);
 
@@ -45,7 +63,7 @@ export default function Galaxy({ planetData, targetRef, handleSelection, reset, 
             <OrbitControls ref={controlsRef} makeDefault />
 
             <EffectComposer>
-                <Bloom intensity={2.0} luminanceThreshold={0.0} luminanceSmoothing={0.2} />
+                <Bloom intensity={bloomIntensity} luminanceThreshold={0.0} luminanceSmoothing={0.2} />
             </EffectComposer>
 
             <CameraController
@@ -82,6 +100,7 @@ export default function Galaxy({ planetData, targetRef, handleSelection, reset, 
                             handleSelection(planet);
                         }
                     }}
+                    lightIntensity={planetLightIntensity}
                 />
             ))}
 

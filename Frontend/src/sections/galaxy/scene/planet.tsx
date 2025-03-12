@@ -12,9 +12,10 @@ interface PlanetProps {
     speed: number;
     setMeshRef: (mesh: Mesh | null) => void;
     onClick: (ref: Mesh, name: string) => void;
+    lightIntensity: number;
 }
 
-export default function PlanetSystem({ name, radius, color, size, speed, setMeshRef, onClick }: PlanetProps) {
+export default function PlanetSystem({ name, radius, color, size, speed, setMeshRef, onClick, lightIntensity }: PlanetProps) {
     const planetRef = useRef<Mesh>(null!);
     const outlineRef = useRef<Mesh>(null!);
     const [isHovered, setIsHovered] = useState(false);
@@ -88,7 +89,7 @@ export default function PlanetSystem({ name, radius, color, size, speed, setMesh
                 onClick={() => onClick(planetRef.current, name)}
             >
                 <sphereGeometry args={[size, resolution, resolution]} />
-                <ambientLight intensity={9} color={"#999"} />
+                <ambientLight intensity={lightIntensity} color={"#999"} />
                 <meshStandardMaterial
                     map={gradientTexture}
                     emissive={isHovered ? "white" : "black"}

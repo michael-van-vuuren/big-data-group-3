@@ -1,13 +1,13 @@
 import { Button } from "@/components/ui/button";
+import { getNoteColor } from "@/lib/colorutils";
 
 interface SubcategoriesProps {
     notes: string[];
     selected: string[];
-    getNoteColor: (note: string) => string;
     toggle: (note: string) => void;
 }
 
-export default function Subcategories({ notes, selected, getNoteColor, toggle }: SubcategoriesProps) {
+export default function Subcategories({ notes, selected, toggle }: SubcategoriesProps) {
     return (
         <div className="grid grid-cols-3 gap-3 m-6">
             {notes.map((note) => {
