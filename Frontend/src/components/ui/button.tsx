@@ -17,6 +17,8 @@ const buttonVariants = cva(
           "w-10 h-10 flex items-center justify-center rounded-full border-2 border-border dark:border-darkBorder shadow-lightSm dark:shadow-darkSm hover:translate-x-boxShadowXSm hover:translate-y-boxShadowYSm hover:shadow-none dark:hover:shadow-none",
         noShadow:
           "bg-main border-2 border-border dark:border-darkBorder",
+        whiteBlack: 
+          "bg-white text-black border-2 border-black dark:border-darkBorder hover:!bg-black hover:!text-white transition-colors duration-400",
         link:
           "underline-offset-4 text-text dark:text-darkText hover:underline",
         neutral:

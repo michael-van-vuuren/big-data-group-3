@@ -10,6 +10,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import styles from '@/sections/styles.module.css';
 import { Button } from '@/components/ui/button';
+import LoginButton from '@/components/login-button';
 
 import fruityPlanet from '@/images/earth1.jpg';
 import herbalPlanet from '@/images/mercury1.jpg';
@@ -18,17 +19,17 @@ import warmPlanet from '@/images/planet3.jpg';
 import sweetPlanet from '@/images/neptune1.jpg';
 
 const planets = [
-  { name: 'Fruity Planet', image: fruityPlanet, link: '/notes/Fruity' },
-  { name: 'Herbal Planet', image: herbalPlanet, link: '/notes/Herbal' },
-  { name: 'Savory Planet', image: savoryPlanet, link: '/notes/Savory' },
-  { name: 'Warm Planet', image: warmPlanet, link: '/notes/Warm' },
-  { name: 'Sweet Planet', image: sweetPlanet, link: '/notes/Sweet' },
+  { name: 'Fruity Planet', image: fruityPlanet, link: '/flavors/Fruity' },
+  { name: 'Herbal Planet', image: herbalPlanet, link: '/flavors/Herbal' },
+  { name: 'Savory Planet', image: savoryPlanet, link: '/flavors/Savory' },
+  { name: 'Warm Planet', image: warmPlanet, link: '/flavors/Warm' },
+  { name: 'Sweet Planet', image: sweetPlanet, link: '/flavors/Sweet' },
 ];
 
 export default function PlanetCarousel() {
   return (
     <>
-      <div className="flex justify-center items-center w-full py-10 bg-gray-900 grid-bg-dot grainy-texture">
+      <div className="flex justify-center items-center w-full py-10 bg-indigo-950 border-border border-2 grid-bg-dot">
         <Carousel className="w-full max-w-[400px]">
           <CarouselContent>
             {planets.map((planet, index) => (
@@ -61,11 +62,9 @@ export default function PlanetCarousel() {
           <CarouselNext />
         </Carousel>
       </div>
-      <div className="flex justify-center items-center w-full py-10 bg-white">
+      <div className="flex justify-center items-center w-full py-10">
         <Link href="/login" passHref>
-          <Button size="lg" className="h-12 text-base font-heading md:text-lg lg:h-14 lg:text-xl">
-            Login & Take the Quiz
-          </Button>
+          <LoginButton />
         </Link>
       </div>
     </>

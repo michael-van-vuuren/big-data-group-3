@@ -2,6 +2,7 @@
   from {
     transform: rotate(0deg);
   }
+
   to {
     transform: rotate(360deg);
   }
@@ -10,4 +11,60 @@
 .rotate {
   animation: rotate 20s linear infinite;
   transform-origin: center;
+}
+
+.card {
+  position: relative;
+  margin: 0 auto;
+  padding: 1.2em;
+  width: 275px;
+  text-align: center;
+  border-radius: 0px;
+  font-size: larger;
+  font-weight: 600;
+  font-family: inherit;
+}
+
+@property --angle {
+  syntax: "<angle>";
+  initial-value: 0deg;
+  inherits: false;
+}
+
+.card::after,
+.card::before {
+  content: '';
+  position: absolute;
+  background-image: conic-gradient(from var(--angle),
+      #ff4545,
+      #ff8000,
+      #ffff45,
+      #00ff99,
+      #00aaff,
+      #006aff,
+      #8000ff,
+      #ff0095,
+      #ff4545);
+  top: -4px;
+  left: -4px;
+  right: -4px;
+  bottom: -4px;
+  border-radius: 0px;
+  z-index: -1;
+  animation: 3s spin linear infinite;
+}
+
+.card::before {
+  filter: blur(1.5rem);
+  opacity: 0.0;
+}
+
+@keyframes spin {
+  from {
+    --angle: 0deg;
+  }
+
+  to {
+    --angle: 360deg;
+  }
 }

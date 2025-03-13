@@ -7,9 +7,9 @@ export default function Home() {
   return (
     <>
       <Header />
-      <Divider />
+      {/* <Divider /> */}
       <CoffeeGlobe />
-      <Divider />
+      {/* <Divider /> */}
       <Footer />
     </>
   )

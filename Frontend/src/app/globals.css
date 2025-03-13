@@ -52,15 +52,15 @@ body::-webkit-scrollbar-thumb {
   }
 
   .grid-bg-dot {
-    background-image: radial-gradient(circle, #ffffff 1px, rgba(0, 0, 0, 0) 1px);
-    background-size: 80px 80px;
-    background-position: 0px 0px;
+    background-image: radial-gradient(circle, #ffffffc8 1.5px, rgba(0, 0, 0, 0) 1px);
+    background-size: 100px 100px;
+    background-position: 0px 66px;
     z-index: -1;
   }
 
   .grid-bg-dot-dark {
-    background-image: radial-gradient(circle, #000000 1px, rgba(0, 0, 0, 0) 1px);
-    background-size: 80px 80px;
+    background-image: radial-gradient(circle, #00000033 1.5px, rgba(0, 0, 0, 0) 1px);
+    background-size: 40px 40px;
     background-position: 0px 0px;
     z-index: -1;
   }
