@@ -24,7 +24,7 @@ export default function LoginPage() {
             <CardHeader>
               <CardTitle>Create Account</CardTitle>
               <CardDescription>
-                If you don't already have an account, create one here
+                If you do not already have an account, create one here
               </CardDescription>
             </CardHeader>
             <CardContent className="space-y-2">
