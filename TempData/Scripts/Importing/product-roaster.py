@@ -3,29 +3,31 @@ import requests
 import json
 
 '''
-Get unique flavors from JSON.
+Get unique products from JSON.
 '''
 file_path = Path(__file__).resolve().parents[2] / 'coffee-bean-products-v2.json'
 
 with open(file_path, 'r', encoding='utf-8') as f:
     data = json.load(f)
 
-flavors_set = set()
-for coffee in data:
-    if 'flavors' in coffee:
-        flavors_set.update(coffee['flavors'])
+product_roaster_links = [
+    {
+        'beanId': coffee['beanId'], 
+        'roaster': coffee['roaster']
+    }
+    for coffee in data if coffee.get('roaster')
+]
 
-unique_flavors = list(flavors_set)
-print(unique_flavors)
+print(product_roaster_links)
 
 '''
 Import using Backend API endpoint.
 '''
-url = 'http://localhost:8080/api/flavors/import'
+url = 'http://localhost:8080/api/products/link-roasters'
 headers = {'Content-Type': 'application/json'}
 response = requests.post(url,
                          headers=headers,
-                         json=unique_flavors
+                         json=product_roaster_links
                          )
 print('Status code:', response.status_code)
 print('Response body:', response.text)

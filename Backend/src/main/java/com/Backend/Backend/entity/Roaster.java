@@ -2,16 +2,16 @@ package com.Backend.Backend.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
-import java.util.Set;
-import java.util.HashSet;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
-@Table(name = "flavor")
+@Table(name = "roaster")
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class Flavor {
+public class Roaster {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -19,6 +19,6 @@ public class Flavor {
     @Column(unique = true, nullable = false)
     private String name;
 
-    @ManyToMany(mappedBy = "flavors")
-    private Set<Product> products = new HashSet<>();
+    @OneToMany(mappedBy = "roaster", cascade = CascadeType.ALL)
+    private List<Product> products = new ArrayList<>();
 }

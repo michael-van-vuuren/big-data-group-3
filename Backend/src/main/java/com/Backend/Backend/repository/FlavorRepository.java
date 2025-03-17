@@ -8,6 +8,7 @@ import org.springframework.stereotype.Repository;
 import com.Backend.Backend.entity.Flavor;
 
 @Repository
-public interface FlavorRepository extends JpaRepository<Flavor, Integer> {
+public interface FlavorRepository extends JpaRepository<Flavor, Long> {
     Optional<Flavor> findByName(String name);
 }
+

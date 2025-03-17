@@ -2,10 +2,10 @@ package com.Backend.Backend.controller;
 
 import java.util.List;
 
+import com.Backend.Backend.dto.ProductDTO;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import com.Backend.Backend.dto.ProductFlavorLink;
 import com.Backend.Backend.entity.Product;
 import com.Backend.Backend.service.ProductService;
 
@@ -20,19 +20,8 @@ public class ProductController {
     }
 
     @PostMapping("/import")
-    public ResponseEntity<String> importProducts(@RequestBody List<Product> products) {
+    public ResponseEntity<String> importProducts(@RequestBody List<ProductDTO> products) {
         productService.saveProducts(products);
         return ResponseEntity.ok("Products imported successfully!");
-    }
-
-    @PostMapping("/link-flavors")
-    public ResponseEntity<String> updateProductFlavors(@RequestBody List<ProductFlavorLink> links) {
-        productService.linkProductFlavors(links);
-        return ResponseEntity.ok("Product flavors updated successfully!");
-    }
-
-    @GetMapping("/all")
-    public ResponseEntity<List<Product>> getAllProducts() {
-        return ResponseEntity.ok(productService.getAllProducts());
     }
 }
