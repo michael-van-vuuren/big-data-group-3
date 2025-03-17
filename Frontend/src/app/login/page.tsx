@@ -13,12 +13,37 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 
 export default function LoginPage() {
   return (
-    <div className="flex items-center justify-center h-screen">
-      <Tabs defaultValue="create" className="w-[400px]">
-        <TabsList className="grid w-full grid-cols-2">
-          <TabsTrigger value="create">Create Account</TabsTrigger>
+    <div style={{ height: "calc(100vh - 58px)" }} className="border-border border-4 bg-white flex items-center justify-center h- w-screen">
+      <Tabs defaultValue="login" className="w-[400px]">
+        <TabsList className="grid w-full grid-cols-2 border-none">
           <TabsTrigger value="login">Login</TabsTrigger>
+          <TabsTrigger value="create">Create Account</TabsTrigger>
         </TabsList>
+        <TabsContent value="login">
+          <Card>
+            <CardHeader>
+              <CardTitle>Login</CardTitle>
+              <CardDescription>
+                Login to your existing account here.
+              </CardDescription>
+            </CardHeader>
+            <CardContent className="space-y-2">
+              <div className="space-y-1">
+                <Label htmlFor="email">Email Address</Label>
+                <Input id="current" type="password" />
+              </div>
+              <div className="space-y-1">
+                <Label htmlFor="password">Password</Label>
+                <Input id="new" type="password" />
+              </div>
+            </CardContent>
+            <CardFooter>
+              <Button variant="default" className="w-full bg-bw text-text">
+                Login
+              </Button>
+            </CardFooter>
+          </Card>
+        </TabsContent>
         <TabsContent value="create">
           <Card>
             <CardHeader>
@@ -42,33 +67,8 @@ export default function LoginPage() {
               </div>
             </CardContent>
             <CardFooter>
-              <Button variant="noShadow" className="w-full bg-bw text-text">
+              <Button variant="default" className="w-full bg-bw text-text">
                 Create Account
-              </Button>
-            </CardFooter>
-          </Card>
-        </TabsContent>
-        <TabsContent value="login">
-          <Card>
-            <CardHeader>
-              <CardTitle>Login</CardTitle>
-              <CardDescription>
-                Login to your existing account here. 
-              </CardDescription>
-            </CardHeader>
-            <CardContent className="space-y-2">
-              <div className="space-y-1">
-                <Label htmlFor="email">Email Address</Label>
-                <Input id="current" type="password" />
-              </div>
-              <div className="space-y-1">
-                <Label htmlFor="password">Password</Label>
-                <Input id="new" type="password" />
-              </div>
-            </CardContent>
-            <CardFooter>
-              <Button variant="noShadow" className="w-full bg-bw text-text">
-                Login
               </Button>
             </CardFooter>
           </Card>

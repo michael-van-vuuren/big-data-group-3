@@ -47,7 +47,7 @@ export default function NotesPage({ params }: { params: { path?: string[] } }) {
     const leftPanelInitialSize = 40;
 
     return (
-        <div style={{ position: "absolute", top: "42px", width: "100vw", height: "calc(100vh - 42px)", overflow: "clip" }}>
+        <div style={{ position: "absolute", top: "-16px", width: "100vw", height: "calc(100vh - 42px)", overflow: "clip" }}>
             <ResizablePanelGroup
                 direction="horizontal"
                 className="my-4 w-full border-4 border-border text-mtext shadow-shadow"

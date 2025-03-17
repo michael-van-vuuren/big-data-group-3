@@ -35,17 +35,17 @@ body::-webkit-scrollbar-thumb {
 }
 
 @layer utilities {
-  .grid-bg {
-    background-image: linear-gradient(to right, #ffffff11 1px, transparent 0px),
-      linear-gradient(to bottom, #ffffff11 1px, transparent 0px);
+  .grid-bg-light {
+    background-image: linear-gradient(to right, #ffffff6d 1px, transparent 0px),
+      linear-gradient(to bottom, #ffffff6d 1px, transparent 0px);
     background-size: 20px 20px;
     background-position: -1px -1px;
     z-index: -1;
   }
 
   .grid-bg-dark {
-    background-image: linear-gradient(to right, #00000055 1px, transparent 0px),
-      linear-gradient(to bottom, #00000055 1px, transparent 0px);
+    background-image: linear-gradient(to right, #00000049 1px, transparent 0px),
+      linear-gradient(to bottom, #00000049 1px, transparent 0px);
     background-size: 20px 20px;
     background-position: -1px -1px;
     z-index: -1;

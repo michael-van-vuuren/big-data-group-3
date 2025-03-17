@@ -28,6 +28,11 @@ const config: Config = {
         darkText: '#fff',
         darkBorder: '#000',
         secondaryBlack: '#18181b', // opposite of plain white, not used pitch black because borders and box-shadows are that color 
+
+        specialBlue: '#5F8FBD',
+        specialIndigo: '#A1AEDF',
+        specialTan: '#FBF9C5',
+        darkerBlue: '#435875',
       },
       borderRadius: {
         base: '5px',

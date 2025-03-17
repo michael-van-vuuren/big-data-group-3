@@ -7,7 +7,7 @@ export const getNoteColor = (note: string | null) => {
     if (note) {
         return colors[note];
     }
-    return "#AAAAAA";
+    return "#000";
 };
 
 export function getLighterDesaturatedColor(baseColor: string, lightnessIncrease: number = 0.1, desaturationAmount: number = 0.2, hueShiftAmount: number = -10): string {
