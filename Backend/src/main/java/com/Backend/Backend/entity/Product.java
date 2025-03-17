@@ -38,25 +38,6 @@ public class Product {
     @Enumerated(EnumType.STRING)
     private Availability availability;
 
-
-    @ManyToMany
-    @JoinTable(
-            name = "product_process",
-            joinColumns = @JoinColumn(name = "product_id"),    // <-- should reference Product
-            inverseJoinColumns = @JoinColumn(name = "process_id") // <-- should reference Process
-    )
-    private Set<Process> processes;
-
-
-    @ManyToMany
-    @JoinTable(
-            name = "product_roaster",
-            joinColumns = @JoinColumn(name = "product_id"),
-            inverseJoinColumns = @JoinColumn(name = "roaster_id")
-    )
-    private Set<Roaster> roasters = new HashSet<>();
-
-
     // Many-to-many leader: product-to-flavor
     @ManyToMany
     @JoinTable(
@@ -66,13 +47,31 @@ public class Product {
     )
     @JsonIgnore
     private Set<Flavor> flavors = new HashSet<>();
-    @ManyToMany
-    @JoinTable(
-            name = "product_producer",
-            joinColumns = @JoinColumn(name = "product_id"),
-            inverseJoinColumns = @JoinColumn(name = "producer_id")
-    )
-    private Set<Producer> producers = new HashSet<>();
+
+//    // Many-to-many leader: product-to-producer
+//    @ManyToMany
+//    @JoinTable(
+//            name = "product_producer",
+//            joinColumns = @JoinColumn(name = "product_id"),
+//            inverseJoinColumns = @JoinColumn(name = "producer_id")
+//    )
+//    @JsonIgnore
+//    private Set<Producer> producers = new HashSet<>();
+//
+//    // Many-to-many leader: product-to-process
+//    @ManyToMany
+//    @JoinTable(
+//            name = "product_process",
+//            joinColumns = @JoinColumn(name = "product_id"),    // <-- should reference Product
+//            inverseJoinColumns = @JoinColumn(name = "process_id") // <-- should reference Process
+//    )
+//    @JsonIgnore
+//    private Set<Process> processes;
+
+    // Many-to-one: product-to-roaster
+    @ManyToOne
+    @JoinColumn(name = "roaster_id", referencedColumnName = "id")
+    private Roaster roaster;
 
     public enum Availability {
         YES, NO

@@ -21,10 +21,11 @@ public class Roaster {
     // Required table elements
     @Column(unique = true, nullable = false)
     private String name;
-    @Column(nullable = false)
+
     private String country;
 
-    @ManyToMany(mappedBy = "roasters")
+    // One-to-many: roaster-to-product
+    @OneToMany(mappedBy = "roaster", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<Product> products = new HashSet<>();
 
     public Roaster() {
