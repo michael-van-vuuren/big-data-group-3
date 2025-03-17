@@ -11,25 +11,25 @@ import Link from 'next/link';
 import styles from '@/sections/styles.module.css';
 import { Button } from '@/components/ui/button';
 
-import fruityPlanet from '@/images/earth1.jpg';
-import herbalPlanet from '@/images/mercury1.jpg';
-import savoryPlanet from '@/images/planet4.jpg';
-import warmPlanet from '@/images/planet3.jpg';
-import sweetPlanet from '@/images/neptune1.jpg';
+import fruityPlanet from '@/images/solar1.gif';
+import herbalPlanet from '@/images/solar1.gif';
+import savoryPlanet from '@/images/solar1.gif';
+import warmPlanet from '@/images/solar1.gif';
+import sweetPlanet from '@/images/solar1.gif';
 
 const planets = [
-  { name: 'Fruity Planet', image: fruityPlanet, link: '/notes/Fruity' },
-  { name: 'Herbal Planet', image: herbalPlanet, link: '/notes/Herbal' },
-  { name: 'Savory Planet', image: savoryPlanet, link: '/notes/Savory' },
-  { name: 'Warm Planet', image: warmPlanet, link: '/notes/Warm' },
-  { name: 'Sweet Planet', image: sweetPlanet, link: '/notes/Sweet' },
+  { name: 'Fruity Solar System', image: fruityPlanet, link: '/flavors/Fruity' },
+  { name: 'Herbal Solar System', image: herbalPlanet, link: '/flavors/Herbal' },
+  { name: 'Savory Solar System', image: savoryPlanet, link: '/flavors/Savory' },
+  { name: 'Warm Solar System', image: warmPlanet, link: '/flavors/Warm' },
+  { name: 'Sweet Solar System', image: sweetPlanet, link: '/flavors/Sweet' },
 ];
 
 export default function PlanetCarousel() {
   return (
     <>
       <div className="flex justify-center items-center w-full py-10 bg-gray-900 grid-bg-dot grainy-texture">
-        <Carousel className="w-full max-w-[400px]">
+        <Carousel className="w-full max-w-[800px]">
           <CarouselContent>
             {planets.map((planet, index) => (
               <CarouselItem key={index}>
@@ -41,10 +41,9 @@ export default function PlanetCarousel() {
                           <Image
                             src={planet.image}
                             alt={planet.name}
-                            width={360}
-                            height={360}
+                            width={600}
+                            height={600}
                             style={{ objectFit: "cover" }}
-                            className={styles.rotate}
                           />
                         </div>
                       </Link>
