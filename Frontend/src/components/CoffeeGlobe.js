@@ -35,7 +35,7 @@ const CoffeeGlobe = () => {
 
     return (
         <div className="flex h-screen w-screen overflow-hidden">
-            <div className="w-80 min-w-[320px] bg-indigo-950 border-4 border-border text-white p-4 overflow-y-auto">
+            <div className="w-80 min-w-[320px] bg-blue-900 border-4 border-border text-white p-4 overflow-y-auto">
                 <h3 className="text-center mb-4 text-lg font-semibold">Coffee Varieties</h3>
                 <input
                     type="text"
@@ -48,7 +48,7 @@ const CoffeeGlobe = () => {
                     {filteredVarieties.map(variety => (
                         <li 
                             key={variety} 
-                            className={`p-3 my-1 text-center border-2 border-border rounded-base cursor-pointer transition duration-300 text-sm ${selectedVariety === variety ? "bg-orange-600" : "bg-indigo-900"}`}
+                            className={`p-3 my-1 text-center text-black border-2 border-border rounded-base cursor-pointer transition duration-300 text-sm ${selectedVariety === variety ? "bg-orange-600" : "bg-white"}`}
                             onClick={() => setSelectedVariety(selectedVariety === variety ? null : variety)}
                             onMouseEnter={e => e.target.classList.add("bg-orange-500")}
                             onMouseLeave={e => e.target.classList.remove("bg-orange-500")}

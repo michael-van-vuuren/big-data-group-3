@@ -17,7 +17,7 @@
   position: relative;
   margin: 0 auto;
   padding: 1.2em;
-  width: 275px;
+  width: 260px;
   text-align: center;
   border-radius: 0px;
   font-size: larger;
@@ -36,20 +36,15 @@
   content: '';
   position: absolute;
   background-image: conic-gradient(from var(--angle),
-      #ff4545,
-      #ff8000,
-      #ffff45,
-      #00ff99,
-      #00aaff,
-      #006aff,
-      #8000ff,
-      #ff0095,
-      #ff4545);
-  top: -4px;
-  left: -4px;
-  right: -4px;
-  bottom: -4px;
-  border-radius: 0px;
+      #0055ff,
+      #2effce,
+      #0055ff
+      );
+  top: -8px;
+  left: -8px;
+  right: -8px;
+  bottom: -8px;
+  border-radius: 4px;
   z-index: -1;
   animation: 3s spin linear infinite;
 }

@@ -29,7 +29,7 @@ const planets = [
 export default function PlanetCarousel() {
   return (
     <>
-      <div className="flex justify-center items-center w-full py-10 bg-indigo-950 border-border border-2 grid-bg-dot">
+      <div className="flex justify-center items-center w-full py-20 bg-blue-900 border-border border-4 grid-bg-dot">
         <Carousel className="w-full max-w-[400px]">
           <CarouselContent>
             {planets.map((planet, index) => (

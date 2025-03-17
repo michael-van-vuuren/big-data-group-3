@@ -30,7 +30,7 @@ export default function PlanetMenu({ planetData, path, selectedCategory, handleS
     };
 
     return (
-        <div className="flex flex-col h-full items-center justify-center bg-slate-200 p-8">
+        <div className="flex flex-col h-full items-center justify-center bg-white p-8">
             <PlanetHeader planetName={selectedCategory} />
 
             <div className="flex flex-col overflow-scroll justify-start">
