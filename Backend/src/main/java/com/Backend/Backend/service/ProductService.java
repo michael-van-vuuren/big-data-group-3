@@ -22,8 +22,8 @@ public class ProductService {
 
     @Transactional
     public void saveProducts(List<ProductDTO> productDTOs, boolean update) {
-        Set<String> beanIds = extractBeanIds(productDTOs);
-        Map<String, Product> existingProductsMap = fetchExistingProducts(beanIds);
+        Set<Long> beanIds = extractBeanIds(productDTOs);
+        Map<Long, Product> existingProductsMap = fetchExistingProducts(beanIds);
 
         List<Product> productsToSave = productDTOs.stream()
                 .map(dto -> productFactory.makeProduct(dto, existingProductsMap, update))
@@ -36,7 +36,7 @@ public class ProductService {
     }
 
     // Extract all beanIds from the incoming productDTOs
-    private Set<String> extractBeanIds(List<ProductDTO> productDTOs) {
+    private Set<Long> extractBeanIds(List<ProductDTO> productDTOs) {
         return productDTOs.stream()
                 .map(ProductDTO::getBeanId)
                 .filter(Objects::nonNull)
@@ -44,7 +44,7 @@ public class ProductService {
     }
 
     // Fetch all existing products from the database by beanIds
-    private Map<String, Product> fetchExistingProducts(Set<String> beanIds) {
+    private Map<Long, Product> fetchExistingProducts(Set<Long> beanIds) {
         return productRepository.findByBeanIdIn(beanIds).stream()
                 .collect(Collectors.toMap(Product::getBeanId, product -> product));
     }

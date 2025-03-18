@@ -6,7 +6,7 @@ import org.springframework.stereotype.Service;
 
 import com.Backend.Backend.dto.ProductDTO;
 import com.Backend.Backend.entity.Product;
-import com.Backend.Backend.util.StringUtils;
+import com.Backend.Backend.util.ProductValidate;
 
 @Service
 public class ProductFactory {
@@ -20,7 +20,7 @@ public class ProductFactory {
 
     // If update is true, update existing rows and add new rows for beanIds that do not exist yet
     // If update is false, only add new rows for beanIds that do not exist yet
-    public Product makeProduct(ProductDTO dto, Map<String, Product> existingProductsMap, boolean update) {
+    public Product makeProduct(ProductDTO dto, Map<Long, Product> existingProductsMap, boolean update) {
         // Skip null DTOs or DTOs missing a beanId
         if (dto == null || dto.getBeanId() == null) {
             return null;
@@ -34,8 +34,9 @@ public class ProductFactory {
         }
 
         product.setBeanId(dto.getBeanId());
-        product.setName(StringUtils.safeGet(dto.getName()));
-        product.setRoastDegree(StringUtils.safeGet(dto.getRoastDegree()));
+        product.setName(ProductValidate.validate(dto.getName()));
+        product.setRoastDegree(ProductValidate.validate(dto.getRoastDegree()));
+        product.setPrice(ProductValidate.validate(dto.getPrice()));
         // Roaster is many-to-one
         product.setRoaster(roasterService.addOrUpdateRoaster(dto.getRoaster(), dto.getRoasterCountry()));
         // Flavors are many-to-many

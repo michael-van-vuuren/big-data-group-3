@@ -12,8 +12,8 @@ import java.util.Set;
 
 @Repository
 public interface ProductRepository extends JpaRepository<Product, Long> {
-    Optional<Product> findByBeanId(String beanId);
+    Optional<Product> findByBeanId(Long beanId);
 
-    List<Product> findByBeanIdIn(Set<String> beanIds);
+    List<Product> findByBeanIdIn(Set<Long> beanIds);
 }
 

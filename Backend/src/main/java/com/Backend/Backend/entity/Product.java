@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.math.BigDecimal;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -17,10 +18,12 @@ public class Product {
     private Long id;
 
     @Column(unique = true, nullable = false)
-    private String beanId;
+    private Long beanId;
 
     private String name;
     private String roastDegree;
+    @Column(precision = 8, scale = 2)
+    private BigDecimal price;
 
     @ManyToOne
     @JoinColumn(name = "roaster_id", referencedColumnName = "id")

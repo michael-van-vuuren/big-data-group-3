@@ -1,11 +1,11 @@
 [
     {
-        "beanId": "10310",
+        "beanId": 10310,
         "name": "El Salvador- Los Pirineos- Elite Bourbon",
         "dateAdded": "2025-02-19",
         "variety": "Elite Bourbon",
         "roastDegree": "Espresso",
-        "price": "17.19",
+        "price": "69.19",
         "gram": "250",
         "pricePerCup": "1.38",
         "bulkPricePerCup": "1.38",
@@ -34,7 +34,7 @@
         "elevation": "1400"
     },
     {
-        "beanId": "10309",
+        "beanId": 10309,
         "name": "Colombia - Wilder Lazo (Gesha)",
         "dateAdded": "2025-02-19",
         "variety": "Gesha",
@@ -68,7 +68,7 @@
         "elevation": "1470 - 2100"
     },
     {
-        "beanId": "10281",
+        "beanId": 10281,
         "name": "Rwamatamu Rwanda Espresso",
         "dateAdded": "2025-02-18",
         "variety": "Caturra",
@@ -101,7 +101,7 @@
         "elevation": "1600"
     },
     {
-        "beanId": "10311",
+        "beanId": 10311,
         "name": "El Salvador - Pirineos (Natural)",
         "dateAdded": "2025-02-19",
         "variety": "Pacamara",
@@ -137,7 +137,7 @@
         "elevation": "1400"
     },
     {
-        "beanId": "2052",
+        "beanId": 2052,
         "name": "Colombia, Yeferson Olaya, Honey",
         "dateAdded": "2024-04-02",
         "variety": "Yellow Colombia",
@@ -164,12 +164,12 @@
         "elevation": null
     },
     {
-        "beanId": "2051",
+        "beanId": 2051,
         "name": "Espresso C, Mexico",
         "dateAdded": "2024-04-02",
         "variety": "Colombia / Caturra / Bourbon",
         "roastDegree": "Espresso",
-        "price": "11.80",
+        "price": "4.0007",
         "gram": "250",
         "pricePerCup": "0.94",
         "bulkPricePerCup": "0.94",
@@ -195,6 +195,106 @@
         ],
         "producerRegion": [
             "Veracruz"
+        ],
+        "elevation": null
+    },
+    {
+        "beanId": 1772,
+        "name": "DARK ROASTBrazil",
+        "dateAdded": "2024-04-02",
+        "variety": "Caturra, Catuai",
+        "roastDegree": "Dark",
+        "price": "13.80",
+        "gram": "250",
+        "pricePerCup": "1.10",
+        "bulkPricePerCup": "0.89",
+        "availability": "YES",
+        "webpage": "https://shop.bonanzacoffee.de/products/dark-roast",
+        "image": "https://cdn.shopify.com/s/files/1/0430/0298/6656/products/DarkRoastBrazil250g.png?v=1690895360",
+        "flavors": [
+            "Chocolate",
+            "Dark Chocolate"
+        ],
+        "roaster": "Bonanza Coffee Roasters",
+        "roasterCountry": "Germany",
+        "process": "Natural",
+        "processTag": "Natural",
+        "producer": null,
+        "producerTag": "Single Origin",
+        "producerCountry": [
+            "Brazil"
+        ],
+        "producerRegion": null,
+        "elevation": null
+    },
+    {
+        "beanId": 1771,
+        "name": "Villamaria Decaf NaturalColombia",
+        "dateAdded": "2024-04-02",
+        "variety": "Castillo, Colombia",
+        "roastDegree": "Omni",
+        "price": "19.20",
+        "gram": "250",
+        "pricePerCup": "1.54",
+        "bulkPricePerCup": "1.54",
+        "availability": "NO",
+        "webpage": "https://shop.bonanzacoffee.de/products/villamaria-decaf-natural",
+        "image": null,
+        "flavors": [
+            "Tropical Fruit",
+            "Prune",
+            "Dried Fruit",
+            "Sweet",
+            "Orange",
+            "Citrus",
+            "Tea"
+        ],
+        "roaster": "Bonanza Coffee Roasters",
+        "roasterCountry": "Germany",
+        "process": "Natural Ethyl Acetate Decaf",
+        "processTag": "Ethyl Acetate Decaffeination, Decaffeinated, Natural",
+        "producer": "Villamaria Association, Jamaica Processing Station",
+        "producerTag": "Traceable, Single Origin",
+        "producerCountry": [
+            "Colombia"
+        ],
+        "producerRegion": [
+            "Caldas"
+        ],
+        "elevation": "1,800 - 1,900"
+    },
+    {
+        "beanId": 1770,
+        "name": "El Carmen DecafColombia",
+        "dateAdded": "2024-04-02",
+        "variety": "Caturra, Castillo",
+        "roastDegree": "Omni",
+        "price": "17.00",
+        "gram": "250",
+        "pricePerCup": "1.36",
+        "bulkPricePerCup": "1.14",
+        "availability": "NO",
+        "webpage": "https://shop.bonanzacoffee.de/products/el-carmen-decaf",
+        "image": null,
+        "flavors": [
+            "Pear",
+            "Plum",
+            "Honey",
+            "Sweet",
+            "Stone Fruit"
+        ],
+        "roaster": "Bonanza Coffee Roasters",
+        "roasterCountry": "Germany",
+        "process": "Washed Ethyl Acetate Decaf",
+        "processTag": "Washed, Decaffeinated, Ethyl Acetate Decaffeination",
+        "producer": "Red Associations, El Carmen Association",
+        "producerTag": "Traceable, Single Origin",
+        "producerCountry": [
+            "Colombia"
+        ],
+        "producerRegion": [
+            "Pitalito",
+            "Huila"
         ],
         "elevation": null
     }
