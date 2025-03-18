@@ -36,5 +36,5 @@ def update_products(payload):
     print('Status code:', response.status_code)
     print('Response body:', response.text)
 
-add_products(payload)
-# update_products(payload)
+# add_products(payload)
+update_products(payload)

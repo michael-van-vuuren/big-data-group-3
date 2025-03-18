@@ -19,6 +19,13 @@ public class Roaster {
     @Column(unique = true, nullable = false)
     private String name;
 
+    private String country;
+
     @OneToMany(mappedBy = "roaster", cascade = CascadeType.ALL)
     private List<Product> products = new ArrayList<>();
+
+    public Roaster(String name, String country) {
+        this.name = name;
+        this.country = country;
+    }
 }
