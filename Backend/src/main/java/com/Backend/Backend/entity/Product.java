@@ -16,8 +16,11 @@ public class Product {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String name;
+    @Column(unique = true, nullable = false)
     private String beanId;
+
+    private String name;
+    private String roastDegree;
 
     @ManyToOne
     @JoinColumn(name = "roaster_id", referencedColumnName = "id")

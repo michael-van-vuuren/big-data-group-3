@@ -27,59 +27,67 @@ public class ProductService {
     }
 
     @Transactional
-    public void saveProducts(List<ProductDTO> productDTOs) {
+    public void saveProducts(List<ProductDTO> productDTOs, boolean update) {
         // Extract all beanIds from the incoming productDTOs
         Set<String> beanIds = productDTOs.stream()
                 .map(ProductDTO::getBeanId)
                 .collect(Collectors.toSet());
 
-        // Batch fetch all existing products by beanIds
-        Set<String> existingBeanIds = productRepository.findByBeanIdIn(beanIds).stream()
-                .map(Product::getBeanId)
-                .collect(Collectors.toSet());
+        // Fetch all existing products from the database by beanIds
+        Map<String, Product> existingProductsMap = productRepository.findByBeanIdIn(beanIds).stream()
+                .collect(Collectors.toMap(Product::getBeanId, product -> product));
 
-        // Filter out productDTOs that already exist in the database
-        List<ProductDTO> newProductDTOs = productDTOs.stream()
-                .filter(dto -> !existingBeanIds.contains(dto.getBeanId()))
-                .toList();
+        List<Product> productsToSave = new ArrayList<>();
 
-        // No new products
-        if (newProductDTOs.isEmpty()) {
-            return;
-        }
+        for (ProductDTO dto : productDTOs) {
+            Product product;
 
-        // Process new products
-        List<Product> newProducts = new ArrayList<>();
-        for (ProductDTO dto : newProductDTOs) {
-            Product product = new Product();
+            if (existingProductsMap.containsKey(dto.getBeanId())) {
+                // If the product already exists, update it
+                product = existingProductsMap.get(dto.getBeanId());
+                if (!update) continue; // If update is false, skip existing products
+            } else {
+                // Otherwise, create a new product
+                product = new Product();
+                product.setBeanId(dto.getBeanId());
+            }
+
+            // Update or set new product details
             product.setName(dto.getName());
-            product.setBeanId(dto.getBeanId());
+            product.setRoastDegree(dto.getRoastDegree());
 
-            // Find or create the Roaster
-            Roaster roaster = roasterRepository.findByName(dto.getRoasterName())
+            // Find or create the Roaster (many-to-one)
+            Roaster roaster = roasterRepository.findByName(dto.getRoaster())
                     .orElseGet(() -> {
                         Roaster newRoaster = new Roaster();
-                        newRoaster.setName(dto.getRoasterName());
+                        newRoaster.setName(dto.getRoaster());
                         return roasterRepository.save(newRoaster);
                     });
             product.setRoaster(roaster);
 
-            // Find or create Flavors
-            Set<Flavor> flavors = dto.getFlavorNames().stream()
-                    .map(name -> flavorRepository.findByName(name)
-                            .orElseGet(() -> {
-                                Flavor newFlavor = new Flavor();
-                                newFlavor.setName(name);
-                                return flavorRepository.save(newFlavor);
-                            }))
-                    .collect(Collectors.toSet());
-            product.setFlavors(flavors);
+            // Find or create Flavors (many-to-many)
+            if (dto.getFlavors() != null) {
+                Set<Flavor> flavors = dto.getFlavors().stream()
+                        .map(name -> flavorRepository.findByName(name)
+                                .orElseGet(() -> {
+                                    Flavor newFlavor = new Flavor();
+                                    newFlavor.setName(name);
+                                    return flavorRepository.save(newFlavor);
+                                }))
+                        .collect(Collectors.toSet());
+                product.setFlavors(flavors);
+            }
+            else {
+                product.setFlavors(null);
+            }
 
-            newProducts.add(product);
+            productsToSave.add(product);
         }
 
-        // Batch insert new products
-        productRepository.saveAll(newProducts);
+        // Save all new and updated products
+        if (!productsToSave.isEmpty()) {
+            productRepository.saveAll(productsToSave);
+        }
     }
 
 
