@@ -12,10 +12,12 @@ import com.Backend.Backend.util.ProductValidate;
 public class ProductFactory {
     private final FlavorService flavorService;
     private final RoasterService roasterService;
+    private final ProcessService processService;
 
-    public ProductFactory(FlavorService flavorService, RoasterService roasterService) {
+    public ProductFactory(FlavorService flavorService, RoasterService roasterService, ProcessService processService) {
         this.flavorService = flavorService;
         this.roasterService = roasterService;
+        this.processService = processService;
     }
 
     // If update is true, update existing rows and add new rows for beanIds that do not exist yet
@@ -39,6 +41,8 @@ public class ProductFactory {
         product.setPrice(ProductValidate.validate(dto.getPrice()));
         // Roaster is many-to-one
         product.setRoaster(roasterService.addOrUpdateRoaster(dto.getRoaster(), dto.getRoasterCountry()));
+        // Process is many-to-one
+        product.setProcess(processService.addOrUpdateProcess(dto.getProcess(), dto.getProcessTag()));
         // Flavors are many-to-many
         product.setFlavors(flavorService.addOrUpdateFlavors(dto.getFlavors()));
 

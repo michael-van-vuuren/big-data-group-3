@@ -21,7 +21,7 @@ public class ProductService {
     }
 
     @Transactional
-    public void saveProducts(List<ProductDTO> productDTOs, boolean update) {
+    public void importProducts(List<ProductDTO> productDTOs, boolean update) {
         Set<Long> beanIds = extractBeanIds(productDTOs);
         Map<Long, Product> existingProductsMap = fetchExistingProducts(beanIds);
 

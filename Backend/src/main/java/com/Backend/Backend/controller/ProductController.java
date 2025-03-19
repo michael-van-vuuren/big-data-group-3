@@ -20,13 +20,13 @@ public class ProductController {
 
     @PostMapping("/import")
     public ResponseEntity<String> addProducts(@RequestBody List<ProductDTO> products) {
-        productService.saveProducts(products, false);
+        productService.importProducts(products, false);
         return ResponseEntity.ok("Products added successfully!");
     }
 
     @PutMapping("/import")
     public ResponseEntity<String> updateProducts(@RequestBody List<ProductDTO> products) {
-        productService.saveProducts(products, true);
+        productService.importProducts(products, true);
         return ResponseEntity.ok("Products updated successfully!");
     }
 }

@@ -29,6 +29,10 @@ public class Product {
     @JoinColumn(name = "roaster_id", referencedColumnName = "id")
     private Roaster roaster;
 
+    @ManyToOne
+    @JoinColumn(name = "process_id", referencedColumnName = "id")
+    private Process process;
+
     @ManyToMany
     @JoinTable(
             name = "product_flavor",

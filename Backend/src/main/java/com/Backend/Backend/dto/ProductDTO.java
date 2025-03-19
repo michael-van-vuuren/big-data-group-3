@@ -9,12 +9,14 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 public class ProductDTO {
-    private String name;
     private Long beanId;
+    private String name;
     private String roaster;
     private String roasterCountry;
     private List<String> flavors;
     private String roastDegree;
     private BigDecimal price;
+    private String process;
+    private String processTag;
 }
 
