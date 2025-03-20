@@ -13,11 +13,13 @@ public class ProductFactory {
     private final FlavorService flavorService;
     private final RoasterService roasterService;
     private final ProcessService processService;
+    private final ProducerService producerService;
 
-    public ProductFactory(FlavorService flavorService, RoasterService roasterService, ProcessService processService) {
+    public ProductFactory(FlavorService flavorService, RoasterService roasterService, ProcessService processService, ProducerService producerService) {
         this.flavorService = flavorService;
         this.roasterService = roasterService;
         this.processService = processService;
+        this.producerService = producerService;
     }
 
     // If update is true, update existing rows and add new rows for beanIds that do not exist yet
@@ -45,6 +47,13 @@ public class ProductFactory {
         product.setProcess(processService.addOrUpdateProcess(dto.getProcess(), dto.getProcessTag()));
         // Flavors are many-to-many
         product.setFlavors(flavorService.addOrUpdateFlavors(dto.getFlavors()));
+        // Producers are many-to-many and are also many-to-many with region and country
+        product.setProducers(producerService.addOrUpdateProducers(
+                dto.getProducer(),
+                dto.getElevation(),
+                dto.getProducerRegion(),
+                dto.getProducerCountry()
+        ));
 
         return product;
     }

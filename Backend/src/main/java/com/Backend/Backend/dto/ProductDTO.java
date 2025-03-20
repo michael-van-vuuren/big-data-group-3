@@ -18,5 +18,9 @@ public class ProductDTO {
     private BigDecimal price;
     private String process;
     private String processTag;
+    private List<String> producer;
+    private String elevation;
+    private List<String> producerRegion;
+    private List<String> producerCountry;
 }
 

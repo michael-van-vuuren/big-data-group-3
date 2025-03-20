@@ -40,4 +40,12 @@ public class Product {
             inverseJoinColumns = @JoinColumn(name = "flavor_id")
     )
     private Set<Flavor> flavors = new HashSet<>();
+
+    @ManyToMany
+    @JoinTable(
+            name = "product_producer",
+            joinColumns = @JoinColumn(name = "product_id"),
+            inverseJoinColumns = @JoinColumn(name = "producer_id")
+    )
+    private Set<Producer> producers = new HashSet<>();
 }

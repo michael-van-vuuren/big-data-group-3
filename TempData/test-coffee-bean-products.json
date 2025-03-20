@@ -13,8 +13,8 @@
         "webpage": "https://threemarkscoffee.com/producto/colombia-eliite-pirineos-elite-bourbon/",
         "image": "https://threemarkscoffee.com/wp-content/uploads/2024/11/Frontal-View-1.jpg",
         "flavors": [
-            "Grape",
-            "Berry",
+            "A",
+            "B",
             "Cherry",
             "Caramel",
             "Citrus"
@@ -23,7 +23,10 @@
         "roasterCountry": "Spain",
         "process": "Black Honey",
         "processTag": "Honey, Shade, Dried",
-        "producer": "Diego Baraona, Los Pirineos",
+        "producer": [
+            "Diego Baraona",
+            "Los Pirineos"
+        ],
         "producerTag": "Traceable, Single Origin, Single Varietal",
         "producerCountry": [
             "El Salvador"
@@ -57,7 +60,10 @@
         "roasterCountry": "Spain",
         "process": "Natural",
         "processTag": "Natural",
-        "producer": "Wilder Lazo, Bella Alejandria",
+        "producer": [
+            "Wilder Lazo",
+            "Bella Alejandria"
+        ],
         "producerTag": "Traceable, Single Origin, Single Varietal",
         "producerCountry": [
             "Colombia"
@@ -90,7 +96,10 @@
         "roasterCountry": "Ireland",
         "process": "Washed",
         "processTag": "Washed",
-        "producer": "Rwamatamu, Rwamatamu Washing Station",
+        "producer": [
+            "Rwamatamu",
+            "Rwamatamu Washing Station"
+        ],
         "producerTag": "Traceable, Single Origin, Cost Transparent, Single Varietal",
         "producerCountry": [
             "Rwanda"
@@ -126,7 +135,10 @@
         "roasterCountry": "Spain",
         "process": "Natural",
         "processTag": "Dried On Raised Beds, Natural",
-        "producer": "Los Pirineos, Los Pirineos Farm",
+        "producer": [
+            "Los Pirineos",
+            "Los Pirineos Farm"
+        ],
         "producerTag": "Traceable, Single Origin, Single Varietal",
         "producerCountry": [
             "El Salvador"
@@ -153,7 +165,9 @@
         "roasterCountry": "Belgium",
         "process": "Honey",
         "processTag": "Honey",
-        "producer": "Yeferson Olaya",
+        "producer": [
+            "Yeferson Olaya"
+        ],
         "producerTag": "Traceable, Single Origin, Single Varietal",
         "producerCountry": [
             "Colombia"
@@ -188,7 +202,9 @@
         "roasterCountry": "Germany",
         "process": "Washed",
         "processTag": "Washed",
-        "producer": "Marisol Ramirez Serrano",
+        "producer": [
+            "Marisol Ramirez Serrano"
+        ],
         "producerTag": "Traceable, Single Origin, Single Varietal",
         "producerCountry": [
             "Mexico"
@@ -253,7 +269,10 @@
         "roasterCountry": "Germany",
         "process": "Natural Ethyl Acetate Decaf",
         "processTag": "Ethyl Acetate Decaffeination, Decaffeinated, Natural",
-        "producer": "Villamaria Association, Jamaica Processing Station",
+        "producer": [
+            "Villamaria Association",
+            "Jamaica Processing Station"
+        ],
         "producerTag": "Traceable, Single Origin",
         "producerCountry": [
             "Colombia"
@@ -287,7 +306,10 @@
         "roasterCountry": "Germany",
         "process": "Washed Ethyl Acetate Decaf",
         "processTag": "Washed, Decaffeinated, Ethyl Acetate Decaffeination",
-        "producer": "Red Associations, El Carmen Association",
+        "producer": [
+            "Red Associations",
+            "El Carmen Association"
+        ],
         "producerTag": "Traceable, Single Origin",
         "producerCountry": [
             "Colombia"
