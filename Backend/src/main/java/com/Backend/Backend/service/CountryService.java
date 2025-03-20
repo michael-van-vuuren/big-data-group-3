@@ -24,5 +24,13 @@ public class CountryService {
                         .orElseGet(() -> countryRepository.save(new Country(name, new HashSet<>()))))
                 .collect(Collectors.toSet());
     }
+
+    public Country addOrUpdateCountry(String countryName) {
+        if (countryName == null) return null;
+
+        return countryRepository.findByName(countryName)
+                .orElseGet(() -> countryRepository.save(new Country(countryName, new HashSet<>())));
+    }
+
 }
 
