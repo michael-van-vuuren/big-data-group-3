@@ -39,8 +39,15 @@ public class ProducerService {
                         return producerRepository.save(new Producer(name, elevation, tags, regions, countries));
                     } else {
                         // Update existing producer
-                        existingProducer.getRegions().addAll(regions);
-                        existingProducer.getCountries().addAll(countries);
+                        Set<Region> updatedRegions = new HashSet<>(existingProducer.getRegions());
+                        Set<Country> updatedCountries = new HashSet<>(existingProducer.getCountries());
+
+                        updatedRegions.addAll(regions);
+                        updatedCountries.addAll(countries);
+
+                        existingProducer.setRegions(updatedRegions);
+                        existingProducer.setCountries(updatedCountries);
+
                         return producerRepository.save(existingProducer);
                     }
                 })
