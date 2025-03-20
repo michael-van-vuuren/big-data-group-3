@@ -30,11 +30,23 @@ public class ProductFactory {
             return null;
         }
 
-        Product product = existingProductsMap.getOrDefault(dto.getBeanId(), new Product());
+        // Get existing product, if it exists
+        Product product = existingProductsMap.get(dto.getBeanId());
 
-        // Skip if update is false
-        if (existingProductsMap.containsKey(dto.getBeanId()) && !update) {
+        // If update mode is enabled but product does not exist, return null (do not create)
+        if (update && product == null) {
             return null;
+        }
+
+        // If update mode is disabled and the product exists, skip updating
+        if (!update && product != null) {
+            return null;
+        }
+
+        // Create a new product if it's not an update operation and it doesn't exist
+        if (product == null) {
+            product = new Product();
+            product.setBeanId(dto.getBeanId());
         }
 
         // Product details
