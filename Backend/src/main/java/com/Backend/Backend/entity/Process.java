@@ -23,6 +23,7 @@ public class Process {
     @Column(unique = true, nullable = false)
     private String name;
 
+    @Column(length = 1000)
     private String tags;
 
     @OneToMany(mappedBy = "process", cascade = CascadeType.ALL)
