@@ -21,7 +21,8 @@ public class ProducerService {
         this.countryService = countryService;
     }
 
-    public Set<Producer> addOrUpdateProducers(List<String> producer, String elevation, String tags,
+    // Find or create a Producer
+    public Set<Producer> addOrUpdateProducer(List<String> producer, String elevation, String tags,
                                               List<String> producerRegion, List<String> producerCountry) {
         if (producer == null || producer.isEmpty()) return Collections.emptySet();
 

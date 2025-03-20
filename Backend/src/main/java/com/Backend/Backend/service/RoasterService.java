@@ -3,6 +3,7 @@ package com.Backend.Backend.service;
 import com.Backend.Backend.entity.Country;
 import com.Backend.Backend.entity.Roaster;
 import com.Backend.Backend.repository.RoasterRepository;
+import com.Backend.Backend.util.ProductValidate;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -15,12 +16,15 @@ public class RoasterService {
         this.countryService = countryService;
     }
 
+    // Find or create a Roaster
     public Roaster addOrUpdateRoaster(String roasterName, String countryName) {
-        if (roasterName == null) return null;
+        final String validName = ProductValidate.validate(roasterName);
 
-        Country country = countryService.addOrUpdateCountry(countryName);
+        if (validName == null) return null;
 
-        return roasterRepository.findByName(roasterName)
+        Country country = countryService.addOrUpdateCountry(ProductValidate.validate(countryName));
+
+        return roasterRepository.findByName(validName)
                 .map(existingRoaster -> {
                     if (existingRoaster.getCountry() == null || !existingRoaster.getCountry().equals(country)) {
                         existingRoaster.setCountry(country);
@@ -28,7 +32,7 @@ public class RoasterService {
                     }
                     return existingRoaster;
                 })
-                .orElseGet(() -> roasterRepository.save(new Roaster(roasterName, country)));
+                .orElseGet(() -> roasterRepository.save(new Roaster(validName, country)));
     }
 }
 

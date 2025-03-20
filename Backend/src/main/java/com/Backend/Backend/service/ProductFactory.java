@@ -60,7 +60,7 @@ public class ProductFactory {
         // Process (many-to-one)
         product.setProcess(processService.addOrUpdateProcess(
                 dto.getProcess(),
-                dto.getProcessTag()
+                dto.getProcessTag() // Process tags should technically be many-to-many with process, but this will do for now (sets tag to most recent import tag)
         ));
 
         // Flavors (many-to-many)
@@ -69,7 +69,7 @@ public class ProductFactory {
         ));
 
         // Producers (many-to-many) and their regions/countries
-        product.setProducers(producerService.addOrUpdateProducers(
+        product.setProducers(producerService.addOrUpdateProducer(
                 dto.getProducer(),
                 dto.getElevation(),
                 dto.getProducerTag(),

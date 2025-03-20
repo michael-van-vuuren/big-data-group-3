@@ -319,5 +319,349 @@
             "Huila"
         ],
         "elevation": null
+    },
+    {
+        "beanId": 1251,
+        "name": "Colombia - La Soledad | Anaerobic Natural Pink Bourbon - 250g",
+        "dateAdded": "2024-03-02",
+        "variety": "Pink Bourbon",
+        "roastDegree": "Omni",
+        "price": "19.00",
+        "gram": "250",
+        "pricePerCup": "1.52",
+        "bulkPricePerCup": "1.52",
+        "availability": "NO",
+        "webpage": "https://roguewavecoffee.ca/products/colombia-la-soledad-anaerobic-natural-pink-bourbon-250g",
+        "image": null,
+        "flavors": [
+            "Tropical Fruit",
+            "Lime",
+            "Guava",
+            "Citrus",
+            "Straw Berry",
+            "Berry",
+            "Banana",
+            "Rasp Berry"
+        ],
+        "roaster": "Rogue Wave Coffee Co",
+        "roasterCountry": "Canada",
+        "process": "Anaerobic Natural",
+        "processTag": "Anaerobic Fermentation, Natural",
+        "producer": [
+            "Mario Fernandeo Gomez",
+            "La Soledad"
+        ],
+        "producerTag": "Traceable, Single Origin, Single Varietal",
+        "producerCountry": [
+            "Colombia"
+        ],
+        "producerRegion": [
+            "Huila"
+        ],
+        "elevation": "1640"
+    },
+    {
+        "beanId": 1250,
+        "name": "Ecuador - Juan Pe\u00f1a Hacienda la Papaya | Anaerobic Natural - 150g",
+        "dateAdded": "2024-03-02",
+        "variety": "Typica",
+        "roastDegree": "Omni",
+        "price": "19.00",
+        "gram": "150",
+        "pricePerCup": "2.53",
+        "bulkPricePerCup": "2.53",
+        "availability": "NO",
+        "webpage": "https://roguewavecoffee.ca/products/ecuador-hacienda-papaya-typica-anaerobic-natural-150g",
+        "image": null,
+        "flavors": [
+            "Tropical Fruit",
+            "Lime",
+            "Floral",
+            "Straw Berry",
+            "Berry",
+            "Stone Fruit",
+            "Cherry",
+            "Citrus",
+            "Mango",
+            "Blood Orange"
+        ],
+        "roaster": "Rogue Wave Coffee Co",
+        "roasterCountry": "Canada",
+        "process": "Anaerobic Natural",
+        "processTag": "Shade, Controlled Drying, Anaerobic Fermentation, Natural, Dried",
+        "producer": [
+            "Juan Pe\u00f1a",
+            "Hacienda La Papaya"
+        ],
+        "producerTag": "Traceable, Single Origin, Single Varietal",
+        "producerCountry": [
+            "Ecuador"
+        ],
+        "producerRegion": [
+            "Saraguro",
+            "Loja"
+        ],
+        "elevation": "1,900 - 2,100"
+    },
+    {
+        "beanId": 1249,
+        "name": "Dinkinesh: Riripa Natural",
+        "dateAdded": "2024-03-02",
+        "variety": "1974-1975 Jarc Selections And Ethiopian Landraces",
+        "roastDegree": "Omni",
+        "price": "19.25",
+        "gram": "340",
+        "pricePerCup": "1.13",
+        "bulkPricePerCup": "0.85",
+        "availability": "NO",
+        "webpage": "https://littlewaves.coffee/collections/current-coffees/products/dinkinesh-riripa-natural",
+        "image": null,
+        "flavors": [
+            "Tropical Fruit",
+            "Citrus",
+            "Floral"
+        ],
+        "roaster": "Little Waves Coffee Roasters",
+        "roasterCountry": "Usa",
+        "process": "Natural",
+        "processTag": "Natural",
+        "producer": [
+            "Smallholders In The Riripa Area"
+        ],
+        "producerTag": "Traceable, Single Origin",
+        "producerCountry": [
+            "Ethiopia"
+        ],
+        "producerRegion": [
+            "West Arsi",
+            "Nensebo",
+            "Oromia"
+        ],
+        "elevation": "1,900 - 2,100"
+    },
+    {
+        "beanId": 1248,
+        "name": "Twin Peaks! The Return! - 12oz",
+        "dateAdded": "2024-03-02",
+        "variety": null,
+        "roastDegree": "Medium Light",
+        "price": "33.00",
+        "gram": "340",
+        "pricePerCup": "1.94",
+        "bulkPricePerCup": "1.94",
+        "availability": "NO",
+        "webpage": "https://www.brandywinecoffeeroasters.com/collections/all-coffee-1/products/copy-of-twin-peaks-ethiopia-72-hour-extended-fermentation-12oz",
+        "image": null,
+        "flavors": [
+            "Pie",
+            "Floral",
+            "Sweet Cream",
+            "Berry",
+            "Honey",
+            "Caramel"
+        ],
+        "roaster": "Brandywine Coffee Roasters",
+        "roasterCountry": "Usa",
+        "process": "Natural, Wine Yeast & Red Fruits Coferment Anaerobic",
+        "processTag": "Inoculated, Yeast Inoculated, Anaerobic Fermentation, Cofermentation, Natural",
+        "producer": null,
+        "producerTag": "Roaster Blend",
+        "producerCountry": [
+            "Colombia",
+            "Honduras"
+        ],
+        "producerRegion": null,
+        "elevation": null
+    },
+    {
+        "beanId": 1247,
+        "name": "Valley Ride 2024 - Spring Blend",
+        "dateAdded": "2024-03-02",
+        "variety": null,
+        "roastDegree": "Medium Light",
+        "price": "20.00",
+        "gram": "340",
+        "pricePerCup": "1.18",
+        "bulkPricePerCup": "1.18",
+        "availability": "NO",
+        "webpage": "https://www.brandywinecoffeeroasters.com/collections/all-coffee-1/products/valley-ride-2024-spring-blend",
+        "image": null,
+        "flavors": [
+            "Tropical Fruit",
+            "Pear",
+            "Brown Sugar",
+            "Caramel",
+            "Apple",
+            "Sweet"
+        ],
+        "roaster": "Brandywine Coffee Roasters",
+        "roasterCountry": "Usa",
+        "process": null,
+        "processTag": null,
+        "producer": null,
+        "producerTag": "Roaster Blend",
+        "producerCountry": [
+            "Costa Rica",
+            "And Ethiopia",
+            "Burundi"
+        ],
+        "producerRegion": null,
+        "elevation": null
+    },
+    {
+        "beanId": 1246,
+        "name": "Honduras Eulogio Martinez, Washed Parainema",
+        "dateAdded": "2024-03-01",
+        "variety": "Parainema",
+        "roastDegree": "Filter",
+        "price": "18.00",
+        "gram": "250",
+        "pricePerCup": "1.44",
+        "bulkPricePerCup": "1.08",
+        "availability": "NO",
+        "webpage": "https://www.subtext.coffee/collections/filter-coffee-beans/products/honduras-eulogio-martinez-washed-parainema",
+        "image": null,
+        "flavors": [
+            "Tropical Fruit",
+            "Dried Fruit",
+            "Sweet",
+            "Berry",
+            "Jam",
+            "Cherry",
+            "Citrus",
+            "Raisin",
+            "Blood Orange"
+        ],
+        "roaster": "Subtext Coffee Roasters",
+        "roasterCountry": "Canada",
+        "process": "Washed",
+        "processTag": "Washed",
+        "producer": [
+            "Jos\u00e9 Elcias Martinez Guzman",
+            "El Casino"
+        ],
+        "producerTag": "Cost Transparent, Traceable, Cupping Score, Single Varietal, Single Origin",
+        "producerCountry": [
+            "Honduras"
+        ],
+        "producerRegion": [
+            "Santa Barbara"
+        ],
+        "elevation": "1380"
+    },
+    {
+        "beanId": 1245,
+        "name": "Guatemala Gerson Martinez Gesha",
+        "dateAdded": "2024-03-01",
+        "variety": "Gesha",
+        "roastDegree": null,
+        "price": "28.00",
+        "gram": "227",
+        "pricePerCup": "2.47",
+        "bulkPricePerCup": "2.18",
+        "availability": "NO",
+        "webpage": "https://perccoffee.com/products/guatemala-gerson-martinez-gesha",
+        "image": null,
+        "flavors": [
+            "Tropical Fruit",
+            "Floral",
+            "Herb",
+            "Orange",
+            "Citrus",
+            "Sweet"
+        ],
+        "roaster": "Perc Coffee",
+        "roasterCountry": "Usa",
+        "process": "Natural",
+        "processTag": "Natural",
+        "producer": [
+            "Gerson Martinez"
+        ],
+        "producerTag": "Traceable, Single Origin, Single Varietal",
+        "producerCountry": [
+            "Guatemala"
+        ],
+        "producerRegion": [
+            "Huehuetenango"
+        ],
+        "elevation": "1,700 - 1,800"
+    },
+    {
+        "beanId": 1244,
+        "name": "Colombia Inz\u00e1 Patricia Granda",
+        "dateAdded": "2024-03-01",
+        "variety": "Bourbon",
+        "roastDegree": "Medium",
+        "price": "30.00",
+        "gram": "283",
+        "pricePerCup": "2.12",
+        "bulkPricePerCup": "1.23",
+        "availability": "NO",
+        "webpage": "https://onyxcoffeelab.com/products/colombia-inza-patricia-granda-retail",
+        "image": null,
+        "flavors": [
+            "Nut",
+            "Lime",
+            "Cran Berry",
+            "Pecan",
+            "Berry",
+            "Citrus",
+            "Sweet"
+        ],
+        "roaster": "Onyx Coffee Labs",
+        "roasterCountry": "Usa",
+        "process": "Washed",
+        "processTag": "Washed",
+        "producer": [
+            "Patricia Granda"
+        ],
+        "producerTag": "Cost Transparent, Traceable, Cupping Score, Single Varietal, Single Origin",
+        "producerCountry": [
+            "Colombia"
+        ],
+        "producerRegion": [
+            "Inz\u00e1"
+        ],
+        "elevation": "1850"
+    },
+    {
+        "beanId": 1243,
+        "name": "Colombia Sebasti\u00e1n Ram\u00edrez Wush Wush Black Honey",
+        "dateAdded": "2024-03-01",
+        "variety": "Wush Wush",
+        "roastDegree": "Medium",
+        "price": "42.00",
+        "gram": "113",
+        "pricePerCup": "7.41",
+        "bulkPricePerCup": "5.29",
+        "availability": "NO",
+        "webpage": "https://onyxcoffeelab.com/products/colombia-sebastian-ramirez-wush-wush-black-honey",
+        "image": null,
+        "flavors": [
+            "Floral",
+            "Jasmine",
+            "Chocolate",
+            "Berry",
+            "Cocoa",
+            "Rasp Berry",
+            "Tea"
+        ],
+        "roaster": "Onyx Coffee Labs",
+        "roasterCountry": "Usa",
+        "process": "Black Honey",
+        "processTag": "Honey",
+        "producer": [
+            "Sebasti\u00e1n Ram\u00edrez",
+            "Fincas El Placer"
+        ],
+        "producerTag": "Cost Transparent, Traceable, Cupping Score, Single Varietal, Single Origin",
+        "producerCountry": [
+            "Colombia"
+        ],
+        "producerRegion": [
+            "Quind\u00edo",
+            "Calarc\u00e1"
+        ],
+        "elevation": "1,650 - 2,000"
     }
 ]
