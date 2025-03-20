@@ -37,20 +37,42 @@ public class ProductFactory {
             return null;
         }
 
+        // Product details
         product.setBeanId(dto.getBeanId());
         product.setName(ProductValidate.validate(dto.getName()));
+        product.setImage(ProductValidate.validate(dto.getImage()));
+        product.setWebpage(ProductValidate.validate(dto.getWebpage()));
+        product.setGram(ProductValidate.validate(dto.getGram()));
         product.setRoastDegree(ProductValidate.validate(dto.getRoastDegree()));
+        product.setAvailability(ProductValidate.validateAvailability(dto.getAvailability()));
+
+        // Pricing
         product.setPrice(ProductValidate.validate(dto.getPrice()));
-        // Roaster is many-to-one
-        product.setRoaster(roasterService.addOrUpdateRoaster(dto.getRoaster(), dto.getRoasterCountry()));
-        // Process is many-to-one
-        product.setProcess(processService.addOrUpdateProcess(dto.getProcess(), dto.getProcessTag()));
-        // Flavors are many-to-many
-        product.setFlavors(flavorService.addOrUpdateFlavors(dto.getFlavors()));
-        // Producers are many-to-many and are also many-to-many with region and country
+        product.setPricePerCup(ProductValidate.validate(dto.getPricePerCup()));
+        product.setBulkPricePerCup(ProductValidate.validate(dto.getBulkPricePerCup()));
+
+        // Roaster (many-to-one)
+        product.setRoaster(roasterService.addOrUpdateRoaster(
+                dto.getRoaster(),
+                dto.getRoasterCountry()
+        ));
+
+        // Process (many-to-one)
+        product.setProcess(processService.addOrUpdateProcess(
+                dto.getProcess(),
+                dto.getProcessTag()
+        ));
+
+        // Flavors (many-to-many)
+        product.setFlavors(flavorService.addOrUpdateFlavors(
+                dto.getFlavors()
+        ));
+
+        // Producers (many-to-many) and their regions/countries
         product.setProducers(producerService.addOrUpdateProducers(
                 dto.getProducer(),
                 dto.getElevation(),
+                dto.getProducerTag(),
                 dto.getProducerRegion(),
                 dto.getProducerCountry()
         ));

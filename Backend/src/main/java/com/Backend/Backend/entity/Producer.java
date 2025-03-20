@@ -21,12 +21,15 @@ public class Producer {
 
     private String elevation;
 
+    private String tags;
+
     @ManyToMany(mappedBy = "producers")
     private Set<Product> products = new HashSet<>();
 
-    public Producer(String name, String elevation, Set<Region> regions, Set<Country> countries) {
+    public Producer(String name, String elevation, String tags, Set<Region> regions, Set<Country> countries) {
         this.name = name;
         this.elevation = elevation;
+        this.tags = tags;
         this.regions = regions;
         this.countries = countries;
     }
