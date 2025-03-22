@@ -1,5 +1,7 @@
 package com.Backend.Backend.repository;
 
+import java.util.Collection;
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -10,5 +12,7 @@ import com.Backend.Backend.entity.Flavor;
 @Repository
 public interface FlavorRepository extends JpaRepository<Flavor, Long> {
     Optional<Flavor> findByName(String name);
+
+    List<Flavor> findAllByNameIn(Collection<String> names);
 }
 

@@ -5,6 +5,7 @@ import org.springframework.stereotype.Repository;
 
 import com.Backend.Backend.entity.Product;
 
+import java.util.Collection;
 import java.util.Optional;
 import java.util.List;
 import java.util.Set;
@@ -14,6 +15,6 @@ import java.util.Set;
 public interface ProductRepository extends JpaRepository<Product, Long> {
     Optional<Product> findByBeanId(Long beanId);
 
-    List<Product> findByBeanIdIn(Set<Long> beanIds);
+    List<Product> findAllByNameIn(Collection<String> names);
 }
 
