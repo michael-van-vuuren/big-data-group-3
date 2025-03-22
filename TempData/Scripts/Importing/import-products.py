@@ -6,7 +6,7 @@ import time
 '''
 Get unique products from JSON.
 '''
-file_path = Path(__file__).resolve().parents[2] / 'coffee-bean-products-v2.json'
+file_path = Path(__file__).resolve().parents[2] / 'normalized-coffee-bean-products.json'
 
 with open(file_path, 'r', encoding='utf-8') as f:
     data = json.load(f)

@@ -54,3 +54,4 @@ venv/
 *.log
 *.sqlite
 *.db
+TempData/normalized-coffee-bean-products.json
