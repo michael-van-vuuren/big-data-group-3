@@ -23,6 +23,10 @@ public class Region {
     @ManyToMany(mappedBy = "regions")
     private Set<Producer> producers = new HashSet<>();
 
+    public Region(String name) {
+        this.name = name;
+    }
+
     public Region(String name, Set<Producer> producers) {
         this.name = name;
         this.producers = producers;

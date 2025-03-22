@@ -26,14 +26,6 @@ public class Producer {
     @ManyToMany(mappedBy = "producers")
     private Set<Product> products = new HashSet<>();
 
-    public Producer(String name, String elevation, String tags, Set<Region> regions, Set<Country> countries) {
-        this.name = name;
-        this.elevation = elevation;
-        this.tags = tags;
-        this.regions = regions;
-        this.countries = countries;
-    }
-
     @ManyToMany
     @JoinTable(
             name = "producer_region",
@@ -49,4 +41,20 @@ public class Producer {
             inverseJoinColumns = @JoinColumn(name = "country_id")
     )
     private Set<Country> countries = new HashSet<>();
+
+    public Producer(String name, String elevation, String tags) {
+        this.name = name;
+        this.elevation = elevation;
+        this.tags = tags;
+        this.regions = new HashSet<>();
+        this.countries = new HashSet<>();
+    }
+
+    public Producer(String name, String elevation, String tags, Set<Region> regions, Set<Country> countries) {
+        this.name = name;
+        this.elevation = elevation;
+        this.tags = tags;
+        this.regions = regions;
+        this.countries = countries;
+    }
 }

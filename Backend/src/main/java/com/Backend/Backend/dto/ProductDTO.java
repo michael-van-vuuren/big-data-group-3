@@ -1,15 +1,18 @@
 package com.Backend.Backend.dto;
 
-import lombok.*;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.NoArgsConstructor;
+import lombok.AllArgsConstructor;
 
 import java.math.BigDecimal;
 import java.util.List;
 
-@Data
-@AllArgsConstructor
+@Getter
+@Setter
 @NoArgsConstructor
+@AllArgsConstructor
 public class ProductDTO {
-    // Product details
     private Long beanId;
     private String name;
     private String image;
@@ -17,28 +20,15 @@ public class ProductDTO {
     private BigDecimal gram;
     private String roastDegree;
     private String availability;
-
-    // Pricing
     private BigDecimal price;
     private BigDecimal pricePerCup;
     private BigDecimal bulkPricePerCup;
 
-    // Roaster (one-to-many)
-    private String roaster;
-    private String roasterCountry;
+    private RoasterDTO roaster;
 
-    // Process (one-to-many)
-    private String process;
-    private String processTag;
+    private ProcessDTO process;
 
-    // Flavors (many-to-many)
-    private List<String> flavors;
+    private List<FlavorDTO> flavors;
 
-    // Producers (many-to-many) and their regions/countries
-    private List<String> producer;
-    private String elevation;
-    private String producerTag;
-    private List<String> producerRegion;
-    private List<String> producerCountry;
+    private List<ProducerDTO> producers;
 }
-

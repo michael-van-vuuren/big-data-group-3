@@ -70,4 +70,25 @@ public class Product {
             inverseJoinColumns = @JoinColumn(name = "producer_id")
     )
     private Set<Producer> producers = new HashSet<>();
+
+    public Product() {
+        this.availability = Availability.NO;
+    }
+
+    public Product(String name, Roaster roaster, Process process) {
+        this();
+        this.name = name;
+        this.roaster = roaster;
+        this.process = process;
+    }
+
+    public void addFlavor(Flavor flavor) {
+        this.flavors.add(flavor);
+        flavor.getProducts().add(this);
+    }
+
+    public void addProducer(Producer producer) {
+        this.producers.add(producer);
+        producer.getProducts().add(this);
+    }
 }
