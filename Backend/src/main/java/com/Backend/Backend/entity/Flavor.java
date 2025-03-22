@@ -21,4 +21,8 @@ public class Flavor {
 
     @ManyToMany(mappedBy = "flavors")
     private Set<Product> products = new HashSet<>();
+
+    public Flavor(String name) {
+        this.name = name;
+    }
 }

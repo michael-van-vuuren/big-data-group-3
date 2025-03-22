@@ -6,7 +6,6 @@ import com.Backend.Backend.dto.ProductDTO;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import com.Backend.Backend.entity.Product;
 import com.Backend.Backend.service.ProductService;
 
 @RestController
@@ -20,8 +19,8 @@ public class ProductController {
     }
 
     @PostMapping("/import")
-    public ResponseEntity<String> importProducts(@RequestBody List<ProductDTO> products) {
-        productService.saveProducts(products);
-        return ResponseEntity.ok("Products imported successfully!");
+    public ResponseEntity<String> addProducts(@RequestBody List<ProductDTO> products) {
+        productService.importProducts(products);
+        return ResponseEntity.ok("Products added successfully!");
     }
 }
