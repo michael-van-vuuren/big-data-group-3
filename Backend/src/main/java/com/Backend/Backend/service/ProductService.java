@@ -40,10 +40,36 @@ public class ProductService {
     }
 
     @Transactional
-    public void importProducts(List<ProductDTO> productDTOs) {
-        if (productDTOs == null || productDTOs.isEmpty()) {
-            return;
-        }
+    public ProductImportResult importProducts(List<ProductDTO> productDTOs) {
+
+        // Step 0: Filter out products that already exist (uses composite key Product.name and Product.Roaster.name)
+        List<ProductImportResult.AcceptedProductDTO> acceptedProducts = new ArrayList<>();
+        List<ProductImportResult.RejectedProductDTO> rejectedProducts = new ArrayList<>();
+        Map<String, Set<String>> seenProducts = new HashMap<>();
+
+        productDTOs.forEach(productDTO -> {
+            String productName = productDTO.getName();
+            String roasterName = productDTO.getRoaster().getName();
+
+            if (productName == null || roasterName == null) throw new IllegalArgumentException("Product and Roaster name are missing from new product");
+
+            // Duplicate products in input productDTOs
+            if (!seenProducts.computeIfAbsent(roasterName, k -> new HashSet<>()).add(productName)) {
+                rejectedProducts.add(new ProductImportResult.RejectedProductDTO(productDTO, "Duplicate product in import data"));
+                return;
+            }
+            // Existing product in database
+            if (productRepository.compositeKeyExists(roasterName, productName)) {
+                rejectedProducts.add(new ProductImportResult.RejectedProductDTO(productDTO, "Product already exists for this roaster"));
+                return;
+            }
+            acceptedProducts.add(new ProductImportResult.AcceptedProductDTO(productDTO));
+        });
+
+        // Convert list of AcceptedProductDTOs to list of ProductDTOs
+        List<ProductDTO> validProductDTOs = acceptedProducts.stream()
+                .map(ProductImportResult.AcceptedProductDTO::getProduct)
+                .toList();
 
 
         // Step 1: Extract all unique entity names from the DTOs
@@ -54,7 +80,7 @@ public class ProductService {
         Set<String> producerNames = new HashSet<>();
         Set<String> regionNames = new HashSet<>();
 
-        for (ProductDTO dto : productDTOs) {
+        for (ProductDTO dto : validProductDTOs) {
             // Extract country names
             if (dto.getRoaster() != null && dto.getRoaster().getCountry() != null) {
                 countryNames.add(dto.getRoaster().getCountry().getName());
@@ -127,7 +153,7 @@ public class ProductService {
         // Create processes
         List<Process> newProcesses = createMissingEntities(processNames, existingProcesses.keySet(),
                 name -> {
-                    ProcessDTO matchedDTO = productDTOs.stream()
+                    ProcessDTO matchedDTO = validProductDTOs.stream()
                             .filter(p -> p.getProcess() != null && name.equals(p.getProcess().getName()))
                             .map(ProductDTO::getProcess)
                             .findFirst()
@@ -139,7 +165,7 @@ public class ProductService {
         // Create roasters
         List<Roaster> newRoasters = createMissingEntities(roasterNames, existingRoasters.keySet(),
                 name -> {
-                    RoasterDTO matchedDTO = productDTOs.stream()
+                    RoasterDTO matchedDTO = validProductDTOs.stream()
                             .filter(p -> p.getRoaster() != null && name.equals(p.getRoaster().getName()))
                             .map(ProductDTO::getRoaster)
                             .findFirst()
@@ -167,7 +193,7 @@ public class ProductService {
         // Create producers
         List<Producer> newProducers = createMissingEntities(producerNames, existingProducers.keySet(),
                 name -> {
-                    ProducerDTO matchedDTO = findMatchingProducerDTO(productDTOs, name);
+                    ProducerDTO matchedDTO = findMatchingProducerDTO(validProductDTOs, name);
 
                     Producer producer = new Producer(name,
                             matchedDTO != null ? matchedDTO.getElevation() : null,
@@ -205,9 +231,9 @@ public class ProductService {
 
 
         // Step 4: Create and save all products with their relationships
-        List<Product> products = new ArrayList<>(productDTOs.size());
+        List<Product> products = new ArrayList<>(validProductDTOs.size());
 
-        for (ProductDTO dto : productDTOs) {
+        for (ProductDTO dto : validProductDTOs) {
             Product product = new Product();
             product.setName(dto.getName());
             product.setBeanId(dto.getBeanId());
@@ -242,7 +268,7 @@ public class ProductService {
         // Now that products have IDs, these can be created
         for (int i = 0; i < savedProducts.size(); i++) {
             Product product = savedProducts.get(i);
-            ProductDTO dto = productDTOs.get(i);
+            ProductDTO dto = validProductDTOs.get(i);
 
             // Add flavors
             if (dto.getFlavors() != null) {
@@ -273,6 +299,9 @@ public class ProductService {
 
         // Batch save products
         productRepository.saveAll(savedProducts);
+
+        return new ProductImportResult(acceptedProducts, rejectedProducts);
+
     }
 
 
