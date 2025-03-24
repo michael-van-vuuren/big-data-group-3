@@ -8,29 +8,26 @@ import java.util.List;
 
 @Getter
 @Setter
-@AllArgsConstructor
 public class ProductImportResult {
-    private List<AcceptedProductDTO> acceptedProducts;
-    private List<RejectedProductDTO> rejectedProducts;
+    private List<ProductResponseDTO> acceptedProducts;
+    private List<ProductResponseDTO> rejectedProducts;
+    private List<String> rejectionReasons;
     private String message;
 
-    @Getter
-    @Setter
-    @AllArgsConstructor
-    public static class AcceptedProductDTO {
-        private ProductDTO product;
-    }
-
-    @Getter
-    @Setter
-    @AllArgsConstructor
-    public static class RejectedProductDTO {
-        private ProductDTO product;
-        private String reason;
-    }
-
-    public ProductImportResult(List<AcceptedProductDTO> acceptedProducts, List<RejectedProductDTO> rejectedProducts) {
+    public ProductImportResult(List<ProductResponseDTO> acceptedProducts,
+                               List<ProductResponseDTO> rejectedProducts,
+                               List<String> rejectionReasons) {
         this.acceptedProducts = acceptedProducts;
         this.rejectedProducts = rejectedProducts;
+        this.rejectionReasons = rejectionReasons;
+    }
+
+    public ProductImportResult(List<ProductResponseDTO> acceptedProducts,
+                               List<ProductResponseDTO> rejectedProducts,
+                               List<String> rejectionReasons,
+                               String message) {
+        this(acceptedProducts, rejectedProducts, rejectionReasons);
+        this.message = message;
     }
 }
+

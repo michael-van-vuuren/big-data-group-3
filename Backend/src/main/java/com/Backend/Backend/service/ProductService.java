@@ -4,6 +4,7 @@ import com.Backend.Backend.dto.*;
 import com.Backend.Backend.entity.*;
 import com.Backend.Backend.entity.Process;
 import com.Backend.Backend.repository.*;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -12,6 +13,7 @@ import java.util.function.Function;
 import java.util.stream.Collectors;
 
 @Service
+@RequiredArgsConstructor
 public class ProductService {
     private final ProductRepository productRepository;
     private final RoasterRepository roasterRepository;
@@ -21,55 +23,43 @@ public class ProductService {
     private final CountryRepository countryRepository;
     private final RegionRepository regionRepository;
 
-    public ProductService(
-            ProductRepository productRepository,
-            RoasterRepository roasterRepository,
-            ProcessRepository processRepository,
-            FlavorRepository flavorRepository,
-            ProducerRepository producerRepository,
-            CountryRepository countryRepository,
-            RegionRepository regionRepository
-    ) {
-        this.productRepository = productRepository;
-        this.roasterRepository = roasterRepository;
-        this.processRepository = processRepository;
-        this.flavorRepository = flavorRepository;
-        this.producerRepository = producerRepository;
-        this.countryRepository = countryRepository;
-        this.regionRepository = regionRepository;
-    }
-
     @Transactional
     public ProductImportResult importProducts(List<ProductDTO> productDTOs) {
 
-        // Step 0: Filter out products that already exist (uses composite key Product.name and Product.Roaster.name)
-        List<ProductImportResult.AcceptedProductDTO> acceptedProducts = new ArrayList<>();
-        List<ProductImportResult.RejectedProductDTO> rejectedProducts = new ArrayList<>();
+        List<ProductResponseDTO> acceptedProducts = new ArrayList<>();
+        List<ProductResponseDTO> rejectedProducts = new ArrayList<>();
+        List<String> rejectionReasons = new ArrayList<>();
         Map<String, Set<String>> seenProducts = new HashMap<>();
 
+        // Step 0: Filter out products that already exist (uses composite key Product.name and Product.Roaster.name)
+        List<ProductDTO> validProductDTOs = new ArrayList<>();
+
         productDTOs.forEach(productDTO -> {
-            String productName = productDTO.getName();
+            if (productDTO.getName() == null || productDTO.getName().trim().isEmpty()) {
+                rejectedProducts.add(ProductResponseDTO.fromProductDTO(productDTO));
+                rejectionReasons.add("Product name is required");
+                return;
+            }
+            if (productDTO.getRoaster() == null || productDTO.getRoaster().getName() == null || productDTO.getRoaster().getName().trim().isEmpty()) {
+                rejectedProducts.add(ProductResponseDTO.fromProductDTO(productDTO));
+                rejectionReasons.add("Roaster information is required");
+                return;
+            }
             String roasterName = productDTO.getRoaster().getName();
+            String productName = productDTO.getName();
 
-            if (productName == null || roasterName == null) throw new IllegalArgumentException("Product and Roaster name are missing from new product");
-
-            // Duplicate products in input productDTOs
             if (!seenProducts.computeIfAbsent(roasterName, k -> new HashSet<>()).add(productName)) {
-                rejectedProducts.add(new ProductImportResult.RejectedProductDTO(productDTO, "Duplicate product in import data"));
+                rejectedProducts.add(ProductResponseDTO.fromProductDTO(productDTO));
+                rejectionReasons.add("Duplicate product in import batch");
                 return;
             }
-            // Existing product in database
             if (productRepository.compositeKeyExists(roasterName, productName)) {
-                rejectedProducts.add(new ProductImportResult.RejectedProductDTO(productDTO, "Product already exists for this roaster"));
+                rejectedProducts.add(ProductResponseDTO.fromProductDTO(productDTO));
+                rejectionReasons.add("Product already exists");
                 return;
             }
-            acceptedProducts.add(new ProductImportResult.AcceptedProductDTO(productDTO));
+            validProductDTOs.add(productDTO);
         });
-
-        // Convert list of AcceptedProductDTOs to list of ProductDTOs
-        List<ProductDTO> validProductDTOs = acceptedProducts.stream()
-                .map(ProductImportResult.AcceptedProductDTO::getProduct)
-                .toList();
 
 
         // Step 1: Extract all unique entity names from the DTOs
@@ -262,12 +252,12 @@ public class ProductService {
         }
 
         // Batch save products without many-to-many relationships
-        List<Product> savedProducts = productRepository.saveAll(products);
+        List<Product> savedProductsNoManyToMany = productRepository.saveAll(products);
 
         // Many-to-many relationships:
         // Now that products have IDs, these can be created
-        for (int i = 0; i < savedProducts.size(); i++) {
-            Product product = savedProducts.get(i);
+        for (int i = 0; i < savedProductsNoManyToMany.size(); i++) {
+            Product product = savedProductsNoManyToMany.get(i);
             ProductDTO dto = validProductDTOs.get(i);
 
             // Add flavors
@@ -298,10 +288,17 @@ public class ProductService {
         }
 
         // Batch save products
-        productRepository.saveAll(savedProducts);
+        List<Product> savedProducts = productRepository.saveAll(savedProductsNoManyToMany);
 
-        return new ProductImportResult(acceptedProducts, rejectedProducts);
+        for (Product product : savedProducts) {
+            acceptedProducts.add(ProductResponseDTO.fromProduct(product));
+        }
 
+        String message = acceptedProducts.isEmpty() && rejectedProducts.isEmpty() ?
+                "No products provided" :
+                acceptedProducts.size() + " products accepted, " + rejectedProducts.size() + " rejected";
+
+        return new ProductImportResult(acceptedProducts, rejectedProducts, rejectionReasons, message);
     }
 
 
