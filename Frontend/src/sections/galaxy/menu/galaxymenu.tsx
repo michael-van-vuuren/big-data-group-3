@@ -14,6 +14,7 @@ interface PlanetMenuProps {
     handleSelection: (planet: PlanetData) => void;
 }
 
+
 export default function PlanetMenu({ planetData, path, selectedCategory, handleSelection }: PlanetMenuProps) {
     type NotePaths = keyof typeof notesData.Notes;
     const currentLevel: string[] | null =
@@ -49,7 +50,9 @@ export default function PlanetMenu({ planetData, path, selectedCategory, handleS
                 )}
 
                 <div className="overflow-scroll p-1 m-4 min-h-80 bg-black">
-                    <BeanLibrary />
+                    <BeanLibrary
+                        subcategories={selectedSubCategory}
+                    />
                 </div>
             </div>
         </div>
