@@ -23,6 +23,17 @@ public class ProductService {
     private final CountryRepository countryRepository;
     private final RegionRepository regionRepository;
 
+    /* Delete a single product */
+    @Transactional
+    public boolean deleteProductById(Long id) {
+        if (productRepository.existsById(id)) {
+            productRepository.deleteById(id);
+            return true;
+        }
+        return false;
+    }
+
+    /* Import multiple products */
     @Transactional
     public ProductImportResult importProducts(List<ProductDTO> productDTOs) {
 
