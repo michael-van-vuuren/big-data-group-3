@@ -4,6 +4,7 @@ import com.Backend.Backend.dto.*;
 import com.Backend.Backend.entity.*;
 import com.Backend.Backend.entity.Process;
 import com.Backend.Backend.repository.*;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -12,6 +13,7 @@ import java.util.function.Function;
 import java.util.stream.Collectors;
 
 @Service
+@RequiredArgsConstructor
 public class ProductService {
     private final ProductRepository productRepository;
     private final RoasterRepository roasterRepository;
@@ -21,29 +23,54 @@ public class ProductService {
     private final CountryRepository countryRepository;
     private final RegionRepository regionRepository;
 
-    public ProductService(
-            ProductRepository productRepository,
-            RoasterRepository roasterRepository,
-            ProcessRepository processRepository,
-            FlavorRepository flavorRepository,
-            ProducerRepository producerRepository,
-            CountryRepository countryRepository,
-            RegionRepository regionRepository
-    ) {
-        this.productRepository = productRepository;
-        this.roasterRepository = roasterRepository;
-        this.processRepository = processRepository;
-        this.flavorRepository = flavorRepository;
-        this.producerRepository = producerRepository;
-        this.countryRepository = countryRepository;
-        this.regionRepository = regionRepository;
+    /* Delete a single product */
+    @Transactional
+    public boolean deleteProductById(Long id) {
+        if (productRepository.existsById(id)) {
+            productRepository.deleteById(id);
+            return true;
+        }
+        return false;
     }
 
+    /* Import multiple products */
     @Transactional
-    public void importProducts(List<ProductDTO> productDTOs) {
-        if (productDTOs == null || productDTOs.isEmpty()) {
-            return;
-        }
+    public ProductImportResult importProducts(List<ProductDTO> productDTOs) {
+
+        List<ProductResponseDTO> acceptedProducts = new ArrayList<>();
+        List<ProductResponseDTO> rejectedProducts = new ArrayList<>();
+        List<String> rejectionReasons = new ArrayList<>();
+        Map<String, Set<String>> seenProducts = new HashMap<>();
+
+        // Step 0: Filter out products that already exist (uses composite key Product.name and Product.Roaster.name)
+        List<ProductDTO> validProductDTOs = new ArrayList<>();
+
+        productDTOs.forEach(productDTO -> {
+            if (productDTO.getName() == null || productDTO.getName().trim().isEmpty()) {
+                rejectedProducts.add(ProductResponseDTO.fromProductDTO(productDTO));
+                rejectionReasons.add("Product name is required");
+                return;
+            }
+            if (productDTO.getRoaster() == null || productDTO.getRoaster().getName() == null || productDTO.getRoaster().getName().trim().isEmpty()) {
+                rejectedProducts.add(ProductResponseDTO.fromProductDTO(productDTO));
+                rejectionReasons.add("Roaster information is required");
+                return;
+            }
+            String roasterName = productDTO.getRoaster().getName();
+            String productName = productDTO.getName();
+
+            if (!seenProducts.computeIfAbsent(roasterName, k -> new HashSet<>()).add(productName)) {
+                rejectedProducts.add(ProductResponseDTO.fromProductDTO(productDTO));
+                rejectionReasons.add("Duplicate product in import batch");
+                return;
+            }
+            if (productRepository.compositeKeyExists(roasterName, productName)) {
+                rejectedProducts.add(ProductResponseDTO.fromProductDTO(productDTO));
+                rejectionReasons.add("Product already exists");
+                return;
+            }
+            validProductDTOs.add(productDTO);
+        });
 
 
         // Step 1: Extract all unique entity names from the DTOs
@@ -54,7 +81,7 @@ public class ProductService {
         Set<String> producerNames = new HashSet<>();
         Set<String> regionNames = new HashSet<>();
 
-        for (ProductDTO dto : productDTOs) {
+        for (ProductDTO dto : validProductDTOs) {
             // Extract country names
             if (dto.getRoaster() != null && dto.getRoaster().getCountry() != null) {
                 countryNames.add(dto.getRoaster().getCountry().getName());
@@ -127,7 +154,7 @@ public class ProductService {
         // Create processes
         List<Process> newProcesses = createMissingEntities(processNames, existingProcesses.keySet(),
                 name -> {
-                    ProcessDTO matchedDTO = productDTOs.stream()
+                    ProcessDTO matchedDTO = validProductDTOs.stream()
                             .filter(p -> p.getProcess() != null && name.equals(p.getProcess().getName()))
                             .map(ProductDTO::getProcess)
                             .findFirst()
@@ -139,7 +166,7 @@ public class ProductService {
         // Create roasters
         List<Roaster> newRoasters = createMissingEntities(roasterNames, existingRoasters.keySet(),
                 name -> {
-                    RoasterDTO matchedDTO = productDTOs.stream()
+                    RoasterDTO matchedDTO = validProductDTOs.stream()
                             .filter(p -> p.getRoaster() != null && name.equals(p.getRoaster().getName()))
                             .map(ProductDTO::getRoaster)
                             .findFirst()
@@ -167,7 +194,7 @@ public class ProductService {
         // Create producers
         List<Producer> newProducers = createMissingEntities(producerNames, existingProducers.keySet(),
                 name -> {
-                    ProducerDTO matchedDTO = findMatchingProducerDTO(productDTOs, name);
+                    ProducerDTO matchedDTO = findMatchingProducerDTO(validProductDTOs, name);
 
                     Producer producer = new Producer(name,
                             matchedDTO != null ? matchedDTO.getElevation() : null,
@@ -205,9 +232,9 @@ public class ProductService {
 
 
         // Step 4: Create and save all products with their relationships
-        List<Product> products = new ArrayList<>(productDTOs.size());
+        List<Product> products = new ArrayList<>(validProductDTOs.size());
 
-        for (ProductDTO dto : productDTOs) {
+        for (ProductDTO dto : validProductDTOs) {
             Product product = new Product();
             product.setName(dto.getName());
             product.setBeanId(dto.getBeanId());
@@ -236,13 +263,13 @@ public class ProductService {
         }
 
         // Batch save products without many-to-many relationships
-        List<Product> savedProducts = productRepository.saveAll(products);
+        List<Product> savedProductsNoManyToMany = productRepository.saveAll(products);
 
         // Many-to-many relationships:
         // Now that products have IDs, these can be created
-        for (int i = 0; i < savedProducts.size(); i++) {
-            Product product = savedProducts.get(i);
-            ProductDTO dto = productDTOs.get(i);
+        for (int i = 0; i < savedProductsNoManyToMany.size(); i++) {
+            Product product = savedProductsNoManyToMany.get(i);
+            ProductDTO dto = validProductDTOs.get(i);
 
             // Add flavors
             if (dto.getFlavors() != null) {
@@ -272,7 +299,17 @@ public class ProductService {
         }
 
         // Batch save products
-        productRepository.saveAll(savedProducts);
+        List<Product> savedProducts = productRepository.saveAll(savedProductsNoManyToMany);
+
+        for (Product product : savedProducts) {
+            acceptedProducts.add(ProductResponseDTO.fromProduct(product));
+        }
+
+        String message = acceptedProducts.isEmpty() && rejectedProducts.isEmpty() ?
+                "No products provided" :
+                acceptedProducts.size() + " products accepted, " + rejectedProducts.size() + " rejected";
+
+        return new ProductImportResult(acceptedProducts, rejectedProducts, rejectionReasons, message);
     }
 
 
