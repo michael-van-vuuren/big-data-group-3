@@ -48,20 +48,49 @@ export default function LoginPage() {
   const registerForm = useForm({ resolver: zodResolver(registerSchema) });
 
   const handleLogin = async (values: z.infer<typeof loginSchema>) => {
-    console.log("Stub login with values:", values);
-    localStorage.setItem("loggedIn", "true");
-    setIsLoggedIn(true);
-    setMessage("Logged in successfully!");
-    setTimeout(() => router.push("/quiz"), 500);
+    try {
+      const response = await fetch("http://localhost:8080/api/auth/login", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(values),
+      });
+  
+      if (!response.ok) throw new Error("Login failed");
+  
+      const data = await response.json();
+      localStorage.setItem("loggedIn", "true");
+      setIsLoggedIn(true);
+      setMessage("Logged in successfully!");
+      router.push("/quiz");
+    } catch (error) {
+      setMessage("Login failed. Please check your credentials.");
+    }
   };
 
   const handleRegister = async (values: z.infer<typeof registerSchema>) => {
-    console.log("Stub register with values:", values);
-    localStorage.setItem("loggedIn", "true");
-    setIsLoggedIn(true);
-    setMessage("Account created successfully!");
-    setTimeout(() => router.push("/quiz"), 500);
+    try {
+      const response = await fetch("http://localhost:8080/api/auth/register", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(values),
+      });
+  
+      if (!response.ok) throw new Error("Registration failed");
+  
+      const data = await response.json();
+      localStorage.setItem("loggedIn", "true");
+      setIsLoggedIn(true);
+      setMessage("Account created successfully!");
+      router.push("/quiz");
+    } catch (error) {
+      setMessage("Registration failed. Try again.");
+    }
   };
+  
 
   const handleLogout = () => {
     localStorage.removeItem("loggedIn");
