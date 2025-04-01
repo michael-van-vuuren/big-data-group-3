@@ -40,17 +40,17 @@
       #2effce,
       #0055ff
       );
-  top: -8px;
-  left: -8px;
-  right: -8px;
-  bottom: -8px;
-  border-radius: 4px;
+  top: -6px;
+  left: -6px;
+  right: -6px;
+  bottom: -6px;
+  border-radius: 0;
   z-index: -1;
   animation: 3s spin linear infinite;
 }
 
 .card::before {
-  filter: blur(1.5rem);
+  filter: blur(0.5rem);
   opacity: 0.0;
 }
 

@@ -1,5 +1,5 @@
 {
-    "Fruity": "#F63",
+    "Fruity": "#FC3",
     "Citrus": "#FC0",
     "Lemon": "#FF3",
     "Lime": "#9F6",
@@ -65,7 +65,7 @@
     "Dried Cherry": "#933",
     "Dried Apricot": "#F96",
 
-    "Herbal": "#090",
+    "Herbal": "#693",
     "Floral": "#CCF",
     "Jasmine": "#FF9",
     "Rose": "#F09",
@@ -112,7 +112,7 @@
     "Bay Leaf": "#663",
     "Eucalyptus": "#699",
 
-    "Savory": "#930",
+    "Savory": "#C33",
     "Umami": "#C33",
     "Soy Sauce": "#630",
     "Meat": "#900",
@@ -162,7 +162,7 @@
     "Cheese": "#FC0",
     "Cream": "#FFC",
 
-    "Warm": "#963",
+    "Warm": "#C63",
     "Grain": "#FC9",
     "Malt": "#C96",
     "Graham": "#C96",
@@ -177,7 +177,7 @@
     "Wal Nut": "#963",
     "Chest Nut": "#963",
 
-    "Sweet": "#F99",
+    "Sweet": "#69C",
     "Sugary": "#69C",
     "Chocolate": "#630",
     "Confectionary": "#F99",
