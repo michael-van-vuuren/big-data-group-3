@@ -29,7 +29,7 @@ const planets = [
 export default function PlanetCarousel() {
   return (
     <>
-      <div className="flex justify-center items-center w-full py-20 bg-blue-900 border-border border-4 grid-bg-dot">
+      <div className="flex justify-center items-center w-screen py-14 bg-blue-900 border-border border-4 grid-bg-dot">
         <Carousel className="w-full max-w-[400px]">
           <CarouselContent>
             {planets.map((planet, index) => (
@@ -62,7 +62,7 @@ export default function PlanetCarousel() {
           <CarouselNext />
         </Carousel>
       </div>
-      <div className="flex justify-center items-center w-full py-10">
+      <div className="flex justify-center items-center w-full py-16">
         <Link href="/login" passHref>
           <LoginButton />
         </Link>

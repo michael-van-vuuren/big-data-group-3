@@ -52,7 +52,7 @@ export default function LoginPage() {
     localStorage.setItem("loggedIn", "true");
     setIsLoggedIn(true);
     setMessage("Logged in successfully!");
-    setTimeout(() => router.push("/quiz"), 1000);
+    setTimeout(() => router.push("/quiz"), 500);
   };
 
   const handleRegister = async (values: z.infer<typeof registerSchema>) => {
@@ -60,7 +60,7 @@ export default function LoginPage() {
     localStorage.setItem("loggedIn", "true");
     setIsLoggedIn(true);
     setMessage("Account created successfully!");
-    setTimeout(() => router.push("/quiz"), 1000);
+    setTimeout(() => router.push("/quiz"), 500);
   };
 
   const handleLogout = () => {
@@ -70,8 +70,8 @@ export default function LoginPage() {
   };
 
   return (
-    <div className="border-border border-4 bg-white flex items-center justify-center w-screen relative" style={{ height: "calc(100vh - 58px)" }}>
-      <Tabs defaultValue="login" className="w-[400px]">
+    <div className="bg-white border-border border-4 flex items-center justify-center w-screen relative" style={{ height: "calc(100vh - 58px)" }}>
+      <Tabs defaultValue="login" className="w-[400px] h-full py-24">
         <TabsList className="grid w-full grid-cols-2 border-none">
           <TabsTrigger value="login">Login</TabsTrigger>
           <TabsTrigger value="create">Create Account</TabsTrigger>
@@ -81,7 +81,7 @@ export default function LoginPage() {
           <Card>
             <CardHeader>
               <CardTitle>Login</CardTitle>
-              <CardDescription>Login to your existing account here.</CardDescription>
+              <CardDescription>Log in to your existing account.</CardDescription>
             </CardHeader>
             <CardContent>
               <Form {...loginForm}>
@@ -104,7 +104,9 @@ export default function LoginPage() {
                       <FormMessage />
                     </FormItem>
                   )} />
-                  <Button type="submit" className="w-full">Login</Button>
+                  <div>
+                    <Button type="submit" className="w-full my-2">Login</Button>
+                  </div>
                 </form>
               </Form>
             </CardContent>
@@ -115,7 +117,7 @@ export default function LoginPage() {
           <Card>
             <CardHeader>
               <CardTitle>Create Account</CardTitle>
-              <CardDescription>If you do not have an account, create one here.</CardDescription>
+              <CardDescription>Create a new account.</CardDescription>
             </CardHeader>
             <CardContent>
               <Form {...registerForm}>
@@ -147,7 +149,9 @@ export default function LoginPage() {
                       <FormMessage />
                     </FormItem>
                   )} />
-                  <Button type="submit" className="w-full">Create Account</Button>
+                  <div>
+                    <Button type="submit" className="w-full my-2">Create Account</Button>
+                  </div>
                 </form>
               </Form>
             </CardContent>

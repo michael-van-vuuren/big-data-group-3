@@ -85,7 +85,7 @@ const FormItem = React.forwardRef<
 
   return (
     <FormItemContext.Provider value={{ id }}>
-      <div ref={ref} className={cn("space-y-2", className)} {...props} />
+      <div ref={ref} className={cn("space-y-1", className)} {...props} />
     </FormItemContext.Provider>
   )
 })
@@ -180,29 +180,4 @@ export {
   FormDescription,
   FormMessage,
   FormField,
-}
-
-
-const formSchema = z.object({
-  email: z.string().min(2, {
-    message: "Please enter a valid email address",
-  }),
-  password: z.string().min(4, {
-    message: "Password must be at least four characters",})
-})
-
-export function ProfileForm() {
-    // 1. Define your form.
-  const form = useForm<z.infer<typeof formSchema>>({
-    resolver: zodResolver(formSchema),
-    defaultValues: {
-      email: "",
-      password: "",
-    },
-  })
-  function onSubmit(values: z.infer<typeof formSchema>) {
-        // Do something with the form values.
-        // ✅ This will be type-safe and validated.
-    console.log(values)
-  }
 }
