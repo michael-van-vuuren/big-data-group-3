@@ -2,90 +2,71 @@
 
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { z } from "zod";
 import { Button } from "@/components/ui/button";
 import {
-  Card, CardContent, CardDescription, CardFooter,
-  CardHeader, CardTitle,
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
 } from "@/components/ui/card";
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+
+const loginSchema = z.object({
+  email: z.string().email("Invalid email address"),
+  password: z.string().min(6, "Password must be at least 6 characters"),
+});
+
+const registerSchema = z.object({
+  name: z.string().min(2, "Name must be at least 2 characters"),
+  email: z.string().email("Invalid email address"),
+  password: z.string().min(6, "Password must be at least 6 characters"),
+});
 
 export default function LoginPage() {
   const router = useRouter();
-
-  // 🧠 State for Login
-  const [loginEmail, setLoginEmail] = useState("");
-  const [loginPassword, setLoginPassword] = useState("");
-
-  // 🧠 State for Registration
-  const [createName, setCreateName] = useState("");
-  const [createEmail, setCreateEmail] = useState("");
-  const [createPassword, setCreatePassword] = useState("");
-
   const [message, setMessage] = useState("");
   const [isLoggedIn, setIsLoggedIn] = useState(false);
 
-  // ✅ Check login status on mount
   useEffect(() => {
-    const session = localStorage.getItem("loggedIn");
-    if (session === "true") setIsLoggedIn(true);
+    setIsLoggedIn(localStorage.getItem("loggedIn") === "true");
   }, []);
 
-  // ✅ Simulated Login
-  const handleLogin = async () => {
-    try {
-      const response = await fetch("/api/login", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email: loginEmail, password: loginPassword }),
-      });
+  const loginForm = useForm({ resolver: zodResolver(loginSchema) });
+  const registerForm = useForm({ resolver: zodResolver(registerSchema) });
 
-      const result = await response.json();
-      if (response.ok) {
-        setMessage("✅ Logged in successfully!");
-        localStorage.setItem("loggedIn", "true");
-        setIsLoggedIn(true);
-        setTimeout(() => router.push("/quiz"), 1000);
-      } else {
-        setMessage(result.error || "❌ Invalid login credentials.");
-      }
-    } catch (err) {
-      console.error(err);
-      setMessage("❌ Something went wrong.");
-    }
+  const handleLogin = async (values: z.infer<typeof loginSchema>) => {
+    console.log("Stub login with values:", values);
+    localStorage.setItem("loggedIn", "true");
+    setIsLoggedIn(true);
+    setMessage("Logged in successfully!");
+    setTimeout(() => router.push("/quiz"), 1000);
   };
 
-  // ✅ Simulated Account Creation
-  const handleCreate = async () => {
-    try {
-      const response = await fetch("/api/register", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          name: createName,
-          email: createEmail,
-          password: createPassword,
-        }),
-      });
-
-      const result = await response.json();
-      if (response.ok) {
-        setMessage("✅ Account created successfully!");
-      } else {
-        setMessage(result.error || "❌ Account creation failed.");
-      }
-    } catch (err) {
-      console.error(err);
-      setMessage("❌ Something went wrong.");
-    }
+  const handleRegister = async (values: z.infer<typeof registerSchema>) => {
+    console.log("Stub register with values:", values);
+    localStorage.setItem("loggedIn", "true");
+    setIsLoggedIn(true);
+    setMessage("Account created successfully!");
+    setTimeout(() => router.push("/quiz"), 1000);
   };
 
-  // ✅ Logout
   const handleLogout = () => {
     localStorage.removeItem("loggedIn");
     setIsLoggedIn(false);
-    setMessage("✅ Logged out successfully.");
+    setMessage("Logged out successfully.");
   };
 
   return (
@@ -96,101 +77,86 @@ export default function LoginPage() {
           <TabsTrigger value="create">Create Account</TabsTrigger>
         </TabsList>
 
-        {/* Login Tab */}
         <TabsContent value="login">
           <Card>
             <CardHeader>
               <CardTitle>Login</CardTitle>
               <CardDescription>Login to your existing account here.</CardDescription>
             </CardHeader>
-            <CardContent className="space-y-2">
-              <div className="space-y-1">
-                <Label htmlFor="login-email">Email Address</Label>
-                <Input
-                  id="login-email"
-                  type="email"
-                  value={loginEmail}
-                  onChange={(e) => setLoginEmail(e.target.value)}
-                />
-              </div>
-              <div className="space-y-1">
-                <Label htmlFor="login-password">Password</Label>
-                <Input
-                  id="login-password"
-                  type="password"
-                  value={loginPassword}
-                  onChange={(e) => setLoginPassword(e.target.value)}
-                />
-              </div>
+            <CardContent>
+              <Form {...loginForm}>
+                <form onSubmit={loginForm.handleSubmit(handleLogin)} className="space-y-4">
+                  <FormField control={loginForm.control} name="email" render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Email Address</FormLabel>
+                      <FormControl>
+                        <Input type="email" {...field} />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )} />
+                  <FormField control={loginForm.control} name="password" render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Password</FormLabel>
+                      <FormControl>
+                        <Input type="password" {...field} />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )} />
+                  <Button type="submit" className="w-full">Login</Button>
+                </form>
+              </Form>
             </CardContent>
-            <CardFooter>
-              <Button onClick={handleLogin} className="w-full bg-bw text-text">
-                Login
-              </Button>
-            </CardFooter>
           </Card>
         </TabsContent>
 
-        {/* Create Account Tab */}
         <TabsContent value="create">
           <Card>
             <CardHeader>
               <CardTitle>Create Account</CardTitle>
-              <CardDescription>If you do not already have an account, create one here.</CardDescription>
+              <CardDescription>If you do not have an account, create one here.</CardDescription>
             </CardHeader>
-            <CardContent className="space-y-2">
-              <div className="space-y-1">
-                <Label htmlFor="name">Name</Label>
-                <Input
-                  id="name"
-                  value={createName}
-                  onChange={(e) => setCreateName(e.target.value)}
-                />
-              </div>
-              <div className="space-y-1">
-                <Label htmlFor="register-email">Email Address</Label>
-                <Input
-                  id="register-email"
-                  type="email"
-                  value={createEmail}
-                  onChange={(e) => setCreateEmail(e.target.value)}
-                />
-              </div>
-              <div className="space-y-1">
-                <Label htmlFor="register-password">Password</Label>
-                <Input
-                  id="register-password"
-                  type="password"
-                  value={createPassword}
-                  onChange={(e) => setCreatePassword(e.target.value)}
-                />
-              </div>
+            <CardContent>
+              <Form {...registerForm}>
+                <form onSubmit={registerForm.handleSubmit(handleRegister)} className="space-y-4">
+                  <FormField control={registerForm.control} name="name" render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Name</FormLabel>
+                      <FormControl>
+                        <Input {...field} />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )} />
+                  <FormField control={registerForm.control} name="email" render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Email Address</FormLabel>
+                      <FormControl>
+                        <Input type="email" {...field} />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )} />
+                  <FormField control={registerForm.control} name="password" render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Password</FormLabel>
+                      <FormControl>
+                        <Input type="password" {...field} />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )} />
+                  <Button type="submit" className="w-full">Create Account</Button>
+                </form>
+              </Form>
             </CardContent>
-            <CardFooter>
-              <Button onClick={handleCreate} className="w-full bg-bw text-text">
-                Create Account
-              </Button>
-            </CardFooter>
           </Card>
         </TabsContent>
       </Tabs>
 
-      {/* Message display */}
-      {message && (
-        <p className="text-center mt-4 text-red-600 absolute bottom-10 w-full">
-          {message}
-        </p>
-      )}
-
-      {/* Logout Button */}
-      {isLoggedIn && (
-        <Button
-          onClick={handleLogout}
-          className="absolute top-4 right-4 bg-red-600 text-white"
-        >
-          Logout
-        </Button>
-      )}
+      {message && <p className="text-center mt-4 text-red-600 absolute bottom-10 w-full">{message}</p>}
+      {isLoggedIn && <Button onClick={handleLogout} className="absolute top-4 right-4">Logout</Button>}
     </div>
   );
 }
