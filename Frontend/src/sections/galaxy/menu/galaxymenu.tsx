@@ -49,7 +49,7 @@ export default function PlanetMenu({ planetData, path, selectedCategory, handleS
                     />
                 )}
 
-                <div className="overflow-scroll p-1 m-4 min-h-80 bg-black">
+                <div className="overflow-scroll p-1 m-4 bg-black">
                     <BeanLibrary
                         subcategories={selectedSubCategory}
                     />

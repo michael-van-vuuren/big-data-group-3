@@ -1,3 +1,4 @@
+import { Button } from '@/components/ui/button';
 import {
     Table,
     TableBody,
@@ -15,11 +16,11 @@ interface BeanLibraryProps {
 
 export default function BeanLibrary({ subcategories }: BeanLibraryProps) {
     return (
-        <div className="overflow-scroll p-1 m-4">
-            <Table>
+        <div className="border-none">
+            <Table className="border-none">
                 <TableHeader>
                     <TableRow>
-                        <TableHead className="w-[300px]">Notes</TableHead>
+                        <TableHead className="w-[300px]"> Selected Notes</TableHead>
                     </TableRow>
                 </TableHeader>
                 <TableBody>
@@ -30,6 +31,11 @@ export default function BeanLibrary({ subcategories }: BeanLibraryProps) {
                     ))}
                 </TableBody>
             </Table>
+            <div className="flex justify-center mt-4">
+                <Button>Done</Button>
+            </div>
         </div>
     )
 }
+
+
