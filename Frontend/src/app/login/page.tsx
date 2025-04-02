@@ -1,101 +1,85 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { Button } from "@/components/ui/button";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
-import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from "@/components/ui/form";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
+// SCHEMAS for the forms (validates inputs)
 const loginSchema = z.object({
   email: z.string().email("Invalid email address"),
-  password: z.string().min(6, "Password must be at least 6 characters"),
+  password: z.string().min(1, "Password is required"),
 });
-
 const registerSchema = z.object({
   name: z.string().min(2, "Name must be at least 2 characters"),
   email: z.string().email("Invalid email address"),
   password: z.string().min(6, "Password must be at least 6 characters"),
 });
 
+// Next.js API URL
+const NEXT_API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL || '/api';
+const HOME_PATH = '/';
+
 export default function LoginPage() {
   const router = useRouter();
-  const [message, setMessage] = useState("");
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
-
-  useEffect(() => {
-    setIsLoggedIn(localStorage.getItem("loggedIn") === "true");
-  }, []);
-
+  const [isLoading, setIsLoading] = useState(false);
   const loginForm = useForm({ resolver: zodResolver(loginSchema) });
   const registerForm = useForm({ resolver: zodResolver(registerSchema) });
 
   const handleLogin = async (values: z.infer<typeof loginSchema>) => {
+    setIsLoading(true);
     try {
-      const response = await fetch("http://localhost:8080/api/auth/login", {
+      const response = await fetch(`${NEXT_API_BASE_URL}/auth/login`, {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify(values),
       });
-  
-      if (!response.ok) throw new Error("Login failed");
-  
       const data = await response.json();
-      localStorage.setItem("loggedIn", "true");
-      setIsLoggedIn(true);
-      setMessage("Logged in successfully!");
-      router.push("/quiz");
-    } catch (error) {
-      setMessage("Login failed. Please check your credentials.");
+      if (!response.ok) {
+        throw new Error(data.message || `Login failed: ${response.statusText}`);
+      }
+
+      // Redirect to HOME_PATH after login
+      console.log(`Login successful, redirecting to ${HOME_PATH}`);
+      router.push(HOME_PATH);
+      router.refresh();
+
+    } catch (error: any) {
+      console.error("Login error:", error);
+    } finally {
+       setIsLoading(false);
     }
   };
 
   const handleRegister = async (values: z.infer<typeof registerSchema>) => {
+    setIsLoading(true);
     try {
-      const response = await fetch("http://localhost:8080/api/auth/register", {
+      const response = await fetch(`${NEXT_API_BASE_URL}/auth/register`, {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify(values),
       });
-  
-      if (!response.ok) throw new Error("Registration failed");
-  
       const data = await response.json();
-      localStorage.setItem("loggedIn", "true");
-      setIsLoggedIn(true);
-      setMessage("Account created successfully!");
-      router.push("/quiz");
-    } catch (error) {
-      setMessage("Registration failed. Try again.");
-    }
-  };
-  
+      if (!response.ok) {
+        throw new Error(data.message || `Registration failed: ${response.statusText}`);
+      }
 
-  const handleLogout = () => {
-    localStorage.removeItem("loggedIn");
-    setIsLoggedIn(false);
-    setMessage("Logged out successfully.");
+      // Redirect to HOME_PATH after registration
+      console.log(`Registration successful, redirecting to ${HOME_PATH}`);
+      router.push(HOME_PATH);
+      router.refresh();
+
+    } catch (error: any) {
+      console.error("Registration error:", error);
+    } finally {
+        setIsLoading(false);
+    }
   };
 
   return (
@@ -106,6 +90,7 @@ export default function LoginPage() {
           <TabsTrigger value="create">Create Account</TabsTrigger>
         </TabsList>
 
+        {/* Login tab */}
         <TabsContent value="login">
           <Card>
             <CardHeader>
@@ -116,25 +101,27 @@ export default function LoginPage() {
               <Form {...loginForm}>
                 <form onSubmit={loginForm.handleSubmit(handleLogin)} className="space-y-4">
                   <FormField control={loginForm.control} name="email" render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Email Address</FormLabel>
-                      <FormControl>
-                        <Input type="email" {...field} />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
+                     <FormItem>
+                       <FormLabel>Email Address</FormLabel>
+                       <FormControl>
+                         <Input type="email" {...field} disabled={isLoading} />
+                       </FormControl>
+                       <FormMessage />
+                     </FormItem>
                   )} />
                   <FormField control={loginForm.control} name="password" render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Password</FormLabel>
-                      <FormControl>
-                        <Input type="password" {...field} />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
+                     <FormItem>
+                       <FormLabel>Password</FormLabel>
+                       <FormControl>
+                         <Input type="password" {...field} disabled={isLoading} />
+                       </FormControl>
+                       <FormMessage />
+                     </FormItem>
                   )} />
                   <div>
-                    <Button type="submit" className="w-full my-2">Login</Button>
+                    <Button type="submit" className="w-full my-2" disabled={isLoading}>
+                      {isLoading ? 'Logging in...' : 'Login'}
+                    </Button>
                   </div>
                 </form>
               </Form>
@@ -142,6 +129,7 @@ export default function LoginPage() {
           </Card>
         </TabsContent>
 
+        {/* Registration tab */}
         <TabsContent value="create">
           <Card>
             <CardHeader>
@@ -152,34 +140,36 @@ export default function LoginPage() {
               <Form {...registerForm}>
                 <form onSubmit={registerForm.handleSubmit(handleRegister)} className="space-y-4">
                   <FormField control={registerForm.control} name="name" render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Name</FormLabel>
-                      <FormControl>
-                        <Input {...field} />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
+                     <FormItem>
+                       <FormLabel>Name</FormLabel>
+                       <FormControl>
+                         <Input {...field} disabled={isLoading}/>
+                       </FormControl>
+                       <FormMessage />
+                     </FormItem>
                   )} />
                   <FormField control={registerForm.control} name="email" render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Email Address</FormLabel>
-                      <FormControl>
-                        <Input type="email" {...field} />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
+                       <FormLabel>Email Address</FormLabel>
+                       <FormControl>
+                         <Input type="email" {...field} disabled={isLoading} />
+                       </FormControl>
+                       <FormMessage />
+                     </FormItem>
                   )} />
                   <FormField control={registerForm.control} name="password" render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Password</FormLabel>
-                      <FormControl>
-                        <Input type="password" {...field} />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
+                     <FormItem>
+                       <FormLabel>Password</FormLabel>
+                       <FormControl>
+                         <Input type="password" {...field} disabled={isLoading} />
+                       </FormControl>
+                       <FormMessage />
+                     </FormItem>
                   )} />
                   <div>
-                    <Button type="submit" className="w-full my-2">Create Account</Button>
+                    <Button type="submit" className="w-full my-2" disabled={isLoading}>
+                      {isLoading ? 'Creating Account...' : 'Create Account'}
+                    </Button>
                   </div>
                 </form>
               </Form>
@@ -187,9 +177,6 @@ export default function LoginPage() {
           </Card>
         </TabsContent>
       </Tabs>
-
-      {message && <p className="text-center mt-4 text-red-600 absolute bottom-10 w-full">{message}</p>}
-      {isLoggedIn && <Button onClick={handleLogout} className="absolute top-4 right-4">Logout</Button>}
     </div>
   );
 }

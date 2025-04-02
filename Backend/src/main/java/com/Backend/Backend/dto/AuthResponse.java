@@ -1,15 +1,15 @@
 package com.Backend.Backend.dto;
 
 import lombok.AllArgsConstructor;
-import lombok.Getter;
+import lombok.Builder;
+import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 
-@Getter
-@Setter
+@Data
+@Builder
 @AllArgsConstructor
 @NoArgsConstructor
 public class AuthResponse {
-    private String message;
     private String token;
+    // TODO: add roles
 }

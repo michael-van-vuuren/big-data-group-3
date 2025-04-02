@@ -10,7 +10,7 @@ export default function Home() {
       {/* <Divider /> */}
       {/* <CoffeeGlobe /> */}
       {/* <Divider /> */}
-      <Footer />
+      {/* <Footer /> */}
     </>
   )
 }
