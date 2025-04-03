@@ -4,7 +4,6 @@ import com.Backend.Backend.dto.LoginRequest;
 import com.Backend.Backend.dto.RegisterRequest;
 import com.Backend.Backend.dto.AuthResponse;
 //import com.Backend.Backend.service.AuthService; // TODO
-import com.Backend.Backend.util.JwtUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -15,7 +14,6 @@ import org.springframework.web.bind.annotation.*;
 public class AuthController {
 
     // private final AuthService authService; // TODO
-    private final JwtUtil jwtUtil;
 
     @PostMapping("/register")
     public ResponseEntity<AuthResponse> register(@RequestBody RegisterRequest request) {
@@ -31,8 +29,9 @@ public class AuthController {
         System.out.println("Email: " + request.getEmail());
 
         // Build and respond with JWT
-        String token = jwtUtil.generateToken(request.getEmail());
-        return ResponseEntity.ok(new AuthResponse(token));
+        // String token = ...
+        // return ResponseEntity.ok(new AuthResponse(token));
+        return ResponseEntity.ok(new AuthResponse());
     }
 
     @PostMapping("/login")
@@ -47,8 +46,9 @@ public class AuthController {
         System.out.println("Logging in (stubbed):");
         System.out.println("Email: " + request.getEmail());
 
-        // Build and respond with JWT
-        String token = jwtUtil.generateToken(request.getEmail());
-        return ResponseEntity.ok(new AuthResponse(token));
+        // 5. Build and respond with JWT
+        // String token = ...
+        // return ResponseEntity.ok(new AuthResponse(token));
+        return ResponseEntity.ok(new AuthResponse());
     }
 }

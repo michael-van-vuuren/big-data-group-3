@@ -1,7 +1,5 @@
 "use client";
 
-import { useState } from "react";
-import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
@@ -22,64 +20,16 @@ const registerSchema = z.object({
   password: z.string().min(6, "Password must be at least 6 characters"),
 });
 
-// Next.js API URL
-const NEXT_API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL || '/api';
-const HOME_PATH = '/';
-
 export default function LoginPage() {
-  const router = useRouter();
-  const [isLoading, setIsLoading] = useState(false);
   const loginForm = useForm({ resolver: zodResolver(loginSchema) });
   const registerForm = useForm({ resolver: zodResolver(registerSchema) });
 
   const handleLogin = async (values: z.infer<typeof loginSchema>) => {
-    setIsLoading(true);
-    try {
-      const response = await fetch(`${NEXT_API_BASE_URL}/auth/login`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(values),
-      });
-      const data = await response.json();
-      if (!response.ok) {
-        throw new Error(data.message || `Login failed: ${response.statusText}`);
-      }
-
-      // Redirect to HOME_PATH after login
-      console.log(`Login successful, redirecting to ${HOME_PATH}`);
-      router.push(HOME_PATH);
-      router.refresh();
-
-    } catch (error: any) {
-      console.error("Login error:", error);
-    } finally {
-       setIsLoading(false);
-    }
+    console.log(values);
   };
 
   const handleRegister = async (values: z.infer<typeof registerSchema>) => {
-    setIsLoading(true);
-    try {
-      const response = await fetch(`${NEXT_API_BASE_URL}/auth/register`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(values),
-      });
-      const data = await response.json();
-      if (!response.ok) {
-        throw new Error(data.message || `Registration failed: ${response.statusText}`);
-      }
-
-      // Redirect to HOME_PATH after registration
-      console.log(`Registration successful, redirecting to ${HOME_PATH}`);
-      router.push(HOME_PATH);
-      router.refresh();
-
-    } catch (error: any) {
-      console.error("Registration error:", error);
-    } finally {
-        setIsLoading(false);
-    }
+    console.log(values);
   };
 
   return (
@@ -104,7 +54,7 @@ export default function LoginPage() {
                      <FormItem>
                        <FormLabel>Email Address</FormLabel>
                        <FormControl>
-                         <Input type="email" {...field} disabled={isLoading} />
+                         <Input type="email" {...field} />
                        </FormControl>
                        <FormMessage />
                      </FormItem>
@@ -113,14 +63,14 @@ export default function LoginPage() {
                      <FormItem>
                        <FormLabel>Password</FormLabel>
                        <FormControl>
-                         <Input type="password" {...field} disabled={isLoading} />
+                         <Input type="password" {...field} />
                        </FormControl>
                        <FormMessage />
                      </FormItem>
                   )} />
                   <div>
-                    <Button type="submit" className="w-full my-2" disabled={isLoading}>
-                      {isLoading ? 'Logging in...' : 'Login'}
+                    <Button type="submit" className="w-full my-2">
+                      'Login'
                     </Button>
                   </div>
                 </form>
@@ -143,7 +93,7 @@ export default function LoginPage() {
                      <FormItem>
                        <FormLabel>Name</FormLabel>
                        <FormControl>
-                         <Input {...field} disabled={isLoading}/>
+                         <Input {...field} />
                        </FormControl>
                        <FormMessage />
                      </FormItem>
@@ -152,7 +102,7 @@ export default function LoginPage() {
                     <FormItem>
                        <FormLabel>Email Address</FormLabel>
                        <FormControl>
-                         <Input type="email" {...field} disabled={isLoading} />
+                         <Input type="email" {...field} />
                        </FormControl>
                        <FormMessage />
                      </FormItem>
@@ -161,14 +111,14 @@ export default function LoginPage() {
                      <FormItem>
                        <FormLabel>Password</FormLabel>
                        <FormControl>
-                         <Input type="password" {...field} disabled={isLoading} />
+                         <Input type="password" {...field} />
                        </FormControl>
                        <FormMessage />
                      </FormItem>
                   )} />
                   <div>
-                    <Button type="submit" className="w-full my-2" disabled={isLoading}>
-                      {isLoading ? 'Creating Account...' : 'Create Account'}
+                    <Button type="submit" className="w-full my-2">
+                      'Create Account'
                     </Button>
                   </div>
                 </form>
