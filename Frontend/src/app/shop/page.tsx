@@ -28,11 +28,8 @@ const ShopPage = () => {
   );
 
   return (
-    <div
-      className="bg-white border-border border-4 flex items-center justify-center w-screen relative px-6"
-      style={{ minHeight: "calc(100vh - 58px)" }}
-    >
-      <div className="w-full max-w-7xl py-24">
+    <div className="bg-white border-border border-4 flex items-center justify-center w-screen relative">
+      <div className="text-start h-full py-24 px-16">
         <h1 className="text-4xl font-bold text-center mb-10">
           ☕ Explore Our Coffee Collection
         </h1>

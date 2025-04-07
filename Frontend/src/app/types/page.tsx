@@ -155,11 +155,8 @@ const categories: Category[] = [
 
 const TypesOfCoffeePage = () => {
   return (
-    <div
-      className="bg-white border-border border-4 flex items-center justify-center w-screen relative"
-      style={{ height: 'calc(380vh - 58px)' }}
-    >
-      <div className="py-16 px-6 max-w-7xl mx-auto">
+    <div className="bg-white border-border border-4 flex items-center justify-center w-screen relative">
+      <div className="text-start h-full py-24 px-16">
         <h1 className="text-5xl font-extrabold text-center mb-12">🌟 Types of Coffee Notes</h1>
 
         {categories.map((category) => (

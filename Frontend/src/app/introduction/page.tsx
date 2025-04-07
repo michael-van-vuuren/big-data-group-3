@@ -5,8 +5,8 @@ import Image from 'next/image';
 
 export default function IntroductionPage() {
   return (
-    <div className="bg-white border-border border-4 flex items-center justify-center w-screen relative" style={{ height: "calc(380vh - 58px)" }}>
-      <div className="w-full max-w-4xl text-center px-6 py-16">
+    <div className="bg-white border-border border-4 flex items-center justify-center w-screen relative">
+      <div className="text-start h-full py-24 px-16">
 
         {/* 🌟 Title */}
         <h1 className="text-5xl font-extrabold mb-10">

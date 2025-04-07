@@ -76,11 +76,8 @@ const countries: Country[] = [
 
 const ProducerCountriesPage = () => {
   return (
-    <div
-      className="bg-white border-border border-4 flex items-center justify-center w-screen relative"
-      style={{ height: 'calc(310vh - 58px)' }}
-    >
-      <div className="px-6 py-20 max-w-6xl mx-auto overflow-y-auto h-full">
+    <div className="bg-white border-border border-4 flex items-center justify-center w-screen relative">
+      <div className="text-start h-full py-24 px-16">
         <h1 className="text-5xl font-extrabold text-center mb-16">🌍 Coffee Producer Countries</h1>
 
         <div className="space-y-16">
