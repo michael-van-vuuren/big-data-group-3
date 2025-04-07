@@ -31,9 +31,6 @@ export default function BeanLibrary({ subcategories }: BeanLibraryProps) {
                     ))}
                 </TableBody>
             </Table>
-            <div className="flex justify-center mt-4">
-                <Button>Done</Button>
-            </div>
         </div>
     )
 }

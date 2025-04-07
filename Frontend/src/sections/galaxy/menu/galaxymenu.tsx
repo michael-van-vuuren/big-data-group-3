@@ -6,6 +6,8 @@ import Subcategories from "./subcategories";
 import BeanLibrary from "@/sections/beanlibrary";
 import notesData from "@/data/tasting-notes-wheel.json";
 import type { PlanetData } from "@/sections/galaxy/types/planetdata";
+import { Button } from '@/components/ui/button';
+import Link from 'next/link';
 
 interface PlanetMenuProps {
     planetData: PlanetData[];
@@ -31,7 +33,12 @@ export default function PlanetMenu({ planetData, path, selectedCategory, handleS
     };
 
     return (
-        <div className="flex flex-col h-full items-center justify-center bg-slate-200 p-8">
+        <div className="flex flex-col h-full items-center justify-center bg-slate-200 p-8 gap-4">
+            <Button>
+                <Link href="@/header.tsx">
+                    Return to Solar System Selection
+                </Link>
+            </Button>
             <PlanetHeader planetName={selectedCategory} />
 
             <div className="flex flex-col overflow-scroll justify-start">
@@ -54,6 +61,11 @@ export default function PlanetMenu({ planetData, path, selectedCategory, handleS
                         subcategories={selectedSubCategory}
                     />
                 </div>
+                <Button>
+                    <Link href="shoppingcart.tsx">
+                        Save Notes to Cart
+                    </Link>
+                </Button>
             </div>
         </div>
     );
