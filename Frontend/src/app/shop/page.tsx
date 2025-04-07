@@ -1,4 +1,4 @@
-"use client";
+'use client';
 
 import React, { useState } from "react";
 import rawData from "@/data/quiz-data.json";
@@ -11,7 +11,6 @@ type CoffeeBean = {
   roast: string | null;
   price: string;
   gram?: string;
-  availability: string;
   process: string;
   producer: string;
   country: string;
@@ -23,9 +22,8 @@ type CoffeeBean = {
 const quizData = rawData as CoffeeBean[];
 
 const ShopPage = () => {
-  const [beans] = useState<CoffeeBean[]>(
-    quizData.filter((bean) => bean.availability === "YES")
-  );
+  // Removed availability filter because it doesn't exist in your JSON
+  const [beans] = useState<CoffeeBean[]>(quizData);
 
   return (
     <div className="bg-white border-border border-4 flex items-center justify-center w-screen relative">
@@ -33,6 +31,10 @@ const ShopPage = () => {
         <h1 className="text-4xl font-bold text-center mb-10">
           ☕ Explore Our Coffee Collection
         </h1>
+
+        {beans.length === 0 && (
+          <p className="text-center text-gray-500 text-lg">No coffee products available right now.</p>
+        )}
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
           {beans.map((bean) => (
@@ -48,20 +50,19 @@ const ShopPage = () => {
                 />
               ) : (
                 <div className="w-full h-48 bg-gray-200 rounded mb-3 flex items-center justify-center text-gray-500">
-                  No Image
+                  No Image Available
                 </div>
               )}
 
               <div>
                 <h3 className="text-xl font-semibold mb-1">{bean.name}</h3>
                 <p className="text-sm text-gray-600 mb-1 italic">
-                  {bean.roast || "Unknown Roast"} •{" "}
-                  {bean.variety || "Unknown Variety"}
+                  {bean.roast || "Unknown Roast"} • {bean.variety || "Unknown Variety"}
                 </p>
                 <p className="text-sm text-gray-700 mb-1">
                   {bean.producer} ({bean.country})
                 </p>
-                {bean.flavors && (
+                {bean.flavors && bean.flavors.length > 0 && (
                   <p className="text-sm text-gray-700 mb-1">
                     Flavors: {bean.flavors.slice(0, 3).join(", ")}
                   </p>
