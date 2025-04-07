@@ -13,7 +13,7 @@ const NavigationMenu = React.forwardRef<
   <NavigationMenuPrimitive.Root
     ref={ref}
     className={cn(
-      "relative mt-2 ml-8 pr-4 z-10 flex w-auto h-full font-heading border-2 bg-main items-center justify-center dark:border-slate-800",
+      "relative mt-2 ml-6 pr-4 z-10 flex w-auto h-full font-heading border-2 bg-main items-center justify-center dark:border-slate-800",
       "border-b-8 border-black",
       className
     )}
@@ -53,7 +53,7 @@ const NavigationMenuTrigger = React.forwardRef<
   <NavigationMenuPrimitive.Trigger
     ref={ref}
     className={cn(
-      "group inline-flex h-full items-center justify-start text-mtext rounded-md bg-main px-4 py-2 text-sm font-heading transition-colors focus:outline-none disabled:pointer-events-none disabled:opacity-50",
+      "group inline-flex h-full items-center justify-start text-mtext rounded-md bg-main px-4 text-sm font-heading transition-colors focus:outline-none disabled:pointer-events-none disabled:opacity-50",
       className
     )}
     {...props}
@@ -91,7 +91,7 @@ const NavigationMenuViewport = React.forwardRef<
   <div className={cn("absolute left-0 top-full flex justify-center")}>
     <NavigationMenuPrimitive.Viewport
       className={cn(
-        "origin-top-center relative mt-1.5 font-heading h-[var(--radix-navigation-menu-viewport-height)] w-full overflow-hidden rounded-base border-2 border-slate-200 bg-main text-mtext data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-90 md:w-[var(--radix-navigation-menu-viewport-width)] dark:border-slate-800",
+        "origin-top-center relative mt-1.5 rounded-none font-heading h-[var(--radix-navigation-menu-viewport-height)] w-full overflow-hidden border-2 border-black bg-main text-mtext data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-90 md:w-[var(--radix-navigation-menu-viewport-width)] dark:border-slate-800",
         className,
       )}
       ref={ref}

@@ -1,3 +1,7 @@
+"use client";
+
+import { useAuth } from "@/context/AuthContext";
+import { useEffect, useState } from "react";
 import { Card, CardContent } from '@/components/ui/card';
 import {
   Carousel,
@@ -9,9 +13,9 @@ import {
 import Image from 'next/image';
 import Link from 'next/link';
 import styles from '@/sections/styles.module.css';
-import { Button } from '@/components/ui/button';
-import LoginButton from '@/components/login-button';
+import WelcomeButton from '@/components/welcome-button'; // Assuming this takes a 'message' prop
 
+// Import planet images
 import fruityPlanet from '@/images/earth1.jpg';
 import herbalPlanet from '@/images/mercury1.jpg';
 import savoryPlanet from '@/images/planet4.jpg';
@@ -26,9 +30,21 @@ const planets = [
   { name: 'Sweet Planet', image: sweetPlanet, link: '/flavors/Sweet' },
 ];
 
-export default function PlanetCarousel() {
+export default function Header() {
+  const { user, isLoading } = useAuth();
+  const [error, setError] = useState<string | null>(null);
+
+  // dynamic welcome button message
+  const buttonMessage = user ? "Take Preference Quiz" : "Log In";
+  const buttonLink = user ? "/quiz" : "/login";
+
+  if (isLoading) {
+    return null;
+  }
+
   return (
     <>
+      {/* Carousel section (always visible) */}
       <div className="flex justify-center items-center w-screen py-14 bg-blue-900 border-border border-4 grid-bg-dot">
         <Carousel className="w-full max-w-[400px]">
           <CarouselContent>
@@ -36,7 +52,7 @@ export default function PlanetCarousel() {
               <CarouselItem key={index}>
                 <div className="p-2">
                   <Card className="shadow-none">
-                    <CardContent className="flex flex-col items-center justify-center p-6">
+                    <CardContent className="flex flex-col items-center justify-center">
                       <Link href={planet.link} passHref>
                         <div className="relative transform transition-transform duration-150 hover:scale-110 select-none">
                           <Image
@@ -46,6 +62,7 @@ export default function PlanetCarousel() {
                             height={360}
                             style={{ objectFit: "cover" }}
                             className={styles.rotate}
+                            priority={index === 0}
                           />
                         </div>
                       </Link>
@@ -62,10 +79,24 @@ export default function PlanetCarousel() {
           <CarouselNext />
         </Carousel>
       </div>
-      <div className="flex justify-center items-center w-full py-16">
-        <Link href="/login" passHref>
-          <LoginButton />
+
+      {/* welcome menu at the bottom */}
+      <div className="flex justify-center items-center w-full pt-16 space-x-4">
+
+        {/* dynamically render WelcomeButton message */}
+        {user && (
+          <div className="text-center">
+            <h2 className="text-2xl font-bold">{`Welcome, ${user.name}!`}</h2>
+            {error && <p className="text-red-500 mt-1">{error}</p>}
+          </div>
+        )}
+
+        {/* statically render WelcomeButton */}
+        {/* the props (href, message) are dynamic based on user state */}
+        <Link href={buttonLink} passHref>
+          <WelcomeButton message={buttonMessage} />
         </Link>
+
       </div>
     </>
   );

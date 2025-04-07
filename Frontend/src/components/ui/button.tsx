@@ -17,7 +17,7 @@ const buttonVariants = cva(
           "w-10 h-10 flex items-center justify-center rounded-full border-2 border-border dark:border-darkBorder shadow-lightSm dark:shadow-darkSm hover:translate-x-boxShadowXSm hover:translate-y-boxShadowYSm hover:shadow-none dark:hover:shadow-none",
         noShadow:
           "bg-main border-2 border-border dark:border-darkBorder",
-        whiteBlack: 
+        whiteBlack:
           "!bg-emerald-600 text-white border-2 border-black dark:border-darkBorder hover:!bg-white hover:!text-black transition-colors duration-400",
         link:
           "underline-offset-4 text-text dark:text-darkText hover:underline",
@@ -25,12 +25,15 @@ const buttonVariants = cva(
           "bg-white dark:bg-darkBg dark:text-darkText border-2 border-border dark:border-darkBorder shadow-light dark:shadow-dark hover:translate-x-boxShadowX hover:translate-y-boxShadowY hover:shadow-none dark:hover:shadow-none",
         reverse:
           "bg-main border-2 border-border dark:border-darkBorder hover:translate-x-reverseBoxShadowX hover:translate-y-reverseBoxShadowY hover:shadow-light dark:hover:shadow-dark",
+        logout:
+          "bg-main border-2 border-b-8 rounded-none border-border hover:bg-darkerBlue hover:text-white",
       },
       size: {
         default: "h-10 px-4 py-2",
         sm: "h-9 px-3",
         lg: "h-11 px-8",
         icon: "h-6 w-6",
+        logout: "py-4 px-4 mt-2"
       },
       active: {
         true: "translate-x-boxShadowX translate-y-boxShadowY shadow-none dark:shadow-none", // Apply translation instantly
@@ -52,14 +55,14 @@ const buttonVariants = cva(
 
 export interface ButtonProps
   extends React.ButtonHTMLAttributes<HTMLButtonElement>,
-    VariantProps<typeof buttonVariants> {
+  VariantProps<typeof buttonVariants> {
   asChild?: boolean;
   active?: boolean;
   activeSm?: boolean;
 }
 
 const Button = forwardRef<HTMLButtonElement, ButtonProps>(
-  ({ className, variant, size, color = "white", active = false, activeSm = false, asChild = false, ...props }, ref) => {
+  ({ className, variant, size, color, active = false, activeSm = false, asChild = false, ...props }, ref) => {
     const Comp = asChild ? Slot : "button";
 
     const dynamicStyle = {

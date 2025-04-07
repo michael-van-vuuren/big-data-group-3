@@ -8,6 +8,10 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { loginUser, registerUser } from "@/lib/apiClient";
+import { useAuth } from "@/context/AuthContext";
+import { useRouter } from "next/navigation";
+import { useState, useEffect } from "react";
 
 // SCHEMAS for the forms (validates inputs)
 const loginSchema = z.object({
@@ -24,12 +28,51 @@ export default function LoginPage() {
   const loginForm = useForm({ resolver: zodResolver(loginSchema) });
   const registerForm = useForm({ resolver: zodResolver(registerSchema) });
 
+  const [loginError, setLoginError] = useState<string | null>(null);
+  const [registerError, setRegisterError] = useState<string | null>(null);
+  const [registrationStatus, setRegistrationStatus] = useState<string | null>(null);
+
+  const { login } = useAuth();
+  const router = useRouter();
+
+  useEffect(() => {
+    const status = localStorage.getItem("registration-status");
+    if (status) {
+      setRegistrationStatus(status);
+      localStorage.removeItem("registration-status");
+    }
+  }, []);
+
   const handleLogin = async (values: z.infer<typeof loginSchema>) => {
-    console.log(values);
+    setLoginError(null);
+    try {
+      const userData = await loginUser(values);
+      login(userData);
+
+      // might be buggy? 
+      router.replace("/");
+      router.refresh();
+
+    } catch (error: any) {
+      console.error("Login failed:", error);
+      setLoginError(error.message || "Login failed. Please check your credentials.");
+    }
   };
 
   const handleRegister = async (values: z.infer<typeof registerSchema>) => {
-    console.log(values);
+    setRegisterError(null);
+    try {
+      await registerUser(values);
+      localStorage.setItem("registration-status", "Account created successfully! Please log in below:");
+      registerForm.reset();
+
+      // switch to login tab
+      location.reload();
+
+    } catch (error: any) {
+      console.error("Registration failed:", error);
+      setRegisterError(error.message || "Registration failed. Please try again.");
+    }
   };
 
   return (
@@ -45,32 +88,33 @@ export default function LoginPage() {
           <Card>
             <CardHeader>
               <CardTitle>Login</CardTitle>
-              <CardDescription>Log in to your existing account.</CardDescription>
             </CardHeader>
             <CardContent>
+              {registrationStatus && <p className="text-sm font-medium pb-2">{registrationStatus}</p>}
               <Form {...loginForm}>
                 <form onSubmit={loginForm.handleSubmit(handleLogin)} className="space-y-4">
                   <FormField control={loginForm.control} name="email" render={({ field }) => (
-                     <FormItem>
-                       <FormLabel>Email Address</FormLabel>
-                       <FormControl>
-                         <Input type="email" {...field} />
-                       </FormControl>
-                       <FormMessage />
-                     </FormItem>
+                    <FormItem>
+                      <FormLabel>Email Address</FormLabel>
+                      <FormControl>
+                        <Input type="email" {...field} />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
                   )} />
                   <FormField control={loginForm.control} name="password" render={({ field }) => (
-                     <FormItem>
-                       <FormLabel>Password</FormLabel>
-                       <FormControl>
-                         <Input type="password" {...field} />
-                       </FormControl>
-                       <FormMessage />
-                     </FormItem>
+                    <FormItem>
+                      <FormLabel>Password</FormLabel>
+                      <FormControl>
+                        <Input type="password" {...field} />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
                   )} />
+                  {loginError && <p className="text-sm font-medium text-destructive">{loginError}</p>}
                   <div>
-                    <Button type="submit" className="w-full my-2">
-                      'Login'
+                    <Button type="submit" className="w-full my-2" disabled={loginForm.formState.isSubmitting}>
+                      {loginForm.formState.isSubmitting ? 'Logging in...' : 'Login'}
                     </Button>
                   </div>
                 </form>
@@ -84,41 +128,41 @@ export default function LoginPage() {
           <Card>
             <CardHeader>
               <CardTitle>Create Account</CardTitle>
-              <CardDescription>Create a new account.</CardDescription>
             </CardHeader>
             <CardContent>
               <Form {...registerForm}>
                 <form onSubmit={registerForm.handleSubmit(handleRegister)} className="space-y-4">
                   <FormField control={registerForm.control} name="name" render={({ field }) => (
-                     <FormItem>
-                       <FormLabel>Name</FormLabel>
-                       <FormControl>
-                         <Input {...field} />
-                       </FormControl>
-                       <FormMessage />
-                     </FormItem>
+                    <FormItem>
+                      <FormLabel>Name</FormLabel>
+                      <FormControl>
+                        <Input {...field} />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
                   )} />
                   <FormField control={registerForm.control} name="email" render={({ field }) => (
                     <FormItem>
-                       <FormLabel>Email Address</FormLabel>
-                       <FormControl>
-                         <Input type="email" {...field} />
-                       </FormControl>
-                       <FormMessage />
-                     </FormItem>
+                      <FormLabel>Email Address</FormLabel>
+                      <FormControl>
+                        <Input type="email" {...field} />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
                   )} />
                   <FormField control={registerForm.control} name="password" render={({ field }) => (
-                     <FormItem>
-                       <FormLabel>Password</FormLabel>
-                       <FormControl>
-                         <Input type="password" {...field} />
-                       </FormControl>
-                       <FormMessage />
-                     </FormItem>
+                    <FormItem>
+                      <FormLabel>Password</FormLabel>
+                      <FormControl>
+                        <Input type="password" {...field} />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
                   )} />
+                  {registerError && <p className="text-sm font-medium text-destructive">{registerError}</p>}
                   <div>
-                    <Button type="submit" className="w-full my-2">
-                      'Create Account'
+                    <Button type="submit" className="w-full my-2" disabled={registerForm.formState.isSubmitting}>
+                      {registerForm.formState.isSubmitting ? 'Creating...' : 'Create Account'}
                     </Button>
                   </div>
                 </form>
