@@ -51,11 +51,19 @@ body::-webkit-scrollbar-thumb {
     z-index: -1;
   }
 
+  .grid-bg-sm {
+    background-image: linear-gradient(to right, #ffffff1e 1px, transparent 0px),
+      linear-gradient(to bottom, #ffffff1e 1px, transparent 0px);
+    background-size: 6px 6px;
+    background-position: -1px -1px;
+    z-index: -1;
+  }
+
   .grid-bg-dot {
     background-image: radial-gradient(circle, #ffffffc8 1.5px, rgba(0, 0, 0, 0) 1px);
     background-size: 100px 100px;
-    background-position: 0px 66px;
-    z-index: -1;
+    background-position: 0px 15px;
+    z-index: 1;
   }
 
   .grid-bg-dot-dark {

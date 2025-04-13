@@ -35,19 +35,19 @@ const config: Config = {
         darkerBlue: '#435875',
       },
       borderRadius: {
-        base: '5px',
+        base: '0px',
       },
       boxShadow: {
-        light: '4px 4px 0px 0px #000',
+        light: '3px 3px 0px 0px #000',
         dark: '4px 4px 0px 0px #000',
-        lightSm: '2px 2px 0px 0px #000',
+        lightSm: '1px 1px 0px 0px #000',
         darkSm: '2px 2px 0px 0px #000',
       },
       translate: {
-        boxShadowX: '4px',
-        boxShadowY: '4px',
-        boxShadowXSm: '2px',
-        boxShadowYSm: '2px',
+        boxShadowX: '3px',
+        boxShadowY: '3px',
+        boxShadowXSm: '1px',
+        boxShadowYSm: '1px',
         reverseBoxShadowX: '-4px',
         reverseBoxShadowY: '-4px',
       },
@@ -72,12 +72,23 @@ const config: Config = {
           '0%': { transform: 'translateX(100%)' },
           '100%': { transform: 'translateX(0%)' },
         },
+        fadeIn: {
+          "0%": {
+            backgroundColor: "rgba(34, 197, 94, 1)",
+            opacity: "1",
+          },
+          "100%": {
+            backgroundColor: "rgba(30, 58, 138, 1)",
+            opacity: "1",
+          },
+        },
       },
       animation: {
         'accordion-down': 'accordion-down 0.2s ease-out',
         'accordion-up': 'accordion-up 0.2s ease-out',
         marquee: 'marquee 15s linear infinite',
         marquee2: 'marquee2 15s linear infinite',
+        fadeIn: 'fadeIn 1s ease-out',
       },
       screens: {
         w900: { raw: '(max-width: 900px)' },

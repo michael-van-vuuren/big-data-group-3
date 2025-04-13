@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Mesh } from "three";
 
 import Galaxy from "@/sections/galaxy/scene/galaxy";
@@ -12,15 +12,27 @@ import {
 
 import PlanetMenu from "@/sections/galaxy/menu/galaxymenu";
 import { usePlanetData } from "@/sections/galaxy/hooks/usePlanetData";
-import type { PlanetData } from "@/sections/galaxy/types/planetdata"
+import type { PlanetData } from "@/sections/galaxy/types/planetdata";
+import { useIsMobile } from "@/hooks/useIsMobile";
+
+// Define systems
+const systems = [
+    { name: 'Fruity System', link: '/flavors/Fruity' },
+    { name: 'Herbal System', link: '/flavors/Herbal' },
+    { name: 'Sweet System', link: '/flavors/Sweet' },
+    { name: 'Savory System', link: '/flavors/Savory' },
+    { name: 'Warm System', link: '/flavors/Warm' },
+];
 
 export default function NotesPage({ params }: { params: { path?: string[] } }) {
     const path = params.path ?? [];
+    const currentSystemPath = path[0];
     const [targetRef, setTargetRef] = useState<Mesh | null>(null);
     const [reset, setReset] = useState(false);
     const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
 
     const planetDataRef = usePlanetData(path);
+    const isMobile = useIsMobile();
 
     const handleSelection = (planet: PlanetData) => {
         setSelectedCategory((prev) => prev === planet.name ? null : planet.name);
@@ -47,34 +59,46 @@ export default function NotesPage({ params }: { params: { path?: string[] } }) {
     const leftPanelInitialSize = 40;
 
     return (
-        <div style={{ position: "absolute", top: "-16px", width: "100vw", height: "calc(100vh - 42px)", overflow: "clip" }}>
+        <div
+            style={{
+                position: "absolute",
+                top: "-16px",
+                width: "100vw",
+                height: "calc(100vh - 42px)",
+                overflow: "clip",
+            }}
+        >
             <ResizablePanelGroup
-                direction="horizontal"
+                direction={isMobile ? "vertical" : "horizontal"}
                 className="my-4 w-full border-4 border-border text-mtext shadow-shadow"
             >
-                {/* side menu */}
-                <ResizablePanel defaultSize={leftPanelInitialSize} className="min-w-4/10">
-                    <PlanetMenu
-                        planetData={planetDataRef.current}
-                        path={path[0]}
-                        selectedCategory={selectedCategory}
-                        handleSelection={handleSelection}
-                    />
-                </ResizablePanel>
-
-                <ResizableHandle />
-
-                {/* galaxy scene */}
-                <ResizablePanel defaultSize={100 - leftPanelInitialSize}>
+                {/* galaxy scene goes on top for mobile */}
+                <ResizablePanel defaultSize={isMobile ? 60 : 100 - leftPanelInitialSize}>
                     <Galaxy
                         planetData={planetDataRef.current}
                         targetRef={targetRef}
                         handleSelection={handleSelection}
                         reset={reset}
                         onResetComplete={handleResetComplete}
-                        path={path[0]}
+                        path={currentSystemPath}
                     />
+                </ResizablePanel>
 
+                <ResizableHandle />
+
+                {/* menu goes below on mobile */}
+                <ResizablePanel
+                    defaultSize={isMobile ? 40 : leftPanelInitialSize}
+                    minSize={isMobile ? 20 : 40}
+                    className={isMobile ? "min-h-[20%]" : "min-w-4/10"}
+                >
+                    <PlanetMenu
+                        planetData={planetDataRef.current}
+                        path={currentSystemPath}
+                        selectedCategory={selectedCategory}
+                        handleSelection={handleSelection}
+                        systems={systems}
+                    />
                 </ResizablePanel>
             </ResizablePanelGroup>
         </div>

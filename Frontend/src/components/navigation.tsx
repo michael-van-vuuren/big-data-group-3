@@ -25,7 +25,7 @@ const exploreTabs = [
   },
   {
     title: 'Types of Coffee',
-    href: '/types',
+    href: '/varieties',
     description: 'Understand different coffee varieties and roasts.',
   },
   {
@@ -58,7 +58,7 @@ export default function NavigationMenuDemo() {
             Explore
           </NavigationMenuTrigger>
           <NavigationMenuContent>
-            <ul className="grid w-[400px] gap-3 p-4 md:w-[500px] md:grid-cols-1 lg:w-[600px]">
+            <ul className="grid w-[300px] gap-3 p-4 md:w-[500px] md:grid-cols-1 lg:w-[600px]">
               {exploreTabs.map((item) => (
                 <ListItem key={item.title} title={item.title} href={item.href}>
                   {item.description}

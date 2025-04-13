@@ -24,10 +24,10 @@ export default function Galaxy({ planetData, targetRef, handleSelection, reset, 
 
     const colorMap = {
         "Fruity": "#036",
-        "Herbal": "#363",
-        "Savory": "#636",
-        "Warm": "#603",
-        "Sweet": "#69C",
+        "Herbal": "#243",
+        "Savory": "#413",
+        "Warm": "#712",
+        "Sweet": "#349",
     }
     const intensityMap = {
         "Fruity": 1.7,
@@ -55,7 +55,7 @@ export default function Galaxy({ planetData, targetRef, handleSelection, reset, 
             ? planetIntensityMap[path as PathKeys]
             : 8.0;
 
-    const initialCameraPosition = new Vector3(0, 60, 90);
+    const initialCameraPosition = new Vector3(0, 40, 90);
 
     return (
         <Canvas camera={{ position: initialCameraPosition, far: 2000 }} dpr={[2, 4]} style={{ background: backgroundColor }}>
