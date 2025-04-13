@@ -1,6 +1,6 @@
 "use client";
 
-import React, { createContext, useState, useContext, useEffect, ReactNode } from 'react';
+import React, { useCallback, createContext, useState, useContext, useEffect, ReactNode } from 'react';
 import { getMe, logoutUser } from '@/lib/apiClient';
 import { useRouter, usePathname } from 'next/navigation';
 
@@ -35,10 +35,10 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
     const protectedPaths = ['/quiz', '/flavors', '/dashboard'];
     const isPathProtected = protectedPaths.some((path) => pathname.startsWith(path));
 
-    const checkAuthStatus = async () => {
+    const checkAuthStatus = useCallback(async () => {
         setIsLoading(true);
         let shouldRedirect = false;
-
+    
         try {
             const userData: User = await getMe();
             setUser(userData);
@@ -48,23 +48,23 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
                 shouldRedirect = true;
                 console.log("Auth check failed, redirect required for:", pathname);
                 try {
-                     await logoutUser();
+                    await logoutUser();
                 } catch (logoutError) {
-                     console.error("Failed to clear session during auto-logout:", logoutError);
+                    console.error("Failed to clear session during auto-logout:", logoutError);
                 }
             }
         } finally {
             setIsLoading(false);
             if (shouldRedirect) {
-                 console.log("Executing redirect to /login");
-                 router.push('/login');
+                console.log("Executing redirect to /login");
+                router.push('/login');
             }
         }
-    };
-
+    }, [pathname, isPathProtected, router]);
+    
     useEffect(() => {
         checkAuthStatus();
-    }, [pathname]);
+    }, [checkAuthStatus]);
 
     const login = (userData: User) => {
         setUser(userData);

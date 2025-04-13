@@ -156,8 +156,8 @@ const categories: Category[] = [
 const TypesOfCoffeePage = () => {
   return (
     <div className="bg-white border-border border-4 flex items-center justify-center w-screen relative">
-      <div className="text-start h-full py-24 px-16">
-        <h1 className="text-5xl font-extrabold text-center mb-12">🌟 Types of Coffee Notes</h1>
+      <div className="text-start h-full py-24 px-8">
+        <h1 className="text-4xl font-extrabold text-center mb-12">Types of Coffee Notes</h1>
 
         {categories.map((category) => (
           <section key={category.title} className="mb-16">
@@ -166,14 +166,15 @@ const TypesOfCoffeePage = () => {
 
             <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
               {category.subcategories.map((sub) => (
-                <Card key={sub.name} className="p-4 shadow-lg hover:shadow-xl transition-all">
+                <Card key={sub.name} className="p-4">
                   <Image
                     src={sub.image}
                     alt={sub.name}
                     width={500}
                     height={300}
-                    className="rounded-lg mb-4 object-cover w-full h-[200px]"
+                    className="mb-4 border-2 border-black w-full h-[200px] object-cover"
                   />
+
                   <h3 className="text-xl font-semibold">{sub.name}</h3>
                   <p className="text-sm text-muted-foreground mb-2">{sub.description}</p>
                   <p className="text-sm text-gray-700">

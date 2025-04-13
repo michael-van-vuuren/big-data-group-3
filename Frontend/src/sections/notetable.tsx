@@ -1,4 +1,3 @@
-import { Button } from '@/components/ui/button';
 import {
     Table,
     TableBody,
@@ -10,14 +9,14 @@ import {
 } from '@/components/ui/table'
 
 
-interface BeanLibraryProps {
+interface NoteTableProps {
     subcategories: string[];
 }
 
-export default function BeanLibrary({ subcategories }: BeanLibraryProps) {
+export default function NoteTable({ subcategories }: NoteTableProps) {
     return (
         <div className="border-none">
-            <Table className="border-none">
+            <Table>
                 <TableHeader>
                     <TableRow>
                         <TableHead className="w-[300px]"> Selected Notes</TableHead>

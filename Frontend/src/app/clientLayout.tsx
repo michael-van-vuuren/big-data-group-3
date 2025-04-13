@@ -25,7 +25,7 @@ function LogoutButton() {
   if (!user) return null;
 
   return (
-    <div className="right-8 z-50">
+    <div className="z-50 mr-6">
       <Button onClick={handleLogout} variant='logout' size='logout' disabled={loading}>
         Logout
       </Button>
@@ -36,7 +36,7 @@ function LogoutButton() {
 export default function ClientLayout({ children }: { children: ReactNode }) {
   return (
     <AuthProvider>
-      <header className="flex items-center justify-between px-6 bg-specialBlue grid-bg-light">
+      <header className="flex items-center justify-between bg-specialBlue grid-bg-light">
         {/* Left side: navigation bar */}
         <NavigationMenuDemo />
 

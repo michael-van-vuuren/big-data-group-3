@@ -11,7 +11,7 @@ interface CategoriesProps {
 
 export default function Categories({ planetData, selected, handleSelection }: CategoriesProps) {
     return (
-        <div className="grid grid-cols-4 gap-3 m-4">
+        <div className="grid grid-cols-4 gap-3 mb-4 mx-0">
             {planetData.map((planet) => {
                 const isActive = selected === planet.name;
                 return (
