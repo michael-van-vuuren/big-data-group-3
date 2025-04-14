@@ -1,5 +1,6 @@
 package com.Backend.Backend.dto;
 
+import com.Backend.Backend.entity.Product;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.NoArgsConstructor;

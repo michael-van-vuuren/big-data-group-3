@@ -5,6 +5,8 @@ import java.util.Map;
 
 import com.Backend.Backend.dto.ProductDTO;
 import com.Backend.Backend.dto.ProductImportResult;
+import com.Backend.Backend.dto.ProductResponseDTO;
+import com.Backend.Backend.entity.Product;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -37,4 +39,15 @@ public class ProductController {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Product not found.");
         }
     }
+
+    @GetMapping("/by-flavors")
+    public ResponseEntity<List<ProductResponseDTO>> getProductsByFlavors(@RequestParam List<String> flavors) {
+        List<Product> products = productService.getProductsByFlavors(flavors);
+        List<ProductResponseDTO> dtos = products.stream()
+                .map(ProductResponseDTO::fromEntity)
+                .toList();
+        return ResponseEntity.ok(dtos);
+    }
+
+
 }
