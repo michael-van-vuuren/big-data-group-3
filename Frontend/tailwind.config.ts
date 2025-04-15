@@ -33,6 +33,7 @@ const config: Config = {
         specialIndigo: '#A1AEDF',
         specialTan: '#FBF9C5',
         darkerBlue: '#435875',
+        logoBlue: '#3357cc',
       },
       borderRadius: {
         base: '0px',
@@ -42,6 +43,8 @@ const config: Config = {
         dark: '4px 4px 0px 0px #000',
         lightSm: '1px 1px 0px 0px #000',
         darkSm: '2px 2px 0px 0px #000',
+        lightLg: '8px 8px 0px 0px #000',
+        darkLg: '9px 9px 0px 0px #000',
       },
       translate: {
         boxShadowX: '3px',

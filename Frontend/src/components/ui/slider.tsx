@@ -5,14 +5,14 @@ import * as React from "react"
 import { cn } from "@/lib/utils"
 
 interface SliderProps extends React.ComponentPropsWithoutRef<typeof SliderPrimitive.Root> {
-  trackColor?: string; // accept custom track color for the filled portion
-  trackBgColor?: string; // accept custom color for the unfilled background
+  trackColor?: string
+  trackBgColor?: string
 }
 
 const Slider = React.forwardRef<
   React.ElementRef<typeof SliderPrimitive.Root>,
   SliderProps
->(({ className, trackColor = "bg-main", trackBgColor = "bg-gray-300", ...props }, ref) => (
+>(({ className, trackColor = "bg-black", trackBgColor, ...props }, ref) => (
   <SliderPrimitive.Root
     ref={ref}
     className={cn(
@@ -21,19 +21,26 @@ const Slider = React.forwardRef<
     )}
     {...props}
   >
-    {/* unfilled track */}
+    {/* unfilled track with linear gradient */}
     <SliderPrimitive.Track
       className={cn(
-        "relative h-3 w-full grow overflow-hidden rounded-full border-2 border-slate-200 dark:border-slate-800",
-        trackBgColor // apply background color
+        "relative h-3 w-full grow overflow-hidden border-2 border-black",
+        trackBgColor,
+        "bg-gradient-to-r from-green-400 via-yellow-300 to-red-500"
       )}
     >
-      {/* filled track */}
-      <SliderPrimitive.Range className={cn("absolute h-full", trackColor)} />
+      {/* filled track overlay */}
+      <SliderPrimitive.Range className={cn("absolute h-full")} />
     </SliderPrimitive.Track>
 
     {/* thumb */}
-    <SliderPrimitive.Thumb className="block h-5 w-5 rounded-full border-2 border-slate-200 bg-white ring-offset-white transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-black focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 dark:border-slate-800" />
+    <SliderPrimitive.Thumb
+      className={cn(
+        "block h-4 w-4 bg-pink-400 border-black border-2",
+        "hover:scale-125 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-black focus-visible:ring-offset-2",
+        "disabled:pointer-events-none disabled:opacity-50"
+      )}
+    />
   </SliderPrimitive.Root>
 ))
 Slider.displayName = SliderPrimitive.Root.displayName

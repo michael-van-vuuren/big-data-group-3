@@ -16,7 +16,6 @@ import {
 
 import { cn } from '@/lib/utils'
 
-// 🌍 Explore Tab
 const exploreTabs = [
   {
     title: 'Introduction',
@@ -35,7 +34,6 @@ const exploreTabs = [
   },
 ]
 
-// 🛒 Shop Tab (trimmed to just Shop Beans)
 const shopTabs = [
   {
     title: 'Shop Beans',
@@ -47,12 +45,16 @@ const shopTabs = [
 export default function NavigationMenuDemo() {
   return (
     <NavigationMenu className="justify-start z-[5] m750:max-w-[300px]">
-      <Link href="/" className="bg-darkerBlue px-2 border-r-2 border-border py-1 hover:opacity-80">
-        <Image src="/favicon-dark.png" alt="logo" width={250} height={250} className="max-h-11 max-w-11"/>
+      <Link
+        href="/"
+        className="bg-darkerBlue px-2 py-1 border-black border-r-2 hover:opacity-80 transition-opacity"
+      >
+        <Image src="/favicon-dark.png" alt="logo" width={250} height={250} className="max-h-11 max-w-11" />
       </Link>
+
       <NavigationMenuList className="m750:max-w-[300px]">
 
-        {/* 🌍 Explore Tab */}
+        {/* Explore */}
         <NavigationMenuItem>
           <NavigationMenuTrigger className="m750:max-w-[80px] m750:text-xs">
             Explore
@@ -68,7 +70,7 @@ export default function NavigationMenuDemo() {
           </NavigationMenuContent>
         </NavigationMenuItem>
 
-        {/* 🛒 Shop Tab */}
+        {/* Shop */}
         <NavigationMenuItem>
           <NavigationMenuTrigger className="m750:max-w-[80px] m750:text-xs">
             Shop
@@ -89,7 +91,6 @@ export default function NavigationMenuDemo() {
   )
 }
 
-// 🔹 Reusable ListItem Component (with Link wrapped around <a>)
 const ListItem = React.forwardRef<
   React.ElementRef<'a'>,
   React.ComponentPropsWithoutRef<'a'>

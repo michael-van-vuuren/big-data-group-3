@@ -12,7 +12,8 @@ import {
 } from '@/components/ui/carousel';
 import Image from 'next/image';
 import Link from 'next/link';
-import WelcomeButton from '@/components/welcome-button'; // Assuming this takes a 'message' prop
+import WelcomeButton from '@/components/welcome-button';
+import Logo from '@/sections/logo';
 
 // Import images
 import fruitySystem from '@/images/fruity.png';
@@ -45,7 +46,7 @@ export default function Header() {
       {/* Carousel section */}
       <div
         className="bg-blue-900 overflow-clip flex justify-center items-center w-full border-border border-4 grid-bg-dot"
-        style={{ height: "calc(65vh)" }}
+        style={{ height: 'calc(100vh - 58px)' }}
       >
         <Carousel>
           <CarouselContent>
@@ -54,16 +55,22 @@ export default function Header() {
                 <Card className="shadow-none">
                   <CardContent className="flex flex-col items-center justify-center">
                     <Link href={system.link} passHref>
-                      <div className="group flex flex-col items-center transition-transform duration-150 hover:scale-110 select-none relative">
+                      <div className="group flex flex-col items-center transition-transform duration-150 hover:scale-105 select-none relative">
+                        
+                        {/* System label */}
+                        <p className="text-white border-white bg-gray-300/10 border-2 font-bold py-2 px-4 mb-8 text-md grid-bg-sm group-hover:underline">
+                          {system.name}
+                        </p>
+                        
                         {/* Image and gradient */}
-                        <div className="relative w-full">
+                        <div className="relative w-full mb-32 hover:animate-pulse" style={{ animationDuration: '1.5s' }}>
                           <Image
                             src={system.image}
                             alt={system.name}
                             width={0}
                             height={0}
-                            sizes="190vw"
-                            className="w-full h-full object-cover"
+                            sizes="100vw"
+                            className="h-full object-cover"
                             priority={index === 0}
                           />
                           <div
@@ -71,11 +78,7 @@ export default function Header() {
                             style={{ background: gradientOverlay }}
                           />
                         </div>
-
-                        {/* System label */}
-                        <p className="text-white border-white bg-gray-300/10 border-2 font-bold py-2 px-4 mt-8 text-lg grid-bg-sm group-hover:underline">
-                          {system.name}
-                        </p>
+                
                       </div>
                     </Link>
                   </CardContent>
@@ -89,21 +92,29 @@ export default function Header() {
       </div>
 
       {/* Welcome section */}
-      <div className="w-full py-8 px-4">
-        <div className="flex flex-col items-center text-center">
-          {user && (
-            <>
-              <h2 className="text-black text-lg font-bold">{`Welcome, ${user.name}!`}</h2>
-              <p className="text-gray-500 mt-2 mb-4">Take the preference quiz to get started</p>
-              {error && <p className="text-red-300 text-sm">{error}</p>}
-            </>
-          )}
+      <div className="fixed bottom-0 sm:bottom-8 left-0 sm:left-8 z-50">
+        <div className="bg-white flex items-center gap-8 border-black border-4 p-4">
+          <div className="flex-shrink-0">
+            <Logo />
+          </div>
 
-          <Link href={buttonLink} className="mt-2" passHref>
-            <WelcomeButton message={buttonMessage} />
-          </Link>
+          <div className="flex flex-col justify-center">
+            {user && (
+              <div className="text-start">
+                <h2 className="text-black text-md font-bold">{`Welcome, ${user.name}!`}</h2>
+                <p className="text-gray-500 mt-2 mb-4 text-md">Start by taking the quiz</p>
+                {error && <p className="text-red-300 text-sm">{error}</p>}
+              </div>
+            )}
+
+            <Link href={buttonLink} passHref>
+              <WelcomeButton message={buttonMessage} />
+            </Link>
+          </div>
         </div>
       </div>
+
+
     </>
   );
 }

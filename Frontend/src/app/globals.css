@@ -35,6 +35,41 @@ body::-webkit-scrollbar-thumb {
 }
 
 @layer utilities {
+  .cosmic-bg {
+    @apply bg-gradient-to-b from-slate-900 via-logoBlue to-slate-900 bg-[length:200%_200%] animate-rainbow;
+  }
+
+  .cosmic-border {
+    @apply border-black;
+  }
+
+  .cosmic-text {
+    @apply text-white;
+  }
+
+  @keyframes rainbow {
+    0% {
+      background-position: 0% 0%;
+    }
+    40% {
+      background-position: 0% 0%;
+    }
+    50% {
+      background-position: 100% 100%;
+    }
+    90% {
+      background-position: 100% 100%;
+    }
+    100% {
+      background-position: 0% 0%;
+    }
+  }
+  
+
+  .animate-rainbow {
+    animation: rainbow 30s ease-in-out infinite;
+  }
+
   .grid-bg-light {
     background-image: linear-gradient(to right, #ffffff6d 1px, transparent 0px),
       linear-gradient(to bottom, #ffffff6d 1px, transparent 0px);

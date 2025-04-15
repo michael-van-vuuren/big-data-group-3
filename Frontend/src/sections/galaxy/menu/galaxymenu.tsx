@@ -76,10 +76,6 @@ export default function PlanetMenu({
     nextSystem = systems[nextIndex];
   }
 
-  const handleShowMatchingProductsClick = () => {
-    onShowProducts(selectedSubCategory);
-  };
-
   return (
     <div className="flex flex-col h-full items-center justify-start bg-white p-4 overflow-y-auto">
       <div className="w-full flex items-center justify-center space-x-2 sm:space-x-4 mb-6">
@@ -132,7 +128,7 @@ export default function PlanetMenu({
 
       <div className="w-full flex justify-center mt-auto pt-4 pb-2">
         <Button
-          onClick={handleShowMatchingProductsClick}
+          onClick={() => onShowProducts(selectedSubCategory)}
           disabled={selectedSubCategory.length === 0 || isParentLoading}
           size="lg"
         >
