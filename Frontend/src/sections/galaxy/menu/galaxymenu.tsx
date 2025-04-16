@@ -123,10 +123,13 @@ export default function PlanetMenu({
       )}
 
       <div className="w-full overflow-x-auto mb-6 min-h-52">
-        <NoteTable subcategories={selectedSubCategory} />
+        <NoteTable
+          subcategories={selectedSubCategory}
+          onRemoveNote={toggleButton}
+        />
       </div>
 
-      <div className="mt-auto w-full flex flex-row justify-center gap-2 sm:gap-4 border-black border-2 py-4 px-6 shadow-light">
+      <div className="mt-auto w-full flex flex-row justify-center gap-2 sm:gap-4 border-black border-2 py-4 px-6 border-b-8">
         <Button
           onClick={() => onShowProducts(selectedSubCategory, false)}
           disabled={selectedSubCategory.length === 0 || isParentLoading}
