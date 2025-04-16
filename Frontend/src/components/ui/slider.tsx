@@ -36,7 +36,7 @@ const Slider = React.forwardRef<
     {/* thumb */}
     <SliderPrimitive.Thumb
       className={cn(
-        "block h-4 w-4 bg-pink-400 border-black border-2",
+        "block h-4 w-4 bg-rose-500 border-black border-2",
         "hover:scale-125 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-black focus-visible:ring-offset-2",
         "disabled:pointer-events-none disabled:opacity-50"
       )}

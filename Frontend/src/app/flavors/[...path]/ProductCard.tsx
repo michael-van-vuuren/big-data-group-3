@@ -3,6 +3,8 @@ import type { Product } from "./types";
 import ProductImage from "./ProductImage";
 import { toTitleCase } from "@/lib/stringutils";
 import FlavorTags from './FlavorTags';
+import { Button } from '@/components/ui/button';
+import { toast } from "sonner";
 
 interface ProductCardProps {
   product: Product;
@@ -15,6 +17,22 @@ export default function ProductCard({ product, priceStyle }: ProductCardProps) {
       key={product.id}
       className="relative bg-white h-full p-4 text-left flex flex-col justify-between items-center"
     >
+      {/* Favorite */}
+      <Button
+        onClick={() =>
+          toast(`${toTitleCase(product.name)} added!`, {
+            description: "Visit the account tab to view your favorites.",
+            action: {
+              label: "Undo",
+              onClick: () => console.log("Undo"),
+            },
+          })
+        }
+        variant="heart"
+        className="absolute left-0 top-0"
+      >
+      </Button>
+
       {/* Price sticker */}
       {product.price !== undefined && (
         <div
