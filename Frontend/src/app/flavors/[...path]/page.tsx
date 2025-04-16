@@ -54,11 +54,19 @@ export default function NotesPage({ params }: { params: { path?: string[] } }) {
     setReset(false);
   };
 
-  const leftPanelInitialSize = 40;
-  const galaxyPanelSize = isMobile ? 60 : 100 - leftPanelInitialSize;
-  const menuPanelSize = isMobile ? 50 : leftPanelInitialSize;
-  const menuPanelMinSize = isMobile ? 30 : 40;
+  // Resizable windows
+  const desktopMenuDefaultSize = 40;
+  const mobileGalaxyDefaultSize = 35;
 
+  const galaxyPanelSize = isMobile
+    ? mobileGalaxyDefaultSize
+    : 100 - desktopMenuDefaultSize;
+
+  const menuPanelSize = isMobile
+    ? 100 - mobileGalaxyDefaultSize
+    : desktopMenuDefaultSize;
+
+  const menuPanelMinSize = isMobile ? 30 : 40;
 
   return (
     <div
@@ -73,42 +81,49 @@ export default function NotesPage({ params }: { params: { path?: string[] } }) {
     >
       <ProductSearchContext.Provider value={productSearch}>
         {showProductsView ? (
+
           <ProductDisplay />
+
         ) : (
-        <ResizablePanelGroup
-          direction={isMobile ? "vertical" : "horizontal"}
-          className="flex-grow"
-        >
-          <ResizablePanel defaultSize={galaxyPanelSize}>
-            <div className="w-full h-full overflow-hidden">
-              <Galaxy
-                planetData={planetDataRef.current}
-                targetRef={targetRef}
-                handleSelection={handleSelection}
-                reset={reset}
-                onResetComplete={handleResetComplete}
-                path={currentSystemPath}
-              />
-            </div>
-          </ResizablePanel>
-          <ResizableHandle />
-          <ResizablePanel
-            defaultSize={menuPanelSize}
-            minSize={menuPanelMinSize}
-            className={`${isMobile ? "min-h-[20%]" : "min-w-[30%]"} overflow-hidden bg-background`}
+
+          <ResizablePanelGroup
+            direction={isMobile ? "vertical" : "horizontal"}
+            className="flex-grow"
           >
-            <PlanetMenu
-              planetData={planetDataRef.current}
-              path={currentSystemPath}
-              selectedCategory={selectedCategory}
-              handleSelection={handleSelection}
-              systems={systems}
-              onShowProducts={productSearch.triggerProductSearch}
-              isParentLoading={productSearch.loadingProducts}
-            />
-          </ResizablePanel>
-        </ResizablePanelGroup>
-      )}
+
+            <ResizablePanel defaultSize={galaxyPanelSize}>
+              <div className="w-full h-full overflow-hidden">
+                <Galaxy
+                  planetData={planetDataRef.current}
+                  targetRef={targetRef}
+                  handleSelection={handleSelection}
+                  reset={reset}
+                  onResetComplete={handleResetComplete}
+                  path={currentSystemPath}
+                />
+              </div>
+            </ResizablePanel>
+
+            <ResizableHandle withHandle />
+
+            <ResizablePanel
+              defaultSize={menuPanelSize}
+              minSize={menuPanelMinSize}
+              className={`${isMobile ? "min-h-[20%]" : "min-w-[30%]"} overflow-hidden bg-background`}
+            >
+              <PlanetMenu
+                planetData={planetDataRef.current}
+                path={currentSystemPath}
+                selectedCategory={selectedCategory}
+                handleSelection={handleSelection}
+                systems={systems}
+                onShowProducts={productSearch.triggerProductSearch}
+                isParentLoading={productSearch.loadingProducts}
+              />
+            </ResizablePanel>
+
+          </ResizablePanelGroup>
+        )}
       </ProductSearchContext.Provider>
     </div>
   );
