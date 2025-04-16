@@ -1,5 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { getNoteColor } from "@/lib/colorutils";
+import { toTitleCase, toCompressedForm } from "@/lib/stringutils";
 
 interface SubcategoriesProps {
     notes: string[];
@@ -29,7 +30,7 @@ export default function Subcategories({ notes, selected, toggle }: Subcategories
                                 </>
                             )}
                         </Button>
-                        <p className="text-sm">{note}</p>
+                        <p className="text-sm">{toTitleCase(toCompressedForm(note))}</p>
                     </div>
                 );
             })}

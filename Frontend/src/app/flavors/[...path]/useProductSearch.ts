@@ -72,8 +72,8 @@ export function useProductSearch(
   }, [currentFilteredMaxPrice]);
 
   /* --- Product search callback --- */
-  const triggerProductSearch = useCallback(async (subCategories: string[]) => {
-    if (subCategories.length === 0) {
+  const triggerProductSearch = useCallback(async (notes: string[]) => {
+    if (notes.length === 0) {
 
       console.warn("triggerProductSearch called with no subCategories.");
       allProductsRef.current = [];
@@ -88,7 +88,7 @@ export function useProductSearch(
     setIsFilterInverted(false);
 
     try {
-      const fetchedProducts = await getProductsByFlavors(subCategories);
+      const fetchedProducts = await getProductsByFlavors(notes);
       allProductsRef.current = fetchedProducts;
 
       const initialOverallMax = Math.max(

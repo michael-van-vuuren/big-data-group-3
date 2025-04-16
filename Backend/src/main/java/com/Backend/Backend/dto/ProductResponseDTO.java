@@ -29,7 +29,7 @@ public class ProductResponseDTO {
 //
 //    private ProcessDTO process;
 //
-//    private List<FlavorDTO> flavors;
+    private List<FlavorDTO> flavors;
 //
 //    private List<ProducerDTO> producers;
 
@@ -44,10 +44,10 @@ public class ProductResponseDTO {
                 product.getAvailability().name(),
                 product.getPrice(),
                 product.getPricePerCup(),
-                product.getBulkPricePerCup()
+                product.getBulkPricePerCup(),
 //                RoasterDTO.fromEntity(product.getRoaster()),
 //                ProcessDTO.fromEntity(product.getProcess()),
-//                product.getFlavors().stream().map(FlavorDTO::fromEntity).toList(),
+                product.getFlavors().stream().map(FlavorDTO::fromEntity).toList()
 //                product.getProducers().stream().map(ProducerDTO::fromEntity).toList()
         );
     }

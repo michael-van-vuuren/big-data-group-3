@@ -7,6 +7,7 @@ import {
     TableHeader,
     TableRow,
 } from '@/components/ui/table'
+import { toTitleCase, toCompressedForm } from '@/lib/stringutils';
 
 
 interface NoteTableProps {
@@ -25,7 +26,7 @@ export default function NoteTable({ subcategories }: NoteTableProps) {
                 <TableBody>
                     {subcategories.slice().reverse().map((subcategories) => (
                         <TableRow key={subcategories}>
-                            <TableCell className="font-base">{subcategories}</TableCell>
+                            <TableCell className="font-base">{toTitleCase(toCompressedForm(subcategories))}</TableCell>
                         </TableRow>
                     ))}
                 </TableBody>

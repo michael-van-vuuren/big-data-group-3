@@ -2,6 +2,7 @@ import React from 'react';
 import type { Product } from "./types";
 import ProductImage from "./ProductImage";
 import { toTitleCase } from "@/lib/stringutils";
+import FlavorTags from './FlavorTags';
 
 interface ProductCardProps {
   product: Product;
@@ -27,36 +28,33 @@ export default function ProductCard({ product, priceStyle }: ProductCardProps) {
       {/* Image */}
       <ProductImage src={product.image} alt={toTitleCase(product.name)} />
 
+      {/* Flavor tags */}
+      <FlavorTags product={product} />
+
       {/* Details */}
-      <div className="w-full flex-grow mb-3 mt-2">
-        <h3 className="text-lg font-semibold mb-2 line-clamp-2" title={toTitleCase(product.name)}>{toTitleCase(product.name)}</h3>
-        <div className="grid grid-cols-[auto_1fr] gap-x-2 gap-y-1 text-xs text-gray-600">
-          <p className="font-semibold text-gray-700">Roast:</p>
+      <div className="w-full flex-grow mb-3 mt-2  font-semibold text-black">
+        <h3 className="text-lg mb-2 line-clamp-2" title={toTitleCase(product.name)}>{toTitleCase(product.name)}</h3>
+        <div className="grid grid-cols-[auto_1fr] gap-x-2 gap-y-1 text-xs font-medium text-gray-400">
+          <p>Roast:</p>
           <p>{toTitleCase(product.roastDegree || "N/A")}</p>
 
           {product.pricePerCup !== undefined && (
             <>
-              <p className="font-semibold text-gray-700">Price Per Cup:</p>
+              <p>Price Per Cup:</p>
               <p>${product.pricePerCup.toFixed(2)}</p>
             </>
           )}
 
           {product.gram !== undefined && (
             <>
-              <p className="font-semibold text-gray-700">Weight:</p>
+              <p>Weight:</p>
               <p>{product.gram.toFixed(0)} g</p>
             </>
           )}
 
-          <p className="font-semibold text-gray-700">Status:</p>
-          <p>{product.availability || "N/A"}</p>
+          <p>Available?</p>
+          <p>{toTitleCase(product.availability || "N/A")}</p>
 
-          {product.flavors && product.flavors.length > 0 && (
-            <>
-              <p className="font-semibold text-gray-700 self-start">Flavors:</p>
-              <p className="line-clamp-2">{product.flavors.map(f => f.name).join(", ")}</p>
-            </>
-          )}
         </div>
       </div>
 
