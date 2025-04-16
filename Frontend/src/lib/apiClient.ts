@@ -62,9 +62,13 @@ export const logoutUser = () => fetchApi('/auth/logout', {
 });
 
 // fetch coffee bean products by flavors
-export const getProductsByFlavors = (flavors: string[]) => {
+export const getProductsByFlavors = (flavors: string[], searchStrictnessFlag?: boolean) => {
     const params = new URLSearchParams();
     flavors.forEach(flavor => params.append('flavors', flavor));
+
+    if (searchStrictnessFlag === true) {
+        params.append('strict', 'true');
+    }
 
     return fetchApi(`/products/by-flavors?${params.toString()}`, {
         method: 'GET',

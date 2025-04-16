@@ -23,7 +23,7 @@ export interface UseProductSearchResult {
   matchingProducts: Product[]; 
   loadingProducts: boolean;
   productError: string | null;
-  triggerProductSearch: (subCategories: string[]) => Promise<void>;
+  triggerProductSearch: (subCategories: string[], searchStrictnessFlag?: boolean) => Promise<void>;
   handleCloseProductsView: () => void;
   
   // Filters

@@ -35,11 +35,16 @@ public class ProductService {
 
     /* Get products by flavors */
     @Transactional(readOnly = true)
-    public List<Product> getProductsByFlavors(List<String> flavorNames) {
+    public List<Product> getProductsByFlavors(List<String> flavorNames, boolean strict) {
         if (flavorNames == null || flavorNames.isEmpty()) {
             return List.of();
         }
-        return productRepository.findProductsByAnyFlavor(flavorNames);
+
+        if (strict) {
+            return productRepository.findProductsByAllFlavors(flavorNames, flavorNames.size());
+        } else {
+            return productRepository.findProductsByAnyFlavor(flavorNames);
+        }
     }
 
 

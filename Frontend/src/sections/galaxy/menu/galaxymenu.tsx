@@ -19,7 +19,7 @@ interface PlanetMenuProps {
   selectedCategory: string | null;
   handleSelection: (planet: PlanetData) => void;
   systems: System[];
-  onShowProducts: (subCategories: string[]) => void;
+  onShowProducts: (subCategories: string[], searchStrictnessFlag?: boolean) => void;
   isParentLoading: boolean;
 }
 
@@ -126,13 +126,24 @@ export default function PlanetMenu({
         <NoteTable subcategories={selectedSubCategory} />
       </div>
 
-      <div className="w-full flex justify-center mt-auto pt-4 pb-2">
+      <div className="mt-auto w-full flex flex-row justify-center gap-2 sm:gap-4 border-black border-2 py-4 px-6 shadow-light">
         <Button
-          onClick={() => onShowProducts(selectedSubCategory)}
+          onClick={() => onShowProducts(selectedSubCategory, false)}
           disabled={selectedSubCategory.length === 0 || isParentLoading}
           size="lg"
+          variant="reverse"
+          className="bg-emerald-600 p-2 text-sm text-white"
         >
-          {isParentLoading ? "Loading Products..." : "Show Matching Products"}
+          {isParentLoading ? "Loading Products..." : "Products With Any Notes"}
+        </Button>
+        <Button
+          onClick={() => onShowProducts(selectedSubCategory, true)}
+          disabled={selectedSubCategory.length === 0 || isParentLoading}
+          size="lg"
+          variant="reverse"
+          className="bg-red-500 p-2 text-sm text-white"
+        >
+          {isParentLoading ? "Loading Products..." : "Products With All Notes"}
         </Button>
       </div>
     </div>

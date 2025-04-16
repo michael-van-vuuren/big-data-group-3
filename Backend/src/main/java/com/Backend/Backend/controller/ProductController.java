@@ -1,7 +1,6 @@
 package com.Backend.Backend.controller;
 
 import java.util.List;
-import java.util.Map;
 
 import com.Backend.Backend.dto.ProductDTO;
 import com.Backend.Backend.dto.ProductImportResult;
@@ -41,8 +40,12 @@ public class ProductController {
     }
 
     @GetMapping("/by-flavors")
-    public ResponseEntity<List<ProductResponseDTO>> getProductsByFlavors(@RequestParam List<String> flavors) {
-        List<Product> products = productService.getProductsByFlavors(flavors);
+    public ResponseEntity<List<ProductResponseDTO>> getProductsByFlavors(
+            @RequestParam List<String> flavors,
+            @RequestParam(name = "strict", required = false, defaultValue = "false") boolean isStrictSearch
+    ) {
+        List<Product> products = productService.getProductsByFlavors(flavors, isStrictSearch);
+
         List<ProductResponseDTO> dtos = products.stream()
                 .map(ProductResponseDTO::fromEntity)
                 .toList();
