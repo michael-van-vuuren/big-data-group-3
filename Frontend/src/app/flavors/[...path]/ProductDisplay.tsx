@@ -1,4 +1,3 @@
-import React from "react";
 import { Button } from "@/components/ui/button";
 import type { Product, AvailabilityFilter } from "./types";
 import { toTitleCase } from "@/lib/stringutils";
@@ -14,8 +13,37 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import Logo from "@/sections/logo";
+import ProductImage from "./productImage";
 
 const DEFAULT_MAX_PRICE_SLIDER = 100;
+
+const getPriceColorStyle = (
+  price: number | undefined,
+  minPrice: number,
+  maxPrice: number
+): React.CSSProperties => {
+  const defaultStyle: React.CSSProperties = {
+    backgroundColor: 'hsl(222, 47%, 50%)',
+    color: 'white',
+  };
+
+  if (price === undefined || maxPrice <= minPrice) {
+    return defaultStyle;
+  }
+
+  const normalizedPrice = Math.max(0, Math.min(1, (price - minPrice) / (maxPrice - minPrice)));
+
+  const hue = 120 * (1 - normalizedPrice);
+  const saturation = 85;
+  const lightness = 50;
+
+  const textColor = (hue > 45 && hue < 150 && lightness > 40) ? 'black' : 'white';
+
+  return {
+    backgroundColor: `hsl(${hue.toFixed(0)}, ${saturation}%, ${lightness}%)`,
+    color: textColor,
+  };
+};
 
 // Product display component
 export default function ProductDisplay() {
@@ -35,7 +63,9 @@ export default function ProductDisplay() {
     handleResetFilters,
     totalFetchedCount,
     isFilterInverted,
-    handleToggleInvertFilter: handleToggleInvertFilter
+    handleToggleInvertFilter: handleToggleInvertFilter,
+    priceSortOrder,
+    handlePriceSortToggle,
   } = useProductSearchContext();
 
   const handlePriceSliderChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -49,37 +79,70 @@ export default function ProductDisplay() {
   const sliderMax = currentFilteredMaxPrice > 0 ? currentFilteredMaxPrice : DEFAULT_MAX_PRICE_SLIDER;
   const showRoastFilter = uniqueRoastDegrees && uniqueRoastDegrees.length > 1;
 
+  const getSortButtonContent = () => {
+    switch (priceSortOrder) {
+      case 'asc':
+        return (
+          <svg width="20" height="20" viewBox="0 0 14 14">
+            <polygon points="7,3 11,9 3,9" fill="currentColor" />
+          </svg>
+        );
+      case 'desc':
+        return (
+          <svg width="20" height="20" viewBox="0 0 14 14">
+            <polygon points="3,5 11,5 7,11" fill="currentColor" />
+          </svg>
+        );
+      default:
+        return (
+          <svg width="20" height="20" viewBox="0 0 14 14">
+            <rect x="3" y="6" width="8" height="2" fill="currentColor" />
+          </svg>
+        );
+    }
+  };
+
+  const validPrices = matchingProducts
+    .map(p => p.price)
+    .filter((p): p is number => p !== undefined); // Type guard to filter out undefined and ensure number[]
+
+  const minPrice = validPrices.length > 0 ? Math.min(...validPrices) : 0;
+  const maxPrice = validPrices.length > 0 ? Math.max(...validPrices) : 0;
+
+  console.log(matchingProducts);
+
   return (
     <div className="bg-blue-900 text-start lg:py-8 flex-grow grid-bg-dot h-full flex flex-col">
 
       {/* --- Begin sticky header --- */}
-      <div className="sticky bg-white/50 max-w-6xl mx-auto top-0 flex flex-wrap items-center justify-between p-4 border-x-2 border-2 border-black gap-4 z-10 w-full grid-bg-sm shadow-lightLg">
+      <div className="sticky bg-white/40 max-w-6xl mx-auto top-0 flex flex-wrap items-center justify-between p-4 border-x-2 border-2 border-black gap-4 z-10 w-full grid-bg-sm shadow-lightLg">
 
         {/* Filter controls */}
-        <div className="flex flex-wrap items-center gap-x-4 gap-y-2 flex-grow pr-20">
 
+        {/* Row 1 */}
+        <div className="flex flex-wrap items-center gap-x-4 gap-y-4 flex-grow pr-10">
           {/* Price */}
-          <div className="flex items-center gap-2 text-sm text-white">
+          <div className="flex items-center gap-4 text-sm text-white">
             <Slider
               id="maxPriceSlider"
               min={0}
               max={sliderMax}
-              step={0.25}
+              step={2.50}
               value={[Math.min(maxPriceFilter, sliderMax)]}
               onValueChange={([val]) =>
                 handlePriceSliderChange({ target: { value: String(val) } } as React.ChangeEvent<HTMLInputElement>)
               }
               disabled={loadingProducts}
-              className="w-80"
+              className="w-52"
             />
 
-            <span className="font-semibold">
+            <span className="font-medium text-xs bg-blue-600 p-2 border-black border-2">
               Less than ${maxPriceFilter.toFixed(2)}
             </span>
           </div>
 
           {/* Availability */}
-          <fieldset className="flex items-center gap-x-4 gap-y-1 text-sm text-white font-semibold">
+          <fieldset className="flex items-center gap-x-4 gap-y-1 text-sm text-white font-semibold py-2">
             {(["All", "Available", "Unavailable"] as AvailabilityFilter[]).map(option => (
               <div key={option} className="flex items-center gap-1">
                 <input
@@ -102,6 +165,22 @@ export default function ProductDisplay() {
               </div>
             ))}
           </fieldset>
+
+          {/* Sort by price */}
+          <div className="flex items-center gap-2 bg-blue-600 pl-1 py-1 border-black border-2">
+            <Button
+              variant="reverse"
+              size="icon"
+              onClick={handlePriceSortToggle}
+              disabled={loadingProducts || matchingProducts.length === 0}
+              className="text-xs border-black text-black bg-white flex-shrink-0 flex items-center"
+            >
+              {getSortButtonContent()}
+            </Button>
+            <div className="pr-2 text-xs font-medium text-white text-nowrap">
+              Sort by price
+            </div>
+          </div>
 
           {/* Roast degree */}
           {showRoastFilter && (
@@ -127,10 +206,8 @@ export default function ProductDisplay() {
               </Select>
             </div>
           )}
-        </div>
 
-        {/* Clear */}
-        <div className="flex w-full gap-2 justify-start">
+          {/* Clear */}
           <Button
             variant="reverse"
             size="sm"
@@ -166,11 +243,8 @@ export default function ProductDisplay() {
           <span className="text-xl font-semibold leading-none">&times;</span>
         </Button>
 
-
-
       </div>
       {/* --- End sticky header --- */}
-
 
 
       {/* --- Begin products --- */}
@@ -194,8 +268,6 @@ export default function ProductDisplay() {
           </div>
         )}
 
-
-
         {loadingProducts && <p className="text-center text-lg text-gray-500 py-10">Loading products...</p>}
 
         {productError && !loadingProducts && (
@@ -214,62 +286,78 @@ export default function ProductDisplay() {
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
 
             {/* Product mapping */}
-            {matchingProducts.map(product => (
-              <div
-                key={product.beanId}
-                className="bg-white p-4 text-left flex flex-col justify-between items-center"
-              >
-                {/* Image */}
-                {product.image ? (
-                  <img
-                    src={product.image}
-                    alt={toTitleCase(product.name)}
-                    className="w-full h-44 object-contain p-2 border-2 border-black mb-3 bg-white"
-                  />
-                ) : (
-                  <div className="w-full h-44 border-2 border-black bg-slate-100 mb-3 flex items-center justify-center text-gray-400 text-sm">
-                    No Image Available
-                  </div>
-                )}
-                {/* Details */}
-                <div className="w-full flex-grow mb-3">
-                  <h3 className="text-lg font-semibold mb-2 line-clamp-2" title={toTitleCase(product.name)}>{toTitleCase(product.name)}</h3>
-                  <div className="grid grid-cols-[auto_1fr] gap-x-2 gap-y-1 text-xs text-gray-600">
-                    <p className="font-semibold text-gray-700">Roast:</p>
-                    <p>{toTitleCase(product.roastDegree || "N/A")}</p>
-                    {product.price !== undefined && (
-                      <>
-                        <p className="font-semibold text-gray-700">Price:</p>
-                        <p>${product.price.toFixed(2)}</p>
-                      </>
-                    )}
-                    <p className="font-semibold text-gray-700">Status:</p>
-                    <p>{product.availability || "N/A"}</p>
-                    {product.flavors && product.flavors.length > 0 && (
-                      <>
-                        <p className="font-semibold text-gray-700 self-start">Flavors:</p>
-                        <p className="line-clamp-2">{product.flavors.map(f => f.name).join(", ")}</p>
-                      </>
-                    )}
-                  </div>
-                </div>
+            {matchingProducts.map(product => {
+              const priceStyle = getPriceColorStyle(product.price, minPrice, maxPrice);
 
-                {/* View button */}
-                <a
-                  href={product.webpage}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className={`w-full text-sm font-medium text-center border-2 border-black py-2 px-4 mt-auto ${!product.webpage
-                    ? "bg-gray-200 text-gray-500 cursor-not-allowed"
-                    : "bg-white text-black hover:bg-emerald-500 hover:text-white"
-                    }`}
-                  onClick={e => !product.webpage && e.preventDefault()}
-                  aria-disabled={!product.webpage}
+              return (
+                <div
+                  key={product.beanId}
+                  className="relative bg-white p-4 text-left flex flex-col justify-between items-center"
                 >
-                  {product.webpage ? "View Product →" : "Link Unavailable"}
-                </a>
-              </div>
-            ))}
+                  {/* Price sticker */}
+                  {product.price !== undefined && (
+                    <div
+                      className="absolute top-2 right-2 border-black border-2 text-sm font-bold px-2 py-1 z-10"
+                      style={priceStyle}
+                    >
+                      ${product.price.toFixed(2)}
+                    </div>
+                  )}
+
+                  {/* Image */}
+                  <ProductImage src={product.image} alt={toTitleCase(product.name)} />
+
+                  {/* Details */}
+                  <div className="w-full flex-grow mb-3">
+                    <h3 className="text-lg font-semibold mb-2 line-clamp-2" title={toTitleCase(product.name)}>{toTitleCase(product.name)}</h3>
+                    <div className="grid grid-cols-[auto_1fr] gap-x-2 gap-y-1 text-xs text-gray-600">
+                      <p className="font-semibold text-gray-700">Roast:</p>
+                      <p>{toTitleCase(product.roastDegree || "N/A")}</p>
+
+                      {product.pricePerCup !== undefined && (
+                        <>
+                          <p className="font-semibold text-gray-700">Price Per Cup:</p>
+                          <p>${product.pricePerCup.toFixed(2)}</p>
+                        </>
+                      )}
+
+                      {product.gram !== undefined && (
+                        <>
+                          <p className="font-semibold text-gray-700">Weight:</p>
+                          <p>{product.gram.toFixed(0)} g</p>
+                        </>
+                      )}
+
+                      <p className="font-semibold text-gray-700">Status:</p>
+                      <p>{product.availability || "N/A"}</p>
+
+                      {product.flavors && product.flavors.length > 0 && (
+                        <>
+                          <p className="font-semibold text-gray-700 self-start">Flavors:</p>
+                          <p className="line-clamp-2">{product.flavors.map(f => f.name).join(", ")}</p>
+                        </>
+                      )}
+                    </div>
+                  </div>
+
+                  {/* View button */}
+                  <a
+                    href={product.webpage}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className={`w-full text-sm font-medium text-center border-2 border-black py-2 px-4 mt-auto ${!product.webpage
+                      ? "bg-gray-200 text-gray-500 cursor-not-allowed"
+                      : "bg-white text-black hover:bg-emerald-500 hover:text-white"
+                      }`}
+                    onClick={e => !product.webpage && e.preventDefault()}
+                    aria-disabled={!product.webpage}
+                  >
+                    {product.webpage ? "View Product →" : "Link Unavailable"}
+                  </a>
+                </div>
+              )
+            })}
+
           </div>
         )}
       </div>

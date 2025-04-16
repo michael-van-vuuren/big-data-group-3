@@ -14,7 +14,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 public class ProductResponseDTO {
-    private Long beanId;
+    private Long id;
     private String name;
     private String image;
     private String webpage;
@@ -35,7 +35,7 @@ public class ProductResponseDTO {
 
     public static ProductResponseDTO fromEntity(Product product) {
         return new ProductResponseDTO(
-                product.getBeanId(),
+                product.getId(),
                 product.getName(),
                 product.getImage(),
                 product.getWebpage(),

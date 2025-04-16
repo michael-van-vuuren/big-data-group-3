@@ -1,11 +1,11 @@
 import { useState, useEffect, useCallback, useRef, useMemo } from "react";
 import { getProductsByFlavors } from "@/lib/apiClient";
-import type { Product, AvailabilityFilter, UseProductSearchResult, RoastDegreeFilter } from "./types";
+import type { Product, AvailabilityFilter, UseProductSearchResult, RoastDegreeFilter, PriceSortOrder } from "./types";
 import { toTitleCase } from "@/lib/stringutils";
 
 const DEFAULT_MAX_PRICE = 10;
 const DEFAULT_ROAST_FILTER = "All";
-
+const DEFAULT_PRICE_SORT_ORDER: PriceSortOrder = 'none';
 
 // This is a hook that is used in the ProductDisplay section for calling apiClient to fetch 
 // and for filtering the results
@@ -14,16 +14,17 @@ export function useProductSearch(
   setReset: (reset: boolean) => void
 ): UseProductSearchResult {
 
-
   const [matchingProducts, setMatchingProducts] = useState<Product[]>([]);
   const [loadingProducts, setLoadingProducts] = useState(false);
   const [productError, setProductError] = useState<string | null>(null);
   const allProductsRef = useRef<Product[]>([]);
+
+  // Filter states
   const [maxPriceFilter, setMaxPriceFilter] = useState<number>(DEFAULT_MAX_PRICE);
   const [availabilityFilter, setAvailabilityFilter] = useState<AvailabilityFilter>("All");
   const [roastDegreeFilter, setRoastDegreeFilter] = useState<RoastDegreeFilter>(DEFAULT_ROAST_FILTER);
   const [isFilterInverted, setIsFilterInverted] = useState(false);
-
+  const [priceSortOrder, setPriceSortOrder] = useState<PriceSortOrder>(DEFAULT_PRICE_SORT_ORDER);
 
   // Initialize the price slider
   const maxPossiblePrice = useMemo(() => {
@@ -102,6 +103,7 @@ export function useProductSearch(
       setMaxPriceFilter(initialOverallMax);
       setAvailabilityFilter('All');
       setRoastDegreeFilter(DEFAULT_ROAST_FILTER);
+      setPriceSortOrder(DEFAULT_PRICE_SORT_ORDER);
       setShowProductsView(true);
 
     } catch (err: any) {
@@ -116,10 +118,11 @@ export function useProductSearch(
   }, [setShowProductsView]);
 
 
-  /* --- Filtering logic --- */
+  /* --- Filtering & Sorting logic --- */
   useEffect(() => {
     let tempProducts = [...allProductsRef.current];
 
+    // Filtering
     tempProducts = tempProducts.filter(p => {
       // Price slider
       const priceMatch = p.price === undefined || p.price <= maxPriceFilter;
@@ -137,9 +140,21 @@ export function useProductSearch(
       const passesFilters = priceMatch && availabilityMatch && roastMatch;
       return isFilterInverted ? !passesFilters : passesFilters;
     });
+    
+    // Sorting
+    if (priceSortOrder !== 'none') {
+      tempProducts.sort((a, b) => {
+        // Undefined is treated as highest for asc, lowest for desc
+        const priceA = a.price ?? (priceSortOrder === 'asc' ? Infinity : -Infinity);
+        const priceB = b.price ?? (priceSortOrder === 'asc' ? Infinity : -Infinity);
+
+        return priceSortOrder === 'asc' ? priceA - priceB : priceB - priceA;
+      });
+    }
 
     setMatchingProducts(tempProducts);
-  }, [allProductsRef.current, maxPriceFilter, availabilityFilter, roastDegreeFilter, isFilterInverted]);
+
+  }, [allProductsRef.current, maxPriceFilter, availabilityFilter, roastDegreeFilter, isFilterInverted, priceSortOrder]);
 
   const handleMaxPriceChange = useCallback((value: number) => {
     setMaxPriceFilter(value);
@@ -157,12 +172,21 @@ export function useProductSearch(
     setIsFilterInverted(prev => !prev);
   }, []);
 
+  const handlePriceSortToggle = useCallback(() => {
+    setPriceSortOrder(prevOrder => {
+      if (prevOrder === 'none') return 'asc';
+      if (prevOrder === 'asc') return 'desc';
+      return 'none'; // none -> asc -> desc -> none
+    });
+  }, []);
+
   // Clear button logic
   const handleResetFilters = useCallback(() => {
     setMaxPriceFilter(maxPossiblePrice);
     setAvailabilityFilter('All');
     setRoastDegreeFilter(DEFAULT_ROAST_FILTER);
     setIsFilterInverted(false);
+    setPriceSortOrder(DEFAULT_PRICE_SORT_ORDER);
   }, [maxPossiblePrice]);
 
   // X button logic
@@ -176,28 +200,40 @@ export function useProductSearch(
     setAvailabilityFilter('All');
     setRoastDegreeFilter(DEFAULT_ROAST_FILTER);
     setIsFilterInverted(false);
+    setPriceSortOrder(DEFAULT_PRICE_SORT_ORDER);
     setReset(true);
   }, [setShowProductsView, setReset]);
 
 
   return {
+    // Products
     matchingProducts,
     loadingProducts,
     productError,
+    totalFetchedCount: allProductsRef.current.length,
+
+    // Actions
     triggerProductSearch,
     handleCloseProductsView,
+    handleResetFilters,
+    handleToggleInvertFilter,
+
+    // Filter state
     maxPriceFilter,
     availabilityFilter,
     roastDegreeFilter,
-    uniqueRoastDegrees,
+    isFilterInverted,
     maxPossiblePrice,
+    uniqueRoastDegrees,
     currentFilteredMaxPrice,
+
+    // Filter handlers
     handleMaxPriceChange,
     handleAvailabilityChange,
     handleRoastDegreeChange,
-    handleResetFilters,
-    totalFetchedCount: allProductsRef.current.length,
-    isFilterInverted,
-    handleToggleInvertFilter,
+
+    // Sort state & handler
+    priceSortOrder,
+    handlePriceSortToggle,    
   };
 }

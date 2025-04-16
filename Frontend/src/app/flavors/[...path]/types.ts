@@ -6,6 +6,7 @@ export interface Product {
   price?: number;
   pricePerCup?: number;
   bulkPricePerCup?: number;
+  gram?: number;
   availability?: string; // "YES" or "NO"
   flavors?: { name: string }[];
   webpage?: string;
@@ -14,6 +15,8 @@ export interface Product {
 export type AvailabilityFilter = "All" | "Available" | "Unavailable";
 
 export type RoastDegreeFilter = string;
+
+export type PriceSortOrder = 'none' | 'asc' | 'desc';
 
 export interface UseProductSearchResult {
   matchingProducts: Product[]; 
@@ -34,6 +37,10 @@ export interface UseProductSearchResult {
   handleAvailabilityChange: (value: AvailabilityFilter) => void;
   handleRoastDegreeChange: (value: RoastDegreeFilter) => void;
   handleResetFilters: () => void;
+
+  // Sorting-related returns
+  priceSortOrder: PriceSortOrder;
+  handlePriceSortToggle: () => void;
 
   // Total number of results
   totalFetchedCount: number;
