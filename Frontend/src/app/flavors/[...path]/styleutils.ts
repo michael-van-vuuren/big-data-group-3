@@ -10,20 +10,34 @@ export const getPriceColorStyle = (
     color: 'white',
   };
 
-  if (price === undefined || maxPrice <= minPrice) {
+  if (
+    price === undefined ||
+    minPrice <= 0 ||
+    price <= 0 ||
+    maxPrice <= minPrice
+  ) {
     return defaultStyle;
   }
 
-  const normalizedPrice = Math.max(0, Math.min(1, (price - minPrice) / (maxPrice - minPrice)));
+  // Log scale 
+  const logMin = Math.log(minPrice);
+  const logMax = Math.log(maxPrice);
+  const logPrice = Math.log(price);
 
-  const hue = 120 * (1 - normalizedPrice);
+  const normalizedPrice = Math.max(
+    0,
+    Math.min(1, (logPrice - logMin) / (logMax - logMin))
+  );
+
+  const hue = 120 * (1 - normalizedPrice); // green (120) to red (0)
   const saturation = 85;
   const lightness = 50;
 
-  const textColor = (hue > 45 && hue < 150 && lightness > 40) ? 'black' : 'white';
+  const textColor = hue > 45 && hue < 150 && lightness > 40 ? 'black' : 'white';
 
   return {
     backgroundColor: `hsl(${hue.toFixed(0)}, ${saturation}%, ${lightness}%)`,
     color: textColor,
   };
 };
+
