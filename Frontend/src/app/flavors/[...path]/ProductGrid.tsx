@@ -1,8 +1,9 @@
 import React from 'react';
 import type { Product } from './types';
-import ProductCard from './ProductCard';
 import { getPriceColorStyle } from './styleutils';
 import Logo from '@/sections/logo';
+
+import LazyProductCardWrapper from './LazyProductCardWrapper';
 
 interface ProductGridProps {
   loadingProducts: boolean;
@@ -27,7 +28,7 @@ export default function ProductGrid({
   console.log(matchingProducts);
 
   return (
-    <div className="bg-white max-w-6xl mx-auto text-start px-8 pb-16 border-black border-x-2 border-b-2 w-full flex-grow overflow-y-auto shadow-lightLg">
+    <div className="bg-white max-w-7xl mx-auto text-start px-8 pb-16 border-black border-x-2 border-b-2 w-full flex-grow overflow-y-auto shadow-lightLg">
 
       {/* --- Info Header --- */}
       {!loadingProducts && !productError && totalFetchedCount > 0 && (
@@ -74,7 +75,7 @@ export default function ProductGrid({
           {matchingProducts.map(product => {
             const priceStyle = getPriceColorStyle(product.price, minPrice, maxPrice);
             return (
-              <ProductCard
+              <LazyProductCardWrapper
                 key={product.id}
                 product={product}
                 priceStyle={priceStyle}

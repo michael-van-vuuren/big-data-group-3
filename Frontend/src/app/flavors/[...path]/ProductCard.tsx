@@ -12,7 +12,7 @@ export default function ProductCard({ product, priceStyle }: ProductCardProps) {
   return (
     <div
       key={product.id}
-      className="relative bg-white p-4 text-left flex flex-col justify-between items-center"
+      className="relative bg-white h-full p-4 text-left flex flex-col justify-between items-center"
     >
       {/* Price sticker */}
       {product.price !== undefined && (

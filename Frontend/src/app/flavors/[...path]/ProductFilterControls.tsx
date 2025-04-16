@@ -75,10 +75,10 @@ export default function ProductFilterControls({
 
   return (
     // Sticky control panel
-    <div className="sticky bg-white/50 max-w-6xl mx-auto top-0 flex flex-wrap items-center justify-between p-4 border-x-2 border-2 border-black gap-4 z-10 w-full grid-bg-sm shadow-lightLg">
+    <div className="sticky bg-white/50 max-w-[80.5rem] mx-auto top-0 flex flex-wrap items-center justify-between p-4 border-x-2 border-2 border-black border-b-1 sm:border-b-4 gap-4 z-10 w-full grid-bg-sm shadow-lightLg">
 
       {/* Row 1 */}
-      <div className="flex flex-wrap items-center gap-x-4 gap-y-2 flex-grow pr-20">
+      <div className="flex flex-wrap items-center gap-x-4 gap-y-2 flex-grow pr-10">
         {/* Price */}
         <div className="flex items-center gap-2 text-sm text-gray-800">
           <Slider
@@ -89,7 +89,7 @@ export default function ProductFilterControls({
             value={[Math.min(maxPriceFilter, sliderMax)]}
             onValueChange={([val]) => handlePriceSliderChange(val)}
             disabled={loadingProducts}
-            className="w-80"
+            className="w-64"
             aria-label={`Filter products less than ${maxPriceFilter.toFixed(2)} dollars`}
           />
           <span className="font-semibold text-xs whitespace-nowrap p-2 bg-blue-600 text-white border-2 border-black">
@@ -193,7 +193,7 @@ export default function ProductFilterControls({
         variant="reverse"
         size="icon"
         onClick={handleCloseProductsView}
-        className="absolute top-4 right-4 bg-red-500 border-black text-black hover:bg-white"
+        className="absolute bottom-4 right-2 sm:top-4 sm:right-4 bg-red-500 border-black text-black hover:bg-white"
         aria-label="Close product view"
       >
         <span className="text-xl font-semibold leading-none">&times;</span>
