@@ -1,5 +1,5 @@
 export interface Product {
-  beanId: string;
+  id: string;
   name: string;
   image?: string;
   roastDegree?: string;
@@ -19,13 +19,14 @@ export type RoastDegreeFilter = string;
 export type PriceSortOrder = 'none' | 'asc' | 'desc';
 
 export interface UseProductSearchResult {
+  // Products
   matchingProducts: Product[]; 
   loadingProducts: boolean;
   productError: string | null;
   triggerProductSearch: (subCategories: string[]) => Promise<void>;
   handleCloseProductsView: () => void;
   
-  // Filter-related returns
+  // Filters
   maxPriceFilter: number;
   availabilityFilter: AvailabilityFilter;
   roastDegreeFilter: RoastDegreeFilter;
@@ -38,11 +39,11 @@ export interface UseProductSearchResult {
   handleRoastDegreeChange: (value: RoastDegreeFilter) => void;
   handleResetFilters: () => void;
 
-  // Sorting-related returns
+  // Sorting
   priceSortOrder: PriceSortOrder;
   handlePriceSortToggle: () => void;
 
-  // Total number of results
+  // Misc
   totalFetchedCount: number;
   isFilterInverted: boolean;
   handleToggleInvertFilter: () => void;
