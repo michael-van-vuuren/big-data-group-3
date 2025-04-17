@@ -2,30 +2,54 @@ package com.Backend.Backend.dto;
 
 import com.Backend.Backend.entity.Product;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.NoArgsConstructor;
+import lombok.AllArgsConstructor;
+
+import java.math.BigDecimal;
+import java.util.List;
 
 @Getter
 @Setter
 @NoArgsConstructor
+@AllArgsConstructor
 public class ProductResponseDTO {
     private Long id;
     private String name;
+    private String image;
+    private String webpage;
+    private BigDecimal gram;
+    private String roastDegree;
+    private String availability;
+    private BigDecimal price;
+    private BigDecimal pricePerCup;
+    private BigDecimal bulkPricePerCup;
 
-    public static ProductResponseDTO fromProduct(Product product) {
-        if (product == null) return null;
+//    private RoasterDTO roaster;
+//
+//    private ProcessDTO process;
+//
+    private List<FlavorDTO> flavors;
+//
+//    private List<ProducerDTO> producers;
 
-        ProductResponseDTO dto = new ProductResponseDTO();
-        dto.id = product.getId();
-        dto.name = product.getName();
-        return dto;
+    public static ProductResponseDTO fromEntity(Product product) {
+        return new ProductResponseDTO(
+                product.getId(),
+                product.getName(),
+                product.getImage(),
+                product.getWebpage(),
+                product.getGram(),
+                product.getRoastDegree(),
+                product.getAvailability().name(),
+                product.getPrice(),
+                product.getPricePerCup(),
+                product.getBulkPricePerCup(),
+//                RoasterDTO.fromEntity(product.getRoaster()),
+//                ProcessDTO.fromEntity(product.getProcess()),
+                product.getFlavors().stream().map(FlavorDTO::fromEntity).toList()
+//                product.getProducers().stream().map(ProducerDTO::fromEntity).toList()
+        );
     }
 
-    public static ProductResponseDTO fromProductDTO(ProductDTO productDTO) {
-        if (productDTO == null) return null;
-
-        ProductResponseDTO dto = new ProductResponseDTO();
-        dto.name = productDTO.getName();
-        return dto;
-    }
 }

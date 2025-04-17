@@ -6,9 +6,11 @@ interface WelcomeButtonProps {
 }
 
 export default function WelcomeButton({ message }: WelcomeButtonProps) {
+  const variant = message === "Take Preference Quiz" ? "heroButtonSlide" : "heroButton";
+
   return (
-    <Button className={styles.card} variant="whiteBlack">
-      {message}
+    <Button className={styles.card} variant={variant}>
+      <span className="relative z-10">{message}</span>
     </Button>
   );
 }

@@ -29,12 +29,12 @@ async function fetchApi(endpoint: string, options: RequestInit = {}) {
             throw new Error(errorData.message || `Request failed with status ${response.status}`);
         }
 
-         const contentType = response.headers.get("content-type");
-         if (contentType && contentType.indexOf("application/json") !== -1) {
-             return await response.json();
-         } else {
-             return await response.text();
-         }
+        const contentType = response.headers.get("content-type");
+        if (contentType && contentType.indexOf("application/json") !== -1) {
+            return await response.json();
+        } else {
+            return await response.text();
+        }
 
     } catch (error) {
         console.error('API Fetch Error:', error);
@@ -61,4 +61,38 @@ export const logoutUser = () => fetchApi('/auth/logout', {
     method: 'POST',
 });
 
+// fetch coffee bean products by flavors
+export const getProductsByFlavors = (flavors: string[], searchStrictnessFlag?: boolean) => {
+    const params = new URLSearchParams();
+    flavors.forEach(flavor => params.append('flavors', flavor));
 
+    if (searchStrictnessFlag === true) {
+        params.append('strict', 'true');
+    }
+
+    return fetchApi(`/products/by-flavors?${params.toString()}`, {
+        method: 'GET',
+    });
+};
+
+// post favorited product
+export const addFavoriteProduct = (productId: number) => {
+    return fetchApi('/account/favorites', {
+        method: 'POST',
+        body: JSON.stringify({ productId: productId }),
+    });
+};
+
+// get favorited products
+export const getFavoriteProducts = () => {
+    return fetchApi('/account/favorites', {
+        method: 'GET',
+    });
+};
+
+// remove favorited product
+export const removeFavoriteProduct = (productId: number) => {
+    return fetchApi(`/account/favorites/${productId}`, {
+        method: 'DELETE',
+    });
+};

@@ -10,6 +10,31 @@ export const getNoteColor = (note: string | null) => {
     return "#000";
 };
 
+const expandShorthandHex = (hex: string): string => {
+    if (!hex) return "#FFF";
+
+    const shorthandRegex = /^#?([a-f\d])([a-f\d])([a-f\d])$/i;
+    return hex.replace(shorthandRegex, (m, r, g, b) => {
+        return '#' + r + r + g + g + b + b;
+    });
+};
+
+export const getNoteTextColor = (baseColor: string): 'black' | 'white' => {
+    try {
+        const fullHexColor = expandShorthandHex(baseColor);
+        const color = new Color(fullHexColor);
+        const { r, g, b } = color;
+
+        // Calculate relative luminance (per WCAG)
+        const luminance = 0.2126 * r + 0.7152 * g + 0.0722 * b;
+
+        return luminance > 0.6 ? 'black' : 'white';
+    } catch (error) {
+        console.error(`Error processing color "${baseColor}":`, error);
+        return 'black';
+    }
+};
+
 export function getLighterDesaturatedColor(baseColor: string, lightnessIncrease: number = 0.1, desaturationAmount: number = 0.2, hueShiftAmount: number = -10): string {
     const color = new Color(baseColor);
     const hsl = { h: 0, s: 0, l: 0 };

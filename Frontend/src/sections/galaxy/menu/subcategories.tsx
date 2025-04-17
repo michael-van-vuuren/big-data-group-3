@@ -1,5 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { getNoteColor } from "@/lib/colorutils";
+import { toTitleCase, toCompressedForm } from "@/lib/stringutils";
 
 interface SubcategoriesProps {
     notes: string[];
@@ -9,7 +10,7 @@ interface SubcategoriesProps {
 
 export default function Subcategories({ notes, selected, toggle }: SubcategoriesProps) {
     return (
-        <div className="grid grid-cols-3 gap-3 m-6">
+        <div className="grid grid-cols-3 gap-3 mx-2 mb-2">
             {notes.map((note) => {
                 const isSelected = selected.includes(note);
                 return (
@@ -29,7 +30,7 @@ export default function Subcategories({ notes, selected, toggle }: Subcategories
                                 </>
                             )}
                         </Button>
-                        <p className="text-sm">{note}</p>
+                        <p className="text-sm">{toTitleCase(toCompressedForm(note))}</p>
                     </div>
                 );
             })}

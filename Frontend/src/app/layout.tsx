@@ -2,11 +2,12 @@ import type { Metadata } from 'next';
 import { DM_Sans } from 'next/font/google';
 import './globals.css';
 import ClientLayout from './clientLayout';
+import { Toaster } from "@/components/ui/sonner";
 
 const dmSans = DM_Sans({ subsets: ['latin'] });
 
 export const metadata: Metadata = {
-  title: 'Coffeeeeeeeee',
+  title: 'Cosmic Coffee Catalog',
 };
 
 export default function RootLayout({
@@ -17,7 +18,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={dmSans.className}>
-        <ClientLayout>{children}</ClientLayout>
+        <ClientLayout>{children}<Toaster /></ClientLayout>
       </body>
     </html>
   );

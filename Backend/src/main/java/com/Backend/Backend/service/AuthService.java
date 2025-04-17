@@ -26,7 +26,10 @@ public class AuthService {
 
     public Account register(RegisterRequest request) {
         if (accountRepository.existsByEmail(request.getEmail())) {
-            throw new RuntimeException("Error: Email is already in use!"); // Handle appropriately
+            throw new RuntimeException("Email is already in use!");
+        }
+        if (accountRepository.existsByName(request.getName())) {
+            throw new RuntimeException("Name is already in use!");
         }
 
         Account user = Account.builder()

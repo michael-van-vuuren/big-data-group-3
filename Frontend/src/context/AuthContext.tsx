@@ -32,7 +32,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
     const router = useRouter();
     const pathname = usePathname();
 
-    const protectedPaths = ['/quiz', '/flavors', '/dashboard'];
+    const protectedPaths = ['/quiz', '/flavors', '/account'];
     const isPathProtected = protectedPaths.some((path) => pathname.startsWith(path));
 
     const checkAuthStatus = useCallback(async () => {

@@ -39,16 +39,27 @@ const QuizPage = () => {
   const [step, setStep] = useState(0);
   const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
   const [recommendations, setRecommendations] = useState<CoffeeBean[]>([]);
+  const [clickedCategories, setClickedCategories] = useState<string[]>([]);
 
   const categories = getAllCategories(quizData);
 
   const handleCategoryToggle = (category: string) => {
+    // Toggle selection
     setSelectedCategories((prev) =>
       prev.includes(category)
         ? prev.filter((c) => c !== category)
         : [...prev, category]
     );
+
+    // Toggle clicked
+    setClickedCategories((prev) =>
+      prev.includes(category)
+        ? prev.filter((c) => c !== category)
+        : [...prev, category]
+    );
   };
+
+  console.log(selectedCategories);
 
   const handleSubmit = () => {
     const filtered = quizData.filter((bean) =>
@@ -77,9 +88,14 @@ const QuizPage = () => {
                   <Button
                     key={category}
                     onClick={() => handleCategoryToggle(category)}
-                    variant={selectedCategories.includes(category) ? "whiteText" : "whiteText"}
+                    variant="default"
                     size="lg"
-                    color={getNoteColor(category)}
+                    color={clickedCategories.includes(category) ? "#475773" : getNoteColor(category)}
+                    className={
+                      clickedCategories.includes(category)
+                        ? "text-white shadow-none bg-black translate-x-boxShadowX translate-y-boxShadowY"
+                        : "text-white shadow-light"
+                    }
                   >
                     {category}
                   </Button>
@@ -89,7 +105,7 @@ const QuizPage = () => {
             <Button
               onClick={handleSubmit}
               disabled={selectedCategories.length === 0}
-              variant="whiteBlack"
+              variant="default"
               className="text-md px-6 py-3 disabled:opacity-50 disabled:cursor-not-allowed"
             >
               Show Recommendations

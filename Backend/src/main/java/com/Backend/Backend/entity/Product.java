@@ -70,6 +70,9 @@ public class Product {
     )
     private Set<Producer> producers = new HashSet<>();
 
+    @ManyToMany(mappedBy = "favoriteProducts", fetch = FetchType.LAZY)
+    private Set<Account> favoritedByAccounts = new HashSet<>();
+
     public Product() {
         this.availability = Availability.NO;
     }

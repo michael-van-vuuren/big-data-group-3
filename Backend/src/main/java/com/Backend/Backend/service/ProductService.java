@@ -33,12 +33,27 @@ public class ProductService {
         return false;
     }
 
+    /* Get products by flavors */
+    @Transactional(readOnly = true)
+    public List<Product> getProductsByFlavors(List<String> flavorNames, boolean strict) {
+        if (flavorNames == null || flavorNames.isEmpty()) {
+            return List.of();
+        }
+
+        if (strict) {
+            return productRepository.findProductsByAllFlavors(flavorNames, flavorNames.size());
+        } else {
+            return productRepository.findProductsByAnyFlavor(flavorNames);
+        }
+    }
+
+
     /* Import multiple products */
     @Transactional
     public ProductImportResult importProducts(List<ProductDTO> productDTOs) {
 
-        List<ProductResponseDTO> acceptedProducts = new ArrayList<>();
-        List<ProductResponseDTO> rejectedProducts = new ArrayList<>();
+        List<ProductImportDTO> acceptedProducts = new ArrayList<>();
+        List<ProductImportDTO> rejectedProducts = new ArrayList<>();
         List<String> rejectionReasons = new ArrayList<>();
         Map<String, Set<String>> seenProducts = new HashMap<>();
 
@@ -47,12 +62,12 @@ public class ProductService {
 
         productDTOs.forEach(productDTO -> {
             if (productDTO.getName() == null || productDTO.getName().trim().isEmpty()) {
-                rejectedProducts.add(ProductResponseDTO.fromProductDTO(productDTO));
+                rejectedProducts.add(ProductImportDTO.fromProductDTO(productDTO));
                 rejectionReasons.add("Product name is required");
                 return;
             }
             if (productDTO.getRoaster() == null || productDTO.getRoaster().getName() == null || productDTO.getRoaster().getName().trim().isEmpty()) {
-                rejectedProducts.add(ProductResponseDTO.fromProductDTO(productDTO));
+                rejectedProducts.add(ProductImportDTO.fromProductDTO(productDTO));
                 rejectionReasons.add("Roaster information is required");
                 return;
             }
@@ -60,12 +75,12 @@ public class ProductService {
             String productName = productDTO.getName();
 
             if (!seenProducts.computeIfAbsent(roasterName, k -> new HashSet<>()).add(productName)) {
-                rejectedProducts.add(ProductResponseDTO.fromProductDTO(productDTO));
+                rejectedProducts.add(ProductImportDTO.fromProductDTO(productDTO));
                 rejectionReasons.add("Duplicate product in import batch");
                 return;
             }
             if (productRepository.compositeKeyExists(roasterName, productName)) {
-                rejectedProducts.add(ProductResponseDTO.fromProductDTO(productDTO));
+                rejectedProducts.add(ProductImportDTO.fromProductDTO(productDTO));
                 rejectionReasons.add("Product already exists");
                 return;
             }
@@ -302,7 +317,7 @@ public class ProductService {
         List<Product> savedProducts = productRepository.saveAll(savedProductsNoManyToMany);
 
         for (Product product : savedProducts) {
-            acceptedProducts.add(ProductResponseDTO.fromProduct(product));
+            acceptedProducts.add(ProductImportDTO.fromProduct(product));
         }
 
         String message = acceptedProducts.isEmpty() && rejectedProducts.isEmpty() ?

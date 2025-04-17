@@ -1,5 +1,6 @@
 package com.Backend.Backend.dto;
 
+import com.Backend.Backend.entity.Flavor;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.NoArgsConstructor;
@@ -11,4 +12,8 @@ import lombok.AllArgsConstructor;
 @AllArgsConstructor
 public class FlavorDTO {
     private String name;
+
+    public static FlavorDTO fromEntity(Flavor flavor) {
+        return new FlavorDTO(flavor.getName());
+    }
 }
