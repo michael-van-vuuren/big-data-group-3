@@ -85,12 +85,12 @@ export default function ProductFilterControls({
         <>
           <div className="flex flex-wrap items-center gap-x-4 gap-y-2 flex-grow pr-10">
             {/* Price */}
-            <div className="flex items-center gap-2 text-sm text-gray-800">
+            <div className="flex items-center gap-4 text-sm text-gray-800">
               <Slider
                 id="maxPriceSlider"
                 min={0}
                 max={sliderMax}
-                step={0.25}
+                step={sliderMax/12}
                 value={[Math.min(maxPriceFilter, sliderMax)]}
                 onValueChange={([val]) => handlePriceSliderChange(val)}
                 disabled={loadingProducts}

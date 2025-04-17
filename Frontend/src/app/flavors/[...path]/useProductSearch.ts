@@ -3,7 +3,7 @@ import { getProductsByFlavors } from "@/lib/apiClient";
 import type { Product, AvailabilityFilter, UseProductSearchResult, RoastDegreeFilter, PriceSortOrder } from "./types";
 import { toTitleCase } from "@/lib/stringutils";
 
-const DEFAULT_MAX_PRICE = 10;
+const DEFAULT_MAX_PRICE = 60;
 const DEFAULT_ROAST_FILTER = "All";
 const DEFAULT_PRICE_SORT_ORDER: PriceSortOrder = 'none';
 
@@ -27,19 +27,6 @@ export function useProductSearch(
   const [isFilterInverted, setIsFilterInverted] = useState(false);
   const [priceSortOrder, setPriceSortOrder] = useState<PriceSortOrder>(DEFAULT_PRICE_SORT_ORDER);
 
-  // Initialize the price slider
-  const maxPossiblePrice = useMemo(() => {
-    const products = allProductsRef.current;
-    if (!products || products.length === 0) return DEFAULT_MAX_PRICE;
-    const max = products.reduce((maxP, product) => {
-      if (product.price !== undefined && product.price > maxP) {
-        return product.price;
-      }
-      return maxP;
-    }, 0);
-    return Math.max(Math.ceil(max) || 0, DEFAULT_MAX_PRICE);
-  }, [allProductsRef.current]);
-
   // Initialize the roast degree dropdown
   const uniqueRoastDegrees = useMemo(() => {
     const degrees = new Set<string>();
@@ -61,16 +48,9 @@ export function useProductSearch(
        return availabilityMatch && roastMatch;
     });
 
-    if (filteredProducts.length === 0) return maxPossiblePrice;
+    return DEFAULT_MAX_PRICE;
+  }, [allProductsRef.current, availabilityFilter, roastDegreeFilter]);
 
-    const max = filteredProducts.reduce((maxP, product) =>
-       (product.price !== undefined && product.price > maxP) ? product.price : maxP, 0);
-    return Math.max(Math.ceil(max) || 0, DEFAULT_MAX_PRICE);
-  }, [allProductsRef.current, availabilityFilter, roastDegreeFilter, maxPossiblePrice]);
-
-  useEffect(() => {
-    setMaxPriceFilter(currentFilteredMaxPrice);
-  }, [currentFilteredMaxPrice]);
 
   /* --- Product search callback --- */
   const triggerProductSearch = useCallback(async (notes: string[], searchStrictnessFlag?: boolean) => {
@@ -94,16 +74,11 @@ export function useProductSearch(
       const fetchedProducts = await getProductsByFlavors(notes, useStrictSearch);
       allProductsRef.current = fetchedProducts;
 
-      const initialOverallMax = Math.max(
-        Math.ceil(
-          fetchedProducts.reduce((maxP: number, p: Product) =>
-              (p.price !== undefined && p.price > maxP) ? p.price : maxP,
-            0)
-        ) || 0,
-        DEFAULT_MAX_PRICE
-      );
+      
+        
 
-      setMaxPriceFilter(initialOverallMax);
+
+      setMaxPriceFilter(DEFAULT_MAX_PRICE);
       setAvailabilityFilter('All');
       setRoastDegreeFilter(DEFAULT_ROAST_FILTER);
       setPriceSortOrder(DEFAULT_PRICE_SORT_ORDER);
@@ -189,12 +164,12 @@ export function useProductSearch(
 
   // Clear button logic
   const handleResetFilters = useCallback(() => {
-    setMaxPriceFilter(maxPossiblePrice);
+    setMaxPriceFilter(DEFAULT_MAX_PRICE);
     setAvailabilityFilter('All');
     setRoastDegreeFilter(DEFAULT_ROAST_FILTER);
     setIsFilterInverted(false);
     setPriceSortOrder(DEFAULT_PRICE_SORT_ORDER);
-  }, [maxPossiblePrice]);
+  }, []);
 
   // X button logic
   const handleCloseProductsView = useCallback(() => {
@@ -230,7 +205,7 @@ export function useProductSearch(
     availabilityFilter,
     roastDegreeFilter,
     isFilterInverted,
-    maxPossiblePrice,
+    maxPossiblePrice: DEFAULT_MAX_PRICE,
     uniqueRoastDegrees,
     currentFilteredMaxPrice,
 
