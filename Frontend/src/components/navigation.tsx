@@ -3,6 +3,7 @@
 import * as React from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
+import { useAuth } from '@/context/AuthContext'
 
 import {
   NavigationMenu,
@@ -11,7 +12,6 @@ import {
   NavigationMenuLink,
   NavigationMenuList,
   NavigationMenuTrigger,
-  navigationMenuTriggerStyle,
 } from '@/components/ui/navigation-menu'
 
 import { cn } from '@/lib/utils'
@@ -35,13 +35,21 @@ const exploreTabs = [
 ]
 
 export default function NavigationMenuDemo() {
+  const { user } = useAuth() // 👈 use auth context
+
   return (
     <NavigationMenu className="justify-start z-[5] m750:max-w-[300px]">
       <Link
         href="/"
         className="bg-darkerBlue px-2 py-1 border-black border-r-2 hover:opacity-80 transition-opacity"
       >
-        <Image src="/favicon-dark.png" alt="logo" width={250} height={250} className="max-h-11 max-w-11" />
+        <Image
+          src="/favicon-dark.png"
+          alt="logo"
+          width={250}
+          height={250}
+          className="max-h-11 max-w-11"
+        />
       </Link>
 
       <NavigationMenuList className="m750:max-w-[300px]">
@@ -62,28 +70,30 @@ export default function NavigationMenuDemo() {
           </NavigationMenuContent>
         </NavigationMenuItem>
 
-        {/* Account */}
-        <NavigationMenuItem>
-          <NavigationMenuTrigger className="m750:max-w-[80px] m750:text-xs">
-            Account
-          </NavigationMenuTrigger>
-          <NavigationMenuContent>
-            <ul className="grid w-[400px] gap-3 p-4 md:w-[500px] md:grid-cols-1 lg:w-[600px]">
-              <ListItem title="Profile" href="/account/info">
-                View your account details.
-              </ListItem>
-              <ListItem title="View Favorite Products" href="/account/favorites">
-                Check your favorite coffee bean products.
-              </ListItem>
-            </ul>
-          </NavigationMenuContent>
-        </NavigationMenuItem>
-
+        {/* Account – Only show if logged in */}
+        {user && (
+          <NavigationMenuItem>
+            <NavigationMenuTrigger className="m750:max-w-[80px] m750:text-xs">
+              Account
+            </NavigationMenuTrigger>
+            <NavigationMenuContent>
+              <ul className="grid w-[400px] gap-3 p-4 md:w-[500px] md:grid-cols-1 lg:w-[600px]">
+                <ListItem title="Profile" href="/account/info">
+                  View your account details.
+                </ListItem>
+                <ListItem title="View Favorite Products" href="/account/favorites">
+                  Check your favorite coffee bean products.
+                </ListItem>
+              </ul>
+            </NavigationMenuContent>
+          </NavigationMenuItem>
+        )}
 
       </NavigationMenuList>
     </NavigationMenu>
   )
 }
+
 
 const ListItem = React.forwardRef<
   React.ElementRef<'a'>,
