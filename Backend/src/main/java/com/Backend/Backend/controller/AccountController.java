@@ -10,6 +10,7 @@ import com.Backend.Backend.repository.AccountRepository;
 import com.Backend.Backend.repository.ProductRepository;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -28,20 +29,32 @@ public class AccountController {
     private final AccountRepository accountRepository;
     private final ProductRepository productRepository;
 
+    private ResponseEntity<?> handleAuthentication() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (authentication == null || !authentication.isAuthenticated() || "anonymousUser".equals(authentication.getPrincipal())) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(new MessageResponse("Not authenticated"));
+        }
+        return null;
+    }
+
+    private Account getAuthenticatedAccount() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String userEmail = authentication.getName();
+        return accountRepository.findByEmail(userEmail)
+                .orElseThrow(() -> new UsernameNotFoundException("User not found with email: " + userEmail));
+    }
+
     // Get a user's favorite products
     @GetMapping("/favorites")
     @Transactional(readOnly = true)
     public ResponseEntity<?> getFavoriteProducts() {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        if (authentication == null || !authentication.isAuthenticated() || "anonymousUser".equals(authentication.getPrincipal())) {
-            return ResponseEntity.status(401).body(new MessageResponse("Not authenticated"));
+        ResponseEntity<?> authenticationError = handleAuthentication();
+        if (authenticationError != null) {
+            return authenticationError;
         }
-        String userEmail = authentication.getName();
 
         try {
-            Account account = accountRepository.findByEmail(userEmail)
-                    .orElseThrow(() -> new UsernameNotFoundException("User not found with email: " + userEmail));
-
+            Account account = getAuthenticatedAccount();
             Set<Product> favoriteProducts = account.getFavoriteProducts();
 
             if (favoriteProducts == null) {
@@ -55,9 +68,9 @@ public class AccountController {
             return ResponseEntity.ok(dtos);
 
         } catch (UsernameNotFoundException e) {
-            return ResponseEntity.status(404).body(new MessageResponse(e.getMessage()));
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new MessageResponse(e.getMessage()));
         } catch (Exception e) {
-            return ResponseEntity.status(500).body(new MessageResponse("An internal error occurred while fetching favorites."));
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new MessageResponse("An internal error occurred while fetching favorites."));
         }
     }
 
@@ -65,18 +78,13 @@ public class AccountController {
     @PostMapping("/favorites")
     @Transactional
     public ResponseEntity<?> addFavoriteProduct(@RequestBody FavoriteRequest request) {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        if (authentication == null || !authentication.isAuthenticated() || "anonymousUser".equals(authentication.getPrincipal())) {
-            return ResponseEntity.status(401).body(new MessageResponse("Not authenticated"));
+        ResponseEntity<?> authenticationError = handleAuthentication();
+        if (authenticationError != null) {
+            return authenticationError;
         }
 
         try {
-            // Get user email from token
-            String userEmail = authentication.getName();
-
-            // Get account by user email
-            Account account = accountRepository.findByEmail(userEmail)
-                    .orElseThrow(() -> new UsernameNotFoundException("User not found with email: " + userEmail));
+            Account account = getAuthenticatedAccount();
 
             // Get product by request productId
             Long productId = request.getProductId();
@@ -91,13 +99,47 @@ public class AccountController {
             accountRepository.save(account);
 
             // Return success
-            return ResponseEntity.ok(new MessageResponse("Product ID: " + productId + " added to favorites for user: " + userEmail));
+            return ResponseEntity.ok(new MessageResponse("Product ID: " + productId + " added to favorites for user: " + account.getEmail()));
 
         } catch (UsernameNotFoundException | EntityNotFoundException e) {
             // Request productId not found
-            return ResponseEntity.status(404).body(new MessageResponse(e.getMessage()));
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new MessageResponse(e.getMessage()));
         } catch (Exception e) {
-            return ResponseEntity.status(500).body(new MessageResponse("An internal error occurred while adding favorite."));
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new MessageResponse("An internal error occurred while adding favorite."));
+        }
+    }
+
+    // Remove a user's favorite product
+    @DeleteMapping("/favorites/{productId}")
+    @Transactional
+    public ResponseEntity<?> removeFavoriteProduct(@PathVariable Long productId) {
+        ResponseEntity<?> authenticationError = handleAuthentication();
+        if (authenticationError != null) {
+            return authenticationError;
+        }
+
+        try {
+            Account account = getAuthenticatedAccount();
+
+            // Get product by productId
+            if (productId == null) {
+                return ResponseEntity.badRequest().body(new MessageResponse("Product ID is required"));
+            }
+            Product product = productRepository.findById(productId)
+                    .orElseThrow(() -> new EntityNotFoundException("Product not found with ID: " + productId));
+
+            // Remove product from account favoriteProducts
+            if (account.getFavoriteProducts().remove(product)) {
+                accountRepository.save(account);
+                return ResponseEntity.ok(new MessageResponse("Product ID: " + productId + " removed from favorites for user: " + account.getEmail()));
+            } else {
+                return ResponseEntity.ok(new MessageResponse("Product ID: " + productId + " was not in favorites for user: " + account.getEmail()));
+            }
+
+        } catch (UsernameNotFoundException | EntityNotFoundException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new MessageResponse(e.getMessage()));
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new MessageResponse("An internal error occurred while removing favorite."));
         }
     }
 }

@@ -26,7 +26,13 @@ export default function FavoritesPage() {
     return <div className="p-4">Loading favorites…</div>;
   }
 
-  const contextValue = createProductSearchFromProducts(favorites);
+  const contextValue = {
+    ...createProductSearchFromProducts(favorites),
+    handleUnfavorite: (productId: number) => {
+      setFavorites((prev) => prev?.filter((p) => Number(p.id) !== productId) ?? null);
+    },
+  };
+  
 
   return (
     <div

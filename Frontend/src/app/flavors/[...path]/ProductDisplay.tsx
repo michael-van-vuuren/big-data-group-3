@@ -1,7 +1,9 @@
-import React from 'react';
+import { useState, useEffect } from 'react';
 import { useProductSearchContext } from '@/context/ProductSearchContext';
 import ProductFilterControls from './ProductFilterControls';
 import ProductGrid from './ProductGrid';
+import { Product } from './types';
+import { getFavoriteProducts } from '@/lib/apiClient';
 
 interface ProductDisplayProps {
   hideFilters?: boolean;
@@ -16,6 +18,19 @@ export default function ProductDisplay({ hideFilters = false, hideCloseButton = 
     uniqueRoastDegrees,
   } = contextValues;
 
+  const [favoriteIds, setFavoriteIds] = useState<Set<number>>(new Set());
+
+  useEffect(() => {
+    const fetchFavorites = async () => {
+      try {
+        const favorites: Product[] = await getFavoriteProducts();
+        setFavoriteIds(new Set(favorites.map(p => Number(p.id))));
+      } catch (e) {
+        console.error("Failed to fetch favorites", e);
+      }
+    };
+    fetchFavorites();
+  }, []);
 
   // Calculate min/max prices from currently matching products for color styling
   const validPrices = matchingProducts
@@ -56,6 +71,7 @@ export default function ProductDisplay({ hideFilters = false, hideCloseButton = 
         isFilterInverted={contextValues.isFilterInverted}
         minPrice={minPrice}
         maxPrice={maxPrice}
+        favoriteIds={favoriteIds}
       />
 
     </div>

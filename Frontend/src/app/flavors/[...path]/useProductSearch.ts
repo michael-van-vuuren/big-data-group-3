@@ -153,6 +153,10 @@ export function useProductSearch(
         return priceSortOrder === 'asc' ? priceA - priceB : priceB - priceA;
       });
     }
+    else {
+      // Default order is alphabetical by product name
+      tempProducts.sort((a, b) => a.name.localeCompare(b.name))
+    }
 
     setMatchingProducts(tempProducts);
 

@@ -33,6 +33,7 @@ const defaultContextValue: UseProductSearchResult = {
   totalFetchedCount: 0,
   isFilterInverted: false,
   handleToggleInvertFilter: () => {},
+  handleUnfavorite: () => {}
 };
 
 // Create context

@@ -35,6 +35,10 @@ body::-webkit-scrollbar-thumb {
 }
 
 @layer utilities {
+  .favorite-bg {
+    @apply bg-gradient-to-b from-slate-900 via-blue-500 to-slate-900 bg-[length:200%_200%];
+  }
+
   .cosmic-bg {
     @apply bg-gradient-to-b from-slate-900 via-logoBlue to-slate-900 bg-[length:200%_200%] animate-rainbow;
   }

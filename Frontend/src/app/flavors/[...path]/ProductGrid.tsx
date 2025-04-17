@@ -13,6 +13,7 @@ interface ProductGridProps {
   isFilterInverted: boolean;
   minPrice: number;
   maxPrice: number;
+  favoriteIds: Set<number>;
 }
 
 export default function ProductGrid({
@@ -23,6 +24,7 @@ export default function ProductGrid({
   isFilterInverted,
   minPrice,
   maxPrice,
+  favoriteIds,
 }: ProductGridProps) {
 
   return (
@@ -70,18 +72,22 @@ export default function ProductGrid({
       {/* --- Product Grid Display --- */}
       {!loadingProducts && !productError && matchingProducts.length > 0 && (
         <div className="bg-white grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-12 border-t-2 border-black pt-8 px-8 pb-16 grid-bg-dark">
-          {matchingProducts.map(product => {
-            const priceStyle = getPriceColorStyle(product.price, minPrice, maxPrice);
-            return (
-              <LazyProductCardWrapper
-                key={product.id}
-                product={product}
-                priceStyle={priceStyle}
-              />
-            );
-          })}
+          {matchingProducts
+            .map((product) => {
+              const priceStyle = getPriceColorStyle(product.price, minPrice, maxPrice);
+              const isFavorited = favoriteIds.has(Number(product.id));
+              return (
+                <LazyProductCardWrapper
+                  key={product.id}
+                  product={product}
+                  priceStyle={priceStyle}
+                  initiallyFavorited={isFavorited}
+                />
+              );
+            })}
         </div>
       )}
+
 
     </div>
   );

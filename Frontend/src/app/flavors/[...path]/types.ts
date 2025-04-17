@@ -47,4 +47,5 @@ export interface UseProductSearchResult {
   totalFetchedCount: number;
   isFilterInverted: boolean;
   handleToggleInvertFilter: () => void;
+  handleUnfavorite?: (productId: number) => void;
 }
