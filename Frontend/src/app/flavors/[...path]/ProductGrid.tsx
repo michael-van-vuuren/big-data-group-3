@@ -25,14 +25,12 @@ export default function ProductGrid({
   maxPrice,
 }: ProductGridProps) {
 
-  console.log(matchingProducts);
-
   return (
-    <div className="bg-white max-w-7xl mx-auto text-start px-8 pb-16 border-black border-x-2 border-b-2 w-full flex-grow overflow-y-auto shadow-lightLg">
+    <div className="bg-white max-w-7xl mx-auto text-start border-black border-x-2 border-b-2 w-full flex-grow overflow-y-auto shadow-lightLg">
 
       {/* --- Info Header --- */}
       {!loadingProducts && !productError && totalFetchedCount > 0 && (
-        <div className="flex flex-row items-start justify-start px-4 mt-10 mb-16 gap-6 flex-nowrap overflow-x-auto">
+        <div className="px-12 flex flex-row items-start justify-start mt-10 mb-16 gap-6 flex-nowrap overflow-x-auto">
           {/* Logo */}
           <Logo />
 
@@ -71,7 +69,7 @@ export default function ProductGrid({
 
       {/* --- Product Grid Display --- */}
       {!loadingProducts && !productError && matchingProducts.length > 0 && (
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+        <div className="bg-white grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-12 border-t-2 border-black pt-8 px-8 pb-16 grid-bg-dark">
           {matchingProducts.map(product => {
             const priceStyle = getPriceColorStyle(product.price, minPrice, maxPrice);
             return (

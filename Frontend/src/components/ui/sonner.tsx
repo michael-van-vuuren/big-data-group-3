@@ -20,7 +20,7 @@ const Toaster = ({ ...props }: ToasterProps) => {
             "font-base border-2 text-[12px] h-6 px-2 bg-black text-white border-black hover:bg-white hover:text-black rounded-base shrink-0 dark:border-slate-800",
           cancelButton:
             "font-base border-2 text-[12px] h-6 px-2 bg-secondary-background text-slate-950 border-slate-200 rounded-base shrink-0 dark:text-slate-50 dark:border-slate-800",
-          error: "bg-black text-white",
+          error: "bg-white text-black",
           loading:
             "[&[data-sonner-toast]_[data-icon]]:flex [&[data-sonner-toast]_[data-icon]]:size-4 [&[data-sonner-toast]_[data-icon]]:relative [&[data-sonner-toast]_[data-icon]]:justify-start [&[data-sonner-toast]_[data-icon]]:items-center [&[data-sonner-toast]_[data-icon]]:flex-shrink-0",
         },

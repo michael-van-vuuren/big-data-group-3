@@ -34,14 +34,6 @@ const exploreTabs = [
   },
 ]
 
-const shopTabs = [
-  {
-    title: 'Shop Beans',
-    href: '/shop',
-    description: 'Buy freshly roasted coffee beans.',
-  },
-]
-
 export default function NavigationMenuDemo() {
   return (
     <NavigationMenu className="justify-start z-[5] m750:max-w-[300px]">
@@ -70,21 +62,23 @@ export default function NavigationMenuDemo() {
           </NavigationMenuContent>
         </NavigationMenuItem>
 
-        {/* Shop */}
+        {/* Account */}
         <NavigationMenuItem>
           <NavigationMenuTrigger className="m750:max-w-[80px] m750:text-xs">
-            Shop
+            Account
           </NavigationMenuTrigger>
           <NavigationMenuContent>
             <ul className="grid w-[400px] gap-3 p-4 md:w-[500px] md:grid-cols-1 lg:w-[600px]">
-              {shopTabs.map((item) => (
-                <ListItem key={item.title} title={item.title} href={item.href}>
-                  {item.description}
-                </ListItem>
-              ))}
+              <ListItem title="Profile" href="/account/info">
+                View your account details.
+              </ListItem>
+              <ListItem title="View Favorite Products" href="/account/favorites">
+                Check your favorite coffee bean products.
+              </ListItem>
             </ul>
           </NavigationMenuContent>
         </NavigationMenuItem>
+
 
       </NavigationMenuList>
     </NavigationMenu>

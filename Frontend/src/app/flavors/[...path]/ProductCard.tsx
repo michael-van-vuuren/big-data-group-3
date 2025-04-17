@@ -5,38 +5,59 @@ import { toTitleCase } from "@/lib/stringutils";
 import FlavorTags from './FlavorTags';
 import { Button } from '@/components/ui/button';
 import { toast } from "sonner";
+import { addFavoriteProduct } from '@/lib/apiClient';
 
 interface ProductCardProps {
   product: Product;
   priceStyle: React.CSSProperties;
 }
 
+
+
 export default function ProductCard({ product, priceStyle }: ProductCardProps) {
+
+  const handleFavorite = async (product: Product) => {
+    const toastId = toast.loading(`Adding ${toTitleCase(product.name)} to favorites...`);
+
+    try {
+      // POST request
+      await addFavoriteProduct(Number(product.id));
+
+      toast.success(`${toTitleCase(product.name)} added!`, {
+        id: toastId,
+        description: "Visit the account tab to view your favorites.",
+        action: {
+          label: "Undo",
+          // TODO: DELETE /user/favorites/:productId
+          onClick: () => console.log("Undo action triggered for product:", product.id),
+        },
+      });
+    } catch (error) {
+      console.error("Failed to add favorite:", error);
+      toast.error(`Failed to add ${toTitleCase(product.name)} to favorites.`, {
+        id: toastId,
+        description: error instanceof Error ? error.message : "Please try again later.",
+      });
+    }
+  }
+
+
   return (
     <div
       key={product.id}
-      className="relative bg-white h-full p-4 text-left flex flex-col justify-between items-center"
+      className="relative bg-white border-black border-2 border-b-8 h-full p-6 text-left flex flex-col justify-between items-center"
     >
-      {/* Favorite */}
+      {/* Favorite (heart button) */}
       <Button
-        onClick={() =>
-          toast(`${toTitleCase(product.name)} added!`, {
-            description: "Visit the account tab to view your favorites.",
-            action: {
-              label: "Undo",
-              onClick: () => console.log("Undo"),
-            },
-          })
-        }
+        onClick={() => handleFavorite(product)}
         variant="heart"
-        className="absolute left-0 top-0"
-      >
-      </Button>
+        className="absolute left-2 top-3"
+      ></Button>
 
       {/* Price sticker */}
       {product.price !== undefined && (
         <div
-          className="absolute top-2 right-2 border-black border-2 text-sm font-bold px-2 py-1 z-10"
+          className="absolute top-5 right-4 border-black border-2 text-sm font-bold px-1 py-1 z-10"
           style={priceStyle}
         >
           ${product.price.toFixed(2)}

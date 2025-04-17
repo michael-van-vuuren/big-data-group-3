@@ -74,3 +74,18 @@ export const getProductsByFlavors = (flavors: string[], searchStrictnessFlag?: b
         method: 'GET',
     });
 };
+
+// post favorited product
+export const addFavoriteProduct = (productId: number) => {
+    return fetchApi('/account/favorites', {
+        method: 'POST',
+        body: JSON.stringify({ productId: productId }),
+    });
+};
+
+// get favorited products
+export const getFavoriteProducts = () => {
+    return fetchApi('/account/favorites', {
+        method: 'GET',
+    });
+};

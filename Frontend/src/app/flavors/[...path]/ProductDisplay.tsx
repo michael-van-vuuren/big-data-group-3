@@ -3,8 +3,12 @@ import { useProductSearchContext } from '@/context/ProductSearchContext';
 import ProductFilterControls from './ProductFilterControls';
 import ProductGrid from './ProductGrid';
 
+interface ProductDisplayProps {
+  hideFilters?: boolean;
+  hideCloseButton?: boolean;
+}
 
-export default function ProductDisplay() {
+export default function ProductDisplay({ hideFilters = false, hideCloseButton = false }: ProductDisplayProps) {
   const contextValues = useProductSearchContext();
   const {
     matchingProducts,
@@ -37,6 +41,10 @@ export default function ProductDisplay() {
         sliderMax={sliderMax}
         showRoastFilter={showRoastFilter}
         productCount={matchingProducts.length}
+        handleCloseProductsView={
+          hideCloseButton ? undefined : contextValues.handleCloseProductsView
+        }
+        hideControls={hideFilters}
       />
 
       {/* Product grid */}
