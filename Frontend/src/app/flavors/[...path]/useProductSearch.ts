@@ -7,8 +7,9 @@ const DEFAULT_MAX_PRICE = 10;
 const DEFAULT_ROAST_FILTER = "All";
 const DEFAULT_PRICE_SORT_ORDER: PriceSortOrder = 'none';
 
-// This is a hook that is used in the ProductDisplay section for calling apiClient to fetch 
-// and for filtering the results
+// This is a hook that is used in the ProductDisplay section for calling apiClient to fetch and for filtering the results
+
+// TODO: Move filtering to Java backend and fetch with pagination to lessen client load and network requests
 export function useProductSearch(
   setShowProductsView: (show: boolean) => void,
   setReset: (reset: boolean) => void

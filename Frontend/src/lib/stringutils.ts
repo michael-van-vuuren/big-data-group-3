@@ -30,7 +30,6 @@ export function toCompressedForm(str: string): string {
         "walnut": "wal nut",
         "chestnut": "chest nut",
         "butterscotch": "butter scotch",
-        "maplesyrup": "maple syrup",
     };
 
     for (const compressedKey in compressedFormLookup) {
