@@ -30,8 +30,8 @@ export const getPriceColorStyle = (
   );
 
   const hue = 120 * (1 - normalizedPrice); // green (120) to red (0)
-  const saturation = 85;
-  const lightness = 50;
+  const saturation = 75;
+  const lightness = 60;
 
   const textColor = hue > 45 && hue < 150 && lightness > 40 ? 'black' : 'white';
 

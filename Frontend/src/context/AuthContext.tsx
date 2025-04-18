@@ -7,7 +7,7 @@ import { useRouter, usePathname } from 'next/navigation';
 interface User {
     name: string;
     email: string;
-    // TODO: role
+    role: string;
 }
 
 interface AuthContextType {

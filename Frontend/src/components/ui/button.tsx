@@ -88,10 +88,10 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
             xmlns="http://www.w3.org/2000/svg"
             viewBox="0 0 24 24"
             fill="currentColor"
-            stroke="black"
+            stroke="#fbc"
             strokeWidth={1.5}
             className={cn(
-              "w-8 h-8 transition-colors",
+              "w-9 h-9 transition-colors",
               isFavorited ? "text-rose-500 hover:text-white" : "text-white hover:text-rose-500",
               
             )}

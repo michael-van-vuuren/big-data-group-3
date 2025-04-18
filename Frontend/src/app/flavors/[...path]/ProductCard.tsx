@@ -6,7 +6,7 @@ import { addFavoriteProduct, removeFavoriteProduct } from '@/lib/apiClient';
 import { useProductSearchContext } from '@/context/ProductSearchContext';
 import { useRouter } from "next/navigation";
 import { Button } from '@/components/ui/button';
-import ProductImage from './ProductImage';
+import ProductImage from './productImage';
 import FlavorTags from './FlavorTags';
 import { cn } from '@/lib/utils';
 
@@ -76,7 +76,7 @@ export default function ProductCard({ product, priceStyle, initiallyFavorited }:
       <Button
         onClick={handleFavoriteToggle}
         variant="heart"
-        className="absolute left-2 top-3"
+        className="absolute left-1 top-3"
         isFavorited={isFavorited}
       />
 
@@ -91,7 +91,7 @@ export default function ProductCard({ product, priceStyle, initiallyFavorited }:
       )}
 
       {/* Image */}
-      <ProductImage src={product.image} alt={toTitleCase(product.name)} isFavorited={isFavorited}/>
+      <ProductImage src={product.image} alt={toTitleCase(product.name)} isFavorited={isFavorited} />
 
       {/* Flavor tags */}
       <FlavorTags product={product} />
@@ -100,8 +100,8 @@ export default function ProductCard({ product, priceStyle, initiallyFavorited }:
       <div className={cn(
         "w-full flex-grow mb-3 mt-2  font-semibold",
         !isFavorited ? "text-black" : "text-white"
-        )}
-        >
+      )}
+      >
         <h3 className="text-lg mb-2 line-clamp-2" title={toTitleCase(product.name)}>{toTitleCase(product.name)}</h3>
         <div className="grid grid-cols-[auto_1fr] gap-x-8 gap-y-1.5 text-xs font-medium">
           <p>Roast:</p>
@@ -128,19 +128,24 @@ export default function ProductCard({ product, priceStyle, initiallyFavorited }:
       </div>
 
       {/* View button */}
+      {/* View button */}
       <a
         href={product.webpage}
         target="_blank"
         rel="noopener noreferrer"
-        className={`w-full text-sm font-medium text-center border-2 border-black py-2 px-4 mt-auto ${!product.webpage
-          ? "bg-gray-200 text-gray-500 cursor-not-allowed"
-          : "bg-white text-black hover:bg-emerald-500 hover:text-white"
+        className={`w-full text-sm font-medium text-center border-2 border-black py-2 px-4 mt-auto
+    ${!product.webpage
+            ? "bg-gray-200 text-gray-500 cursor-not-allowed"
+            : isFavorited
+              ? "bg-slate-900 text-white hover:bg-violet-800/50 border-white"
+              : "bg-white text-black hover:bg-emerald-800/70 hover:text-white"
           }`}
         onClick={e => !product.webpage && e.preventDefault()}
         aria-disabled={!product.webpage}
       >
         {product.webpage ? "View Product →" : "Link Unavailable"}
       </a>
+
     </div>
   );
 }
