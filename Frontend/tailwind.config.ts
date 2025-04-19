@@ -92,6 +92,7 @@ const config: Config = {
         marquee: 'marquee 15s linear infinite',
         marquee2: 'marquee2 15s linear infinite',
         fadeIn: 'fadeIn 1s ease-out',
+        'spin-slow': 'spin 1.5s linear infinite',
       },
       screens: {
         w900: { raw: '(max-width: 900px)' },

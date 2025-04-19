@@ -6,7 +6,7 @@ interface WelcomeButtonProps {
 }
 
 export default function WelcomeButton({ message }: WelcomeButtonProps) {
-  const variant = message === "Take Preference Quiz" ? "heroButtonSlide" : "heroButton";
+  const variant = message === "Get Started" ? "heroButtonSlide" : "heroButton";
 
   return (
     <Button className={styles.card} variant={variant}>

@@ -1,3 +1,4 @@
+import { ProductPayload } from "@/app/business/dashboard/productValidator";
 
 // backend api URL
 const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8080/api';
@@ -96,3 +97,12 @@ export const removeFavoriteProduct = (productId: number) => {
         method: 'DELETE',
     });
 };
+
+// import products
+export const importProducts = (productPayloads: ProductPayload[]) => {
+    return fetchApi('/products/import', {
+      method: 'POST',
+      body: JSON.stringify(productPayloads),
+    });
+  };
+  

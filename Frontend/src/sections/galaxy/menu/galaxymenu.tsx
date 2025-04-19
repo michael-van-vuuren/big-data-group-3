@@ -40,11 +40,11 @@ export default function PlanetMenu({
       : null;
 
   const [selectedSubCategory, setSelectedSubCategory] = useState<string[]>(() => {
-    const stored = typeof window !== 'undefined' ? localStorage.getItem("selectedSubCategory") : null;
+    const stored = typeof window !== 'undefined' ? sessionStorage.getItem("selectedSubCategory") : null;
     try {
       return stored ? JSON.parse(stored) : [];
     } catch (e) {
-      console.error("Failed to parse selectedSubCategory from localStorage", e);
+      console.error("Failed to parse selectedSubCategory from sessionStorage", e);
       return [];
     }
   });
@@ -57,7 +57,7 @@ export default function PlanetMenu({
 
   useEffect(() => {
     if (typeof window !== 'undefined') {
-      localStorage.setItem("selectedSubCategory", JSON.stringify(selectedSubCategory));
+      sessionStorage.setItem("selectedSubCategory", JSON.stringify(selectedSubCategory));
     }
   }, [selectedSubCategory]);
 

@@ -34,8 +34,19 @@ export default function Header() {
   const { user, isLoading } = useAuth();
   const [error, setError] = useState<string | null>(null);
 
-  const buttonMessage = user ? "Take Preference Quiz" : "Log In";
-  const buttonLink = user ? "/quiz" : "/login";
+  let buttonMessage: string = "Log In";
+  let buttonLink: string = "/login";
+  let description: string = "";
+  if (user && user.role === "BUSINESS") {
+    buttonMessage = "View Business Dashboard";
+    buttonLink = "/business/dashboard";
+    description = "Add your products";
+  }
+  if (user && user.role === "USER") {
+    buttonMessage = "Get Started";
+    buttonLink = "/flavors/Fruity";
+    description = "Explore the catalog";
+  }
 
   if (isLoading) return null;
 
@@ -102,7 +113,7 @@ export default function Header() {
             {user && (
               <div className="text-start">
                 <h2 className="text-black text-md font-bold">{`Welcome, ${user.name}!`}</h2>
-                <p className="text-gray-500 mt-2 mb-4 text-md">Start by taking the quiz</p>
+                <p className="text-gray-500 mt-2 mb-4 text-md">{description}</p>
                 {error && <p className="text-red-300 text-sm">{error}</p>}
               </div>
             )}

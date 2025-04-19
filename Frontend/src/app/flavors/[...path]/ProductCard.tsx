@@ -97,24 +97,28 @@ export default function ProductCard({ product, priceStyle, initiallyFavorited }:
       <FlavorTags product={product} />
 
       {/* Details */}
-      <div className={cn(
-        "w-full flex-grow mb-3 mt-2  font-semibold",
-        !isFavorited ? "text-black" : "text-white"
-      )}
+      <div
+        className={cn(
+          "w-full flex-grow mb-3 mt-2 font-semibold",
+          !isFavorited ? "text-black" : "text-white"
+        )}
       >
-        <h3 className="text-lg mb-2 line-clamp-2" title={toTitleCase(product.name)}>{toTitleCase(product.name)}</h3>
+        <h3 className="text-lg mb-2 line-clamp-2" title={toTitleCase(product?.name ?? "N/A")}>
+          {toTitleCase(product?.name ?? "N/A")}
+        </h3>
+
         <div className="grid grid-cols-[auto_1fr] gap-x-8 gap-y-1.5 text-xs font-medium">
           <p>Roast:</p>
-          <p>{toTitleCase(product.roastDegree || "N/A")}</p>
+          <p>{toTitleCase(product?.roastDegree ?? "N/A")}</p>
 
-          {product.pricePerCup !== undefined && (
+          {product?.pricePerCup != null && (
             <>
               <p>Price Per Cup:</p>
               <p>${product.pricePerCup.toFixed(2)}</p>
             </>
           )}
 
-          {product.gram !== undefined && (
+          {product?.gram != null && (
             <>
               <p>Weight:</p>
               <p>{product.gram.toFixed(0)} g</p>
@@ -122,12 +126,10 @@ export default function ProductCard({ product, priceStyle, initiallyFavorited }:
           )}
 
           <p>Available?</p>
-          <p>{toTitleCase(product.availability || "N/A")}</p>
-
+          <p>{toTitleCase(product?.availability ?? "N/A")}</p>
         </div>
       </div>
 
-      {/* View button */}
       {/* View button */}
       <a
         href={product.webpage}

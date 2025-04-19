@@ -1,13 +1,20 @@
 "use client";
 
-import React, { useCallback, createContext, useState, useContext, useEffect, ReactNode } from 'react';
+import React, {
+    useCallback,
+    createContext,
+    useState,
+    useContext,
+    useEffect,
+    ReactNode
+} from 'react';
 import { getMe, logoutUser } from '@/lib/apiClient';
 import { useRouter, usePathname } from 'next/navigation';
 
 interface User {
     name: string;
     email: string;
-    role: string;
+    role: 'USER' | 'BUSINESS' | string;
 }
 
 interface AuthContextType {
@@ -25,100 +32,131 @@ interface AuthProviderProps {
     children: ReactNode;
 }
 
-// AuthProvider is initialized in app/clientLayout.tsx
+/* --- Role-based paths --- */
+const userPaths = ['/quiz', '/flavors', '/account'];
+const businessPaths = [...userPaths, '/business'];
+
 export const AuthProvider = ({ children }: AuthProviderProps) => {
     const [user, setUser] = useState<User | null>(null);
-    const [isLoading, setIsLoading] = useState(true); // Start loading initially
+    const [isLoading, setIsLoading] = useState(true);
     const router = useRouter();
     const pathname = usePathname();
 
-    const protectedPaths = ['/quiz', '/flavors', '/account'];
-    const isPathProtected = protectedPaths.some((path) => pathname.startsWith(path));
+    const isUserPath = userPaths.some((path) => pathname.startsWith(path));
+    const isBusinessPath = businessPaths.some((path) => pathname.startsWith(path));
+    const isPathProtected = isUserPath || isBusinessPath;
 
+    // Authentication checker function
     const checkAuthStatus = useCallback(async () => {
         setIsLoading(true);
-        let shouldRedirect = false;
-    
         try {
             const userData: User = await getMe();
+            if (!userData.role) {
+                console.warn("User data fetched successfully but missing role:", userData);
+            }
             setUser(userData);
         } catch (error) {
             setUser(null);
             if (isPathProtected && pathname !== '/login') {
-                shouldRedirect = true;
-                console.log("Auth check failed, redirect required for:", pathname);
+                console.log("Auth check failed, redirect required for protected path:", pathname);
                 try {
                     await logoutUser();
                 } catch (logoutError) {
                     console.error("Failed to clear session during auto-logout:", logoutError);
                 }
+                router.push('/login');
             }
         } finally {
             setIsLoading(false);
-            if (shouldRedirect) {
-                console.log("Executing redirect to /login");
-                router.push('/login');
-            }
         }
     }, [pathname, isPathProtected, router]);
-    
+
+    // Check authentication continuously
     useEffect(() => {
         checkAuthStatus();
     }, [checkAuthStatus]);
 
+    // Login logic
     const login = (userData: User) => {
+        if (!userData.role) {
+            console.warn("User logged in but missing role:", userData);
+        }
         setUser(userData);
         setIsLoading(false);
     };
 
+    // Logout logic
     const logout = async () => {
         setIsLoading(true);
-        const currentlyProtected = protectedPaths.some((path) => pathname.startsWith(path));
+        const currentlyProtected =
+            userPaths.some((path) => pathname.startsWith(path)) ||
+            businessPaths.some((path) => pathname.startsWith(path));
+
         try {
             await logoutUser();
         } catch (error) {
-             console.error("Logout API call failed:", error);
+            console.error("Logout API call failed:", error);
         } finally {
             setUser(null);
             setIsLoading(false);
             if (currentlyProtected && pathname !== '/login') {
-                 router.push('/login');
-            } else if (pathname === '/login') {
-                // router.refresh();
+                router.push('/login');
             }
         }
     };
 
-    // loading screen is just null (displays current page while loading)
+    // Protected path logic
+    useEffect(() => {
+        if (
+            !isLoading &&
+            isPathProtected &&
+            pathname !== '/login' &&
+            (
+                !user ||
+                !user.role ||
+                (user.role === 'USER' && !isUserPath) ||
+                (user.role === 'BUSINESS' && !isBusinessPath)
+            )
+        ) {
+            console.log("Redirecting due to invalid access:", {
+                pathname,
+                user,
+                isUserPath,
+                isBusinessPath
+            });
+            router.push('/');
+        }
+    }, [user, isLoading, pathname, isPathProtected, isUserPath, isBusinessPath, router]);
+
     let allowChildrenRender = false;
+
     if (!isPathProtected) {
-        // public path: Always allow rendering immediately
         allowChildrenRender = true;
-    } else {
-        // protected path:
-        if (isLoading) {
-            // still loading: do not render children
-            allowChildrenRender = false;
-        } else {
-            // loading done and user: render children only if user is authenticated
-            if (user) {
-                allowChildrenRender = true;
-            } else {
-                // loading done but no user: do not render children
-                allowChildrenRender = false;
-            }
+    } else if (!isLoading && user && user.role) {
+        if (
+            (user.role === 'BUSINESS' && isBusinessPath) ||
+            (user.role === 'USER' && isUserPath)
+        ) {
+            allowChildrenRender = true;
         }
     }
 
     return (
-        <AuthContext.Provider value={{ user, isAuthenticated: !!user, isLoading, login, logout, checkAuthStatus }}>
+        <AuthContext.Provider
+            value={{
+                user,
+                isAuthenticated: !!user,
+                isLoading,
+                login,
+                logout,
+                checkAuthStatus
+            }}
+        >
             {allowChildrenRender ? children : null}
         </AuthContext.Provider>
     );
 };
 
-
-// useAuth hook
 export const useAuth = (): AuthContextType => {
     const context = useContext(AuthContext);
     if (context === undefined) {

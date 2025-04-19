@@ -1,6 +1,8 @@
 'use client';
 
-import { ReactNode, useState } from 'react';
+import { ReactNode, useState, useEffect, useRef } from 'react';
+import { usePathname } from 'next/navigation';
+
 import { AuthProvider, useAuth } from '@/context/AuthContext';
 import NavigationMenuDemo from '@/components/navigation';
 import { logoutUser } from '@/lib/apiClient';
@@ -33,7 +35,31 @@ function LogoutButton() {
   );
 }
 
+
 export default function ClientLayout({ children }: { children: ReactNode }) {
+  const pathname = usePathname();
+  const previousPathnameRef = useRef<string | null>(null);
+
+  // Clear selectedSubCategory on navigation away from /flavors/**
+  useEffect(() => {
+    const currentPath = pathname;
+    const previousPath = previousPathnameRef.current;
+
+    // User navigates away from /flavors/**
+    if (
+      previousPath &&
+      previousPath.startsWith('/flavors/') &&
+      !currentPath.startsWith('/flavors/')
+    ) {
+      console.log(`Navigating away from flavors: ${previousPath} -> ${currentPath}. Clearing sessionStorage.`);
+      sessionStorage.removeItem('selectedSubCategory');
+    }
+
+    previousPathnameRef.current = currentPath;
+
+  }, [pathname]);
+
+
   return (
     <AuthProvider>
       <header className="flex items-center justify-between bg-specialBlue grid-bg-light">
@@ -44,7 +70,9 @@ export default function ClientLayout({ children }: { children: ReactNode }) {
         <LogoutButton />
       </header>
 
-      <div style={{ position: 'absolute', top: '58px' }}>{children}</div>
+      <main style={{ position: 'absolute', top: '58px' }}>
+         {children}
+      </main>
     </AuthProvider>
   );
 }

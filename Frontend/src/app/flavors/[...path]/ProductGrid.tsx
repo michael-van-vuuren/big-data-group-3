@@ -8,6 +8,8 @@ import { toTitleCase, toCompressedForm } from '@/lib/stringutils';
 import LazyProductCardWrapper from './LazyProductCardWrapper';
 import { useProductSearchContext } from '@/context/ProductSearchContext';
 
+import { Orbit } from 'lucide-react';
+
 interface ProductGridProps {
   loadingProducts: boolean;
   productError: string | null;
@@ -37,20 +39,20 @@ export default function ProductGrid({
         acc[flavorName] = (acc[flavorName] || 0) + 1;
         return acc;
       }, {});
-  
+
     const sorted = Object.entries(counts).sort((a, b) => b[1] - a[1]);
     const max = Math.max(0, ...Object.values(counts));
-  
+
     return {
       sortedFlavors: sorted,
       maxCount: max,
     };
   }, [matchingProducts]);
-  
+
 
   const {
-      triggerProductSearch
-    } = useProductSearchContext();
+    triggerProductSearch
+  } = useProductSearchContext();
 
   return (
     <div className="bg-white max-w-7xl mx-auto text-start border-black border-x-2 border-b-2 w-full flex-grow overflow-y-auto shadow-lightLg">
@@ -128,7 +130,17 @@ export default function ProductGrid({
       )}
 
       {/* --- Loading State --- */}
-      {loadingProducts && <p className="text-center text-lg text-gray-500 py-10">Loading products...</p>}
+      {loadingProducts && (
+        <div className="flex items-center justify-center h-full grid-bg-dark overflow-hidden">
+          <Orbit
+            strokeWidth={1.0}
+            style={{ stroke: "#475773" }} 
+            className="w-24 h-24 animate-spin-slow"
+          />
+
+        </div>
+      )}
+
 
       {/* --- Error State --- */}
       {productError && !loadingProducts && (
@@ -140,10 +152,12 @@ export default function ProductGrid({
 
       {/* --- Empty State --- */}
       {!loadingProducts && !productError && matchingProducts.length === 0 && (
-        <p className="text-center text-gray-500 text-lg mt-10">
-          No {isFilterInverted ? 'excluded' : 'matching'} products found.
-          {totalFetchedCount > 0 ? ` Try adjusting${isFilterInverted ? ' or resetting' : ''} the filters.` : " Try selecting a different category."}
-        </p>
+        <div className="flex items-center justify-center h-full">
+          <p className="text-center text-gray-500 text-lg">
+            No {isFilterInverted ? 'excluded' : 'matching'} products found.
+            {totalFetchedCount > 0 ? ` Try adjusting${isFilterInverted ? ' or resetting' : ''} the filters.` : " Try selecting a different category."}
+          </p>
+        </div>
       )}
 
       {/* --- Product Grid Display --- */}

@@ -20,22 +20,22 @@ const exploreTabs = [
   {
     title: 'Introduction',
     href: '/introduction',
-    description: 'Learn about the world of coffee and our passion for it.',
+    description: 'Learn about the world of coffee.',
   },
   {
-    title: 'Types of Coffee',
+    title: 'Flavors',
     href: '/varieties',
-    description: 'Understand different coffee varieties and roasts.',
+    description: 'Understand different coffee flavor notes.',
   },
   {
-    title: 'Producer Countries',
+    title: 'Producers',
     href: '/countries',
-    description: 'Explore the origins and regions where our coffee is grown.',
+    description: 'Explore the countries that produce coffee beans.',
   },
 ]
 
 export default function NavigationMenuDemo() {
-  const { user } = useAuth() // 👈 use auth context
+  const { user } = useAuth();
 
   return (
     <NavigationMenu className="justify-start z-[5] m750:max-w-[300px]">
@@ -60,7 +60,7 @@ export default function NavigationMenuDemo() {
             Explore
           </NavigationMenuTrigger>
           <NavigationMenuContent>
-            <ul className="grid w-[300px] gap-3 p-4 md:w-[500px] md:grid-cols-1 lg:w-[600px]">
+            <ul className="grid gap-3 p-4 w-[380px]">
               {exploreTabs.map((item) => (
                 <ListItem key={item.title} title={item.title} href={item.href}>
                   {item.description}
@@ -70,14 +70,14 @@ export default function NavigationMenuDemo() {
           </NavigationMenuContent>
         </NavigationMenuItem>
 
-        {/* Account – Only show if logged in */}
+        {/* Account – Only show if personal account */}
         {user && (
           <NavigationMenuItem>
             <NavigationMenuTrigger className="m750:max-w-[80px] m750:text-xs">
               Account
             </NavigationMenuTrigger>
             <NavigationMenuContent>
-              <ul className="grid w-[400px] gap-3 p-4 md:w-[500px] md:grid-cols-1 lg:w-[600px]">
+              <ul className="grid gap-3 p-4 w-[380px]">
                 <ListItem title="Profile" href="/account/info">
                   View your account details.
                 </ListItem>

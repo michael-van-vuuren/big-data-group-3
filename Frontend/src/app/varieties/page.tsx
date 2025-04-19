@@ -1,6 +1,3 @@
-'use client';
-
-import * as React from 'react';
 import Image from 'next/image';
 import { Card } from '@/components/ui/card';
 
@@ -153,11 +150,11 @@ const categories: Category[] = [
   }
 ];
 
-const TypesOfCoffeePage = () => {
+export const TypesOfCoffeePage = () => {
   return (
-    <div className="bg-white border-border border-4 flex items-center justify-center w-screen relative">
-      <div className="text-start h-full py-24 px-8">
-        <h1 className="text-4xl font-extrabold text-center mb-12">Types of Coffee Notes</h1>
+    <div className="bg-blue-900 border-border border-4 flex items-center justify-center w-screen relative grid-bg-dot">
+      <div className=" bg-white border-0 lg:border-2 border-black text-start h-full py-24 px-8 max-w-5xl shadow-light my-0 lg:my-24">
+        <h2 className="text-center text-4xl sm:text-4xl md:text-5xl font-extrabold text-foreground cosmic-bg bg-clip-text text-transparent mb-16">Coffee Flavor Notes</h2>
 
         {categories.map((category) => (
           <section key={category.title} className="mb-16">
@@ -174,11 +171,10 @@ const TypesOfCoffeePage = () => {
                     height={300}
                     className="mb-4 border-2 border-black w-full h-[200px] object-cover"
                   />
-
                   <h3 className="text-xl font-semibold">{sub.name}</h3>
                   <p className="text-sm text-muted-foreground mb-2">{sub.description}</p>
-                  <p className="text-sm text-gray-700">
-                    <strong>Examples:</strong> {sub.examples.join(', ')}
+                  <p className="text-sm text-muted-foreground">
+                    Examples: {sub.examples.join(', ')}
                   </p>
                 </Card>
               ))}
