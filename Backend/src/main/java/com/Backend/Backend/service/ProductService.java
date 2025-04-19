@@ -47,6 +47,22 @@ public class ProductService {
         }
     }
 
+    @Transactional(readOnly = true)
+    public List<Product> getProductsByRoasterName(String roasterName) {
+        if (roasterName == null || roasterName.isBlank()) {
+            return List.of();
+        }
+        return productRepository.findByRoasterNameIgnoreCase(roasterName);
+    }
+
+    @Transactional(readOnly = true)
+    public List<Product> getProductsByRoasterCountry(String countryName) {
+        if (countryName == null || countryName.isBlank()) {
+            return List.of();
+        }
+        return productRepository.findByRoasterCountryNameIgnoreCase(countryName);
+    }
+
 
     /* Import multiple products */
     @Transactional

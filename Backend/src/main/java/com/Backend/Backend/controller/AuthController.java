@@ -40,12 +40,12 @@ public class AuthController {
 
             // Get user details after successful authentication via authService
             Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-            Account userDetails = (Account) authentication.getPrincipal(); // Cast to your User entity
+            Account userDetails = (Account) authentication.getPrincipal();
 
             // Return cookie in header and user info in body
             return ResponseEntity.ok()
                     .header(HttpHeaders.SET_COOKIE, jwtCookie.toString())
-                    .body(new AuthResponse(userDetails.getName(), userDetails.getEmail())); // Return some user info
+                    .body(new AuthResponse(userDetails.getName(), userDetails.getEmail(), userDetails.getRole()));
 
         } catch (Exception e) {
             return ResponseEntity.status(401).body(new MessageResponse("Login failed: " + e.getMessage()));
@@ -68,6 +68,6 @@ public class AuthController {
             return ResponseEntity.status(401).body(new MessageResponse("Not authenticated"));
         }
         Account userDetails = (Account) authentication.getPrincipal();
-        return ResponseEntity.ok(new AuthResponse(userDetails.getName(), userDetails.getEmail()));
+        return ResponseEntity.ok(new AuthResponse(userDetails.getName(), userDetails.getEmail(), userDetails.getRole()));
     }
 }

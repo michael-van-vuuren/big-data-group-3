@@ -1,6 +1,3 @@
-'use client';
-
-import * as React from 'react';
 import Image from 'next/image';
 import { Card } from '@/components/ui/card';
 
@@ -76,9 +73,9 @@ const countries: Country[] = [
 
 const ProducerCountriesPage = () => {
   return (
-    <div className="bg-white border-border border-4 flex items-center justify-center w-screen relative">
-      <div className="text-start h-full py-24 px-8">
-        <h1 className="text-4xl font-extrabold text-center mb-16">Coffee Producer Countries</h1>
+    <div className="bg-blue-900 border-border border-4 flex items-center justify-center w-screen relative grid-bg-dot">
+      <div className=" bg-white border-0 lg:border-2 border-black text-start h-full py-24 px-8 max-w-5xl shadow-light my-0 lg:my-24">
+        <h2 className="text-center text-4xl sm:text-4xl md:text-5xl font-extrabold text-foreground cosmic-bg bg-clip-text text-transparent mb-16">Coffee Around the World</h2>
 
         <div className="space-y-16">
           {countries.map((country) => (
@@ -100,7 +97,7 @@ const ProducerCountriesPage = () => {
                 </p>
                 <p className="text-base text-gray-800">
                   <strong>Popular Varieties:</strong>{' '}
-                  <span className="text-blue-600">{country.varieties.join(', ')}</span>
+                  <span className="text-black">{country.varieties.join(', ')}</span>
                 </p>
               </div>
             </Card>

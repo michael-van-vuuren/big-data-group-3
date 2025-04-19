@@ -8,6 +8,7 @@ import lombok.AllArgsConstructor;
 
 import java.math.BigDecimal;
 import java.util.List;
+import java.util.Objects;
 
 @Getter
 @Setter
@@ -25,15 +26,18 @@ public class ProductResponseDTO {
     private BigDecimal pricePerCup;
     private BigDecimal bulkPricePerCup;
 
-//    private RoasterDTO roaster;
-//
-//    private ProcessDTO process;
-//
+    private RoasterDTO roaster;
+
+    private ProcessDTO process;
+
     private List<FlavorDTO> flavors;
-//
-//    private List<ProducerDTO> producers;
+
+    private List<ProducerDTO> producers;
 
     public static ProductResponseDTO fromEntity(Product product) {
+        if (product == null) {
+            return null;
+        }
         return new ProductResponseDTO(
                 product.getId(),
                 product.getName(),
@@ -45,10 +49,18 @@ public class ProductResponseDTO {
                 product.getPrice(),
                 product.getPricePerCup(),
                 product.getBulkPricePerCup(),
-//                RoasterDTO.fromEntity(product.getRoaster()),
-//                ProcessDTO.fromEntity(product.getProcess()),
-                product.getFlavors().stream().map(FlavorDTO::fromEntity).toList()
-//                product.getProducers().stream().map(ProducerDTO::fromEntity).toList()
+                RoasterDTO.fromEntity(product.getRoaster()),
+                ProcessDTO.fromEntity(product.getProcess()),
+                product.getFlavors() == null ? List.of() :
+                        product.getFlavors().stream()
+                                .filter(Objects::nonNull)
+                                .map(FlavorDTO::fromEntity)
+                                .toList(),
+                product.getProducers() == null ? List.of() :
+                        product.getProducers().stream()
+                                .filter(Objects::nonNull)
+                                .map(ProducerDTO::fromEntity)
+                                .toList()
         );
     }
 

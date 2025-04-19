@@ -20,22 +20,22 @@ const exploreTabs = [
   {
     title: 'Introduction',
     href: '/introduction',
-    description: 'Learn about the world of coffee and our passion for it.',
+    description: 'Learn about the world of coffee.',
   },
   {
-    title: 'Types of Coffee',
+    title: 'Flavors',
     href: '/varieties',
-    description: 'Understand different coffee varieties and roasts.',
+    description: 'Understand different coffee flavor notes.',
   },
   {
-    title: 'Producer Countries',
+    title: 'Producers',
     href: '/countries',
-    description: 'Explore the origins and regions where our coffee is grown.',
+    description: 'Explore the countries that produce coffee beans.',
   },
 ]
 
 export default function NavigationMenuDemo() {
-  const { user } = useAuth() // 👈 use auth context
+  const { user } = useAuth();
 
   return (
     <NavigationMenu className="justify-start z-[5] m750:max-w-[300px]">
@@ -60,7 +60,7 @@ export default function NavigationMenuDemo() {
             Explore
           </NavigationMenuTrigger>
           <NavigationMenuContent>
-            <ul className="grid w-[300px] gap-3 p-4 md:w-[500px] md:grid-cols-1 lg:w-[600px]">
+            <ul className="grid gap-3 p-4 w-[380px]">
               {exploreTabs.map((item) => (
                 <ListItem key={item.title} title={item.title} href={item.href}>
                   {item.description}
@@ -70,14 +70,14 @@ export default function NavigationMenuDemo() {
           </NavigationMenuContent>
         </NavigationMenuItem>
 
-        {/* Account – Only show if logged in */}
+        {/* Account */}
         {user && (
           <NavigationMenuItem>
             <NavigationMenuTrigger className="m750:max-w-[80px] m750:text-xs">
               Account
             </NavigationMenuTrigger>
             <NavigationMenuContent>
-              <ul className="grid w-[400px] gap-3 p-4 md:w-[500px] md:grid-cols-1 lg:w-[600px]">
+              <ul className="grid gap-3 p-4 w-[380px]">
                 <ListItem title="Profile" href="/account/info">
                   View your account details.
                 </ListItem>
@@ -97,28 +97,28 @@ export default function NavigationMenuDemo() {
 
 const ListItem = React.forwardRef<
   React.ElementRef<'a'>,
-  React.ComponentPropsWithoutRef<'a'>
+  React.ComponentPropsWithoutRef<'a'> & { title: string; href: string }
 >(({ className, title, children, href, ...props }, ref) => {
   return (
     <li>
       <NavigationMenuLink asChild>
-        <Link href={href || '#'} legacyBehavior passHref>
-          <a
-            ref={ref}
-            className={cn(
-              'hover:bg-accent block text-mtext select-none space-y-1 rounded-base border-2 border-transparent p-3 leading-none no-underline outline-none transition-colors hover:border-border dark:hover:border-darkBorder',
-              className,
-            )}
-            {...props}
-          >
-            <div className="text-base font-heading leading-none">{title}</div>
-            <p className="text-muted-foreground font-base line-clamp-2 text-sm leading-snug">
-              {children}
-            </p>
-          </a>
+        <Link
+          href={href}
+          className={cn(
+            'hover:bg-accent block text-mtext select-none space-y-1 rounded-base border-2 border-transparent p-3 leading-none no-underline outline-none transition-colors hover:border-border dark:hover:border-darkBorder',
+            className,
+          )}
+          ref={ref}
+          {...props}
+        >
+          <div className="text-base font-heading leading-none">{title}</div>
+          <p className="text-muted-foreground font-base line-clamp-2 text-sm leading-snug">
+            {children}
+          </p>
         </Link>
       </NavigationMenuLink>
     </li>
-  )
-})
-ListItem.displayName = 'ListItem'
+  );
+});
+ListItem.displayName = 'ListItem';
+

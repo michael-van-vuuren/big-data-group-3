@@ -3,12 +3,10 @@ package com.Backend.Backend.entity;
 import jakarta.persistence.*;
 import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 @Getter
 @Setter
@@ -32,6 +30,14 @@ public class Account implements UserDetails {
     @Column(nullable = false)
     private String password; // hashed
 
+    public enum Role {
+        USER,
+        BUSINESS
+    }
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private Role role;
+
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(
             name = "account_favorite_product",
@@ -42,8 +48,10 @@ public class Account implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        // TODO: add roles
-        return List.of();
+        if (role == null) {
+            return Collections.emptyList();
+        }
+        return List.of(new SimpleGrantedAuthority("ROLE_" + role.name()));
     }
 
     @Override

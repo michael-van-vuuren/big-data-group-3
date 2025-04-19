@@ -26,6 +26,7 @@
     "clsx": "^2.1.1",
     "d3": "^7.9.0",
     "embla-carousel-react": "^8.5.2",
+    "flag-icons": "^7.3.2",
     "globe.gl": "^2.41.1",
     "jose": "^6.0.10",
     "lucide-react": "^0.479.0",

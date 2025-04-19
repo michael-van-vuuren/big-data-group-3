@@ -40,7 +40,7 @@ body::-webkit-scrollbar-thumb {
   }
 
   .cosmic-bg {
-    @apply bg-gradient-to-b from-slate-900 via-logoBlue to-slate-900 bg-[length:200%_200%] animate-rainbow;
+    @apply bg-gradient-to-b from-slate-900 via-logoBlue to-slate-900 bg-[length:300%_200%] animate-rainbow;
   }
 
   .cosmic-border {
@@ -85,14 +85,22 @@ body::-webkit-scrollbar-thumb {
   .grid-bg-dark {
     background-image: linear-gradient(to right, #00000012 1px, transparent 0px),
       linear-gradient(to bottom, #00000012 1px, transparent 0px);
-    background-size: 60px 60px;
-    background-position: 7px 0px;
+    background-size: 50px 50px;
+    background-position: -13px 0px;
     z-index: -1;
   }
 
   .grid-bg-sm {
     background-image: linear-gradient(to right, #ffffff1e 1px, transparent 0px),
       linear-gradient(to bottom, #ffffff1e 1px, transparent 0px);
+    background-size: 6px 6px;
+    background-position: -1px -1px;
+    z-index: -1;
+  }
+
+  .grid-bg-sm-dark {
+    background-image: linear-gradient(to right, #0000001e 1px, transparent 0px),
+      linear-gradient(to bottom, #0000001e 1px, transparent 0px);
     background-size: 6px 6px;
     background-position: -1px -1px;
     z-index: -1;

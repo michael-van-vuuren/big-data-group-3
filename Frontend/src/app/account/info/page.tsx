@@ -5,6 +5,7 @@ import { useAuth } from "@/context/AuthContext";
 import { getFavoriteProducts } from "@/lib/apiClient";
 import type { Product } from "@/app/flavors/[...path]/types";
 import Logo from "@/sections/logo";
+import { toTitleCase } from "@/lib/stringutils";
 
 const UserProfilePage = () => {
     const { user, isLoading } = useAuth();
@@ -73,7 +74,7 @@ const UserProfilePage = () => {
                 </div>
 
                 <div className="flex flex-row gap-8 text-lg">
-                    {/* Left column: Name & Email */}
+                    {/* Left column: name, email, role */}
                     <div className="flex-1 space-y-4">
                         <div>
                             <p className="font-semibold">Name:</p>
@@ -83,9 +84,13 @@ const UserProfilePage = () => {
                             <p className="font-semibold">Email:</p>
                             <p>{user.email}</p>
                         </div>
+                        <div>
+                            <p className="font-semibold">Account Type:</p>
+                            <p>{toTitleCase(user.role)}</p>
+                        </div>
                     </div>
 
-                    {/* Right column: Favorites */}
+                    {/* Right column: favorites */}
                     <div className="flex-1 flex items-start lg:justify-end">
                         {targetCount !== null && (
                             <div>

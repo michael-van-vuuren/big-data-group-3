@@ -1,6 +1,7 @@
 package com.Backend.Backend.controller;
 
 import java.util.List;
+import java.util.Map;
 
 import com.Backend.Backend.dto.ProductDTO;
 import com.Backend.Backend.dto.ProductImportResult;
@@ -30,12 +31,14 @@ public class ProductController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<String> deleteProduct(@PathVariable Long id) {
+    public ResponseEntity<Map<String, String>> deleteProduct(@PathVariable Long id) { // Return JSON, e.g., Map
         boolean deleted = productService.deleteProductById(id);
         if (deleted) {
-            return ResponseEntity.ok("Product deleted successfully.");
+            Map<String, String> successBody = Map.of("message", "Product deleted successfully.");
+            return ResponseEntity.ok(successBody);
         } else {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Product not found.");
+            Map<String, String> errorBody = Map.of("message", "Product not found.");
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(errorBody);
         }
     }
 
@@ -52,5 +55,30 @@ public class ProductController {
         return ResponseEntity.ok(dtos);
     }
 
+    @GetMapping("/by-roaster")
+    public ResponseEntity<List<ProductResponseDTO>> getProductsByRoaster(
+            @RequestParam(name = "roasterName") String roasterName
+    ) {
+        List<Product> products = productService.getProductsByRoasterName(roasterName);
+
+        List<ProductResponseDTO> dtos = products.stream()
+                .map(ProductResponseDTO::fromEntity)
+                .toList();
+
+        return ResponseEntity.ok(dtos);
+    }
+
+    @GetMapping("/by-roaster-country")
+    public ResponseEntity<List<ProductResponseDTO>> getProductsByRoasterCountry(
+            @RequestParam(name = "countryName") String countryName
+    ) {
+        List<Product> products = productService.getProductsByRoasterCountry(countryName);
+
+        List<ProductResponseDTO> dtos = products.stream()
+                .map(ProductResponseDTO::fromEntity)
+                .toList();
+
+        return ResponseEntity.ok(dtos);
+    }
 
 }

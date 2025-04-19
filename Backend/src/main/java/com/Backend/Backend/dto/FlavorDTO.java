@@ -14,6 +14,9 @@ public class FlavorDTO {
     private String name;
 
     public static FlavorDTO fromEntity(Flavor flavor) {
+        if (flavor == null) {
+            return null;
+        }
         return new FlavorDTO(flavor.getName());
     }
 }

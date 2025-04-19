@@ -131,7 +131,7 @@ export default function ProductFilterControls({
                     onChange={handleAvailabilityRadioChange}
                     className={`
                   appearance-none w-4 h-4 border-2 border-white
-                  checked:bg-rose-500 checked:border-black
+                  checked:bg-pink-400 checked:border-black
                   cursor-pointer
                 `}
                     disabled={loadingProducts}

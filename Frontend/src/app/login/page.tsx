@@ -59,16 +59,14 @@ export default function LoginPage() {
     }
   };
 
-  const handleRegister = async (values: z.infer<typeof registerSchema>) => {
+  const handleRegister = async (values: z.infer<typeof registerSchema>, role: "USER" | "BUSINESS") => {
     setRegisterError(null);
     try {
-      await registerUser(values);
+      await registerUser({ ...values, role });
       localStorage.setItem("registration-status", "Account created successfully! Please log in below:");
       registerForm.reset();
 
-      // switch to login tab
       location.reload();
-
     } catch (error: any) {
       console.error("Registration failed:", error);
       setRegisterError(error.message || "Registration failed. Please try again.");
@@ -76,19 +74,17 @@ export default function LoginPage() {
   };
 
   return (
-    <div className="bg-white border-border border-4 flex items-center justify-center w-screen relative" style={{ height: "calc(100vh - 58px)" }}>
-      <Tabs defaultValue="login" className="w-[400px] h-full py-24">
+    <div className="cosmic-bg border-border border-4 flex items-center justify-center w-screen relative" style={{ height: "calc(100vh - 58px)" }}>
+      <Tabs defaultValue="login" className="w-[90%] sm:w-[75%] md:w-[60%] lg:w-[45%]">
         <TabsList className="grid w-full grid-cols-2 border-none">
-          <TabsTrigger value="login">Login</TabsTrigger>
-          <TabsTrigger value="create">Create Account</TabsTrigger>
+          <TabsTrigger value="login">Log In</TabsTrigger>
+          <TabsTrigger value="register">Register</TabsTrigger>
         </TabsList>
 
-        {/* Login tab */}
+        {/* Login Tab */}
         <TabsContent value="login">
           <Card>
-            <CardHeader>
-              <CardTitle>Login</CardTitle>
-            </CardHeader>
+            <CardHeader><CardTitle>Log In</CardTitle></CardHeader>
             <CardContent>
               {registrationStatus && <p className="text-sm font-medium pb-2">{registrationStatus}</p>}
               <Form {...loginForm}>
@@ -96,81 +92,116 @@ export default function LoginPage() {
                   <FormField control={loginForm.control} name="email" render={({ field }) => (
                     <FormItem>
                       <FormLabel>Email Address</FormLabel>
-                      <FormControl>
-                        <Input type="email" {...field} />
-                      </FormControl>
+                      <FormControl><Input type="email" {...field} /></FormControl>
                       <FormMessage />
                     </FormItem>
                   )} />
                   <FormField control={loginForm.control} name="password" render={({ field }) => (
                     <FormItem>
                       <FormLabel>Password</FormLabel>
-                      <FormControl>
-                        <Input type="password" {...field} />
-                      </FormControl>
+                      <FormControl><Input type="password" {...field} /></FormControl>
                       <FormMessage />
                     </FormItem>
                   )} />
                   {loginError && <p className="text-sm font-medium text-destructive">{loginError}</p>}
-                  <div>
-                    <Button type="submit" className="w-full my-2" disabled={loginForm.formState.isSubmitting}>
-                      {loginForm.formState.isSubmitting ? 'Logging in...' : 'Login'}
-                    </Button>
-                  </div>
+                  <Button type="submit" className="w-full my-2" disabled={loginForm.formState.isSubmitting}>
+                    {loginForm.formState.isSubmitting ? 'Logging in...' : 'Login'}
+                  </Button>
                 </form>
               </Form>
             </CardContent>
           </Card>
         </TabsContent>
 
-        {/* Registration tab */}
-        <TabsContent value="create">
-          <Card>
-            <CardHeader>
-              <CardTitle>Create Account</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <Form {...registerForm}>
-                <form onSubmit={registerForm.handleSubmit(handleRegister)} className="space-y-4">
-                  <FormField control={registerForm.control} name="name" render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Name</FormLabel>
-                      <FormControl>
-                        <Input {...field} />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )} />
-                  <FormField control={registerForm.control} name="email" render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Email Address</FormLabel>
-                      <FormControl>
-                        <Input type="email" {...field} />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )} />
-                  <FormField control={registerForm.control} name="password" render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Password</FormLabel>
-                      <FormControl>
-                        <Input type="password" {...field} />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )} />
-                  {registerError && <p className="text-sm font-medium text-destructive">{registerError}</p>}
-                  <div>
-                    <Button type="submit" className="w-full my-2" disabled={registerForm.formState.isSubmitting}>
-                      {registerForm.formState.isSubmitting ? 'Creating...' : 'Create Account'}
-                    </Button>
-                  </div>
-                </form>
-              </Form>
-            </CardContent>
-          </Card>
+        {/* Register Tab */}
+        <TabsContent value="register" className="px-4 sm:px-8 md:px-10 lg:px-16 pb-16 grid-bg-dark">
+          <Tabs defaultValue="user" className="w-full">
+            <TabsList className="grid grid-cols-2 w-full mb-4 shadow-light">
+              <TabsTrigger value="user">Personal Account</TabsTrigger>
+              <TabsTrigger value="business">Business Account</TabsTrigger>
+            </TabsList>
+
+            {/* Personal Account */}
+            <TabsContent value="user" className="border-b-2 shadow-light">
+              <Card>
+                <CardHeader><CardTitle>Create Personal Account</CardTitle></CardHeader>
+                <CardDescription>Create an account to explore the Cosmic Coffee Catalog!</CardDescription>
+                <CardContent>
+                  <Form {...registerForm}>
+                    <form onSubmit={registerForm.handleSubmit((values) => handleRegister(values, "USER"))} className="space-y-4">
+                      <FormField control={registerForm.control} name="name" render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>Name</FormLabel>
+                          <FormControl><Input {...field} /></FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )} />
+                      <FormField control={registerForm.control} name="email" render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>Email Address</FormLabel>
+                          <FormControl><Input type="email" {...field} /></FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )} />
+                      <FormField control={registerForm.control} name="password" render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>Password</FormLabel>
+                          <FormControl><Input type="password" {...field} /></FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )} />
+                      {registerError && <p className="text-sm font-medium text-destructive">{registerError}</p>}
+                      <Button type="submit" className="w-full my-2" disabled={registerForm.formState.isSubmitting}>
+                        {registerForm.formState.isSubmitting ? 'Creating...' : 'Create Personal Account'}
+                      </Button>
+                    </form>
+                  </Form>
+                </CardContent>
+              </Card>
+            </TabsContent>
+
+            {/* Business Account */}
+            <TabsContent value="business" className="border-b-2 shadow-light">
+              <Card>
+                <CardHeader><CardTitle>Create Business Account</CardTitle></CardHeader>
+                <CardDescription>Add your products to the Cosmic Coffee Catalog.</CardDescription>
+                <CardContent>
+                  <Form {...registerForm}>
+                    <form onSubmit={registerForm.handleSubmit((values) => handleRegister(values, "BUSINESS"))} className="space-y-4">
+                      <FormField control={registerForm.control} name="name" render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>Business Name</FormLabel>
+                          <FormControl><Input {...field} /></FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )} />
+                      <FormField control={registerForm.control} name="email" render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>Email Address</FormLabel>
+                          <FormControl><Input type="email" {...field} /></FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )} />
+                      <FormField control={registerForm.control} name="password" render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>Password</FormLabel>
+                          <FormControl><Input type="password" {...field} /></FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )} />
+                      {registerError && <p className="text-sm font-medium text-destructive">{registerError}</p>}
+                      <Button type="submit" className="w-full my-2" disabled={registerForm.formState.isSubmitting}>
+                        {registerForm.formState.isSubmitting ? 'Creating...' : 'Create Business Account'}
+                      </Button>
+                    </form>
+                  </Form>
+                </CardContent>
+              </Card>
+            </TabsContent>
+          </Tabs>
         </TabsContent>
       </Tabs>
     </div>
   );
+
 }

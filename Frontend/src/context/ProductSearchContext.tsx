@@ -1,6 +1,24 @@
 import { createContext, useContext } from 'react';
 import type { UseProductSearchResult } from '@/app/flavors/[...path]/types';
 
+export type FlavorSearchQuery = {
+  type: 'flavor';
+  values: string[];
+  strict?: boolean;
+};
+
+export type RoasterSearchQuery = {
+  type: 'roaster';
+  value: string;
+};
+
+export type RoasterCountrySearchQuery = {
+  type: 'roaster-country';
+  value: string;
+};
+
+export type ProductSearchQuery = FlavorSearchQuery | RoasterSearchQuery | RoasterCountrySearchQuery;
+
 const defaultContextValue: UseProductSearchResult = {
   // Products
   matchingProducts: [],
