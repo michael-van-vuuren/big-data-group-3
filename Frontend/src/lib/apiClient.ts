@@ -1,4 +1,6 @@
 import { ProductPayload } from "@/app/business/dashboard/productValidator";
+import { Product } from "@/app/flavors/[...path]/types";
+import { ProductSearchQuery } from "@/context/ProductSearchContext";
 
 // backend api URL
 const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8080/api';
@@ -43,13 +45,13 @@ async function fetchApi(endpoint: string, options: RequestInit = {}) {
     }
 }
 
-// api callers
+/* --- Frontend API --- */
 
+/* --- Authentication routes --- */
 // check authentication status
 export const getMe = () => fetchApi('/auth/me', {
     method: 'GET',
 });
-
 export const loginUser = (credentials: any) => fetchApi('/auth/login', {
     method: 'POST',
     body: JSON.stringify(credentials),
@@ -62,8 +64,9 @@ export const logoutUser = () => fetchApi('/auth/logout', {
     method: 'POST',
 });
 
+/* --- Product routes --- */
 // fetch coffee bean products by flavors
-export const getProductsByFlavors = (flavors: string[], searchStrictnessFlag?: boolean) => {
+export const getProductsByFlavors = (flavors: string[], searchStrictnessFlag?: boolean): Promise<Product[]> => {
     const params = new URLSearchParams();
     flavors.forEach(flavor => params.append('flavors', flavor));
 
@@ -73,9 +76,44 @@ export const getProductsByFlavors = (flavors: string[], searchStrictnessFlag?: b
 
     return fetchApi(`/products/by-flavors?${params.toString()}`, {
         method: 'GET',
-    });
+    }) as Promise<Product[]>;
+};
+// fetch coffee bean products by roaster name
+export const getProductsByRoaster = (roasterName: string): Promise<Product[]> => {
+    const params = new URLSearchParams();
+    params.append('roasterName', roasterName);
+
+    return fetchApi(`/products/by-roaster?${params.toString()}`, {
+        method: 'GET',
+    }) as Promise<Product[]>;
+};
+// fetch coffee bean products by roaster country
+export const getProductsByRoasterCountry = (roasterCountry: string): Promise<Product[]> => {
+    const params = new URLSearchParams();
+    params.append('countryName', roasterCountry);
+
+    return fetchApi(`/products/by-roaster-country?${params.toString()}`, {
+        method: 'GET',
+    }) as Promise<Product[]>;
+};
+// query router
+export const searchProducts = (query: ProductSearchQuery): Promise<Product[]> => {
+    console.log(query);
+
+    switch (query.type) {
+        case 'flavor':
+            return getProductsByFlavors(query.values, query.strict);
+        case 'roaster':
+            return getProductsByRoaster(query.value);
+        case 'roaster-country':
+            return getProductsByRoasterCountry(query.value);
+        default:
+            console.warn("Unsupported search query type:", query);
+            return Promise.resolve([]);
+    }
 };
 
+/* --- Favorite routes --- */
 // post favorited product
 export const addFavoriteProduct = (productId: number) => {
     return fetchApi('/account/favorites', {
@@ -83,14 +121,12 @@ export const addFavoriteProduct = (productId: number) => {
         body: JSON.stringify({ productId: productId }),
     });
 };
-
 // get favorited products
 export const getFavoriteProducts = () => {
     return fetchApi('/account/favorites', {
         method: 'GET',
     });
 };
-
 // remove favorited product
 export const removeFavoriteProduct = (productId: number) => {
     return fetchApi(`/account/favorites/${productId}`, {
@@ -98,11 +134,11 @@ export const removeFavoriteProduct = (productId: number) => {
     });
 };
 
+/* --- Business routes --- */
 // import products
 export const importProducts = (productPayloads: ProductPayload[]) => {
     return fetchApi('/products/import', {
-      method: 'POST',
-      body: JSON.stringify(productPayloads),
+        method: 'POST',
+        body: JSON.stringify(productPayloads),
     });
-  };
-  
+};

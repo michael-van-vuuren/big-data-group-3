@@ -1,7 +1,8 @@
 import { useState, useEffect, useCallback, useRef, useMemo } from "react";
-import { getProductsByFlavors } from "@/lib/apiClient";
+import { searchProducts } from "@/lib/apiClient";
 import type { Product, AvailabilityFilter, UseProductSearchResult, RoastDegreeFilter, PriceSortOrder } from "./types";
 import { toTitleCase } from "@/lib/stringutils";
+import { ProductSearchQuery } from "@/context/ProductSearchContext";
 
 const DEFAULT_MAX_PRICE = 60;
 const DEFAULT_ROAST_FILTER = "All";
@@ -53,39 +54,30 @@ export function useProductSearch(
 
 
   /* --- Product search callback --- */
-  const triggerProductSearch = useCallback(async (notes: string[], searchStrictnessFlag?: boolean) => {
-    const useStrictSearch = searchStrictnessFlag ?? false;
-
-    if (notes.length === 0) {
-
-      console.warn("triggerProductSearch called with no subCategories.");
-      allProductsRef.current = [];
-      setMatchingProducts([]);
-      setProductError(null);
-      setShowProductsView(false);
-      return;
-    }
-
+  const triggerProductSearch = useCallback(async (query: ProductSearchQuery) => {
+    console.log("Triggering product search with query:", query);
     setLoadingProducts(true);
     setProductError(null);
     setIsFilterInverted(false);
 
     try {
-      const fetchedProducts = await getProductsByFlavors(notes, useStrictSearch);
+      const fetchedProducts = await searchProducts(query);
+
       allProductsRef.current = fetchedProducts;
+      setMatchingProducts(fetchedProducts); 
 
-      
-        
-
+      // DEBUG
+      console.log("Fetched Products:", fetchedProducts);
 
       setMaxPriceFilter(DEFAULT_MAX_PRICE);
       setAvailabilityFilter('All');
       setRoastDegreeFilter(DEFAULT_ROAST_FILTER);
       setPriceSortOrder(DEFAULT_PRICE_SORT_ORDER);
-      setShowProductsView(true);
+
+      setShowProductsView(true); 
 
     } catch (err: any) {
-      console.error("Failed to fetch products by flavors:", err);
+      console.error("Failed to fetch products:", err);
       setProductError(err.message || "Failed to fetch matching products");
       allProductsRef.current = [];
       setMatchingProducts([]);
@@ -93,7 +85,17 @@ export function useProductSearch(
     } finally {
       setLoadingProducts(false);
     }
-  }, [setShowProductsView]);
+  }, [
+      setShowProductsView,
+      setLoadingProducts,
+      setProductError,
+      setIsFilterInverted,
+      setMatchingProducts,
+      setMaxPriceFilter,
+      setAvailabilityFilter,
+      setRoastDegreeFilter,
+      setPriceSortOrder
+  ]);
 
 
   /* --- Filtering & Sorting logic --- */

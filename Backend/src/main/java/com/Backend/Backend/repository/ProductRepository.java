@@ -31,6 +31,12 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
             "WHERE p.name = :productName AND p.roaster.name = :roasterName")
     boolean compositeKeyExists(@Param("roasterName") String roasterName,
                                @Param("productName") String productName);
+
+    // Find by Roaster name
+    List<Product> findByRoasterNameIgnoreCase(String roasterName);
+
+    // Find by Roaster country
+    List<Product> findByRoasterCountryNameIgnoreCase(String countryName);
 }
 
 

@@ -70,7 +70,7 @@ export default function NavigationMenuDemo() {
           </NavigationMenuContent>
         </NavigationMenuItem>
 
-        {/* Account – Only show if personal account */}
+        {/* Account */}
         {user && (
           <NavigationMenuItem>
             <NavigationMenuTrigger className="m750:max-w-[80px] m750:text-xs">
@@ -97,28 +97,28 @@ export default function NavigationMenuDemo() {
 
 const ListItem = React.forwardRef<
   React.ElementRef<'a'>,
-  React.ComponentPropsWithoutRef<'a'>
+  React.ComponentPropsWithoutRef<'a'> & { title: string; href: string }
 >(({ className, title, children, href, ...props }, ref) => {
   return (
     <li>
       <NavigationMenuLink asChild>
-        <Link href={href || '#'} legacyBehavior passHref>
-          <a
-            ref={ref}
-            className={cn(
-              'hover:bg-accent block text-mtext select-none space-y-1 rounded-base border-2 border-transparent p-3 leading-none no-underline outline-none transition-colors hover:border-border dark:hover:border-darkBorder',
-              className,
-            )}
-            {...props}
-          >
-            <div className="text-base font-heading leading-none">{title}</div>
-            <p className="text-muted-foreground font-base line-clamp-2 text-sm leading-snug">
-              {children}
-            </p>
-          </a>
+        <Link
+          href={href}
+          className={cn(
+            'hover:bg-accent block text-mtext select-none space-y-1 rounded-base border-2 border-transparent p-3 leading-none no-underline outline-none transition-colors hover:border-border dark:hover:border-darkBorder',
+            className,
+          )}
+          ref={ref}
+          {...props}
+        >
+          <div className="text-base font-heading leading-none">{title}</div>
+          <p className="text-muted-foreground font-base line-clamp-2 text-sm leading-snug">
+            {children}
+          </p>
         </Link>
       </NavigationMenuLink>
     </li>
-  )
-})
-ListItem.displayName = 'ListItem'
+  );
+});
+ListItem.displayName = 'ListItem';
+

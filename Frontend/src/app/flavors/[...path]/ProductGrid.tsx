@@ -7,6 +7,7 @@ import { toTitleCase, toCompressedForm } from '@/lib/stringutils';
 
 import LazyProductCardWrapper from './LazyProductCardWrapper';
 import { useProductSearchContext } from '@/context/ProductSearchContext';
+import { FlavorSearchQuery } from '@/context/ProductSearchContext';
 
 import { Orbit } from 'lucide-react';
 
@@ -54,6 +55,17 @@ export default function ProductGrid({
     triggerProductSearch
   } = useProductSearchContext();
 
+  const handleFlavorClick = (flavorName: string) => {
+    // Build flavor query
+    const query: FlavorSearchQuery = {
+      type: 'flavor',
+      values: [flavorName],
+      strict: false
+    };
+    triggerProductSearch(query);
+  };
+
+
   return (
     <div className="bg-white max-w-7xl mx-auto text-start border-black border-x-2 border-b-2 w-full flex-grow overflow-y-auto shadow-lightLg">
 
@@ -92,7 +104,7 @@ export default function ProductGrid({
                       className="w-20 text-xs whitespace-nowrap overflow-hidden text-ellipsis cursor-pointer"
                       title={flavor}
                       onClick={() => {
-                        triggerProductSearch([flavor]);
+                        handleFlavorClick(flavor);
                       }}
                     >
                       {toCompressedForm(flavor)}
@@ -102,7 +114,7 @@ export default function ProductGrid({
                       <div
                         className="transition-all duration-100 ease-in-out py-1.5 border-black border-2 cursor-pointer hover:shadow-light hover:-translate-y-boxShadowY hover:-translate-x-boxShadowX active:shadow-none active:translate-y-boxShadowYSm active:translate-x-boxShadowXSm"
                         onClick={() => {
-                          triggerProductSearch([flavor]);
+                          handleFlavorClick(flavor);
                         }}
                         style={{
                           width: `${barWidthPercent}%`,

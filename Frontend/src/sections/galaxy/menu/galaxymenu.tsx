@@ -8,6 +8,9 @@ import notesData from "@/data/tasting-notes-wheel.json";
 import type { PlanetData } from "@/sections/galaxy/types/planetdata";
 import { Button } from '@/components/ui/button';
 
+import { ProductSearchQuery } from "@/context/ProductSearchContext";
+import { FlavorSearchQuery } from "@/context/ProductSearchContext";
+
 interface System {
   name: string;
   link: string;
@@ -19,7 +22,7 @@ interface PlanetMenuProps {
   selectedCategory: string | null;
   handleSelection: (planet: PlanetData) => void;
   systems: System[];
-  onShowProducts: (subCategories: string[], searchStrictnessFlag?: boolean) => void;
+  onShowProducts: (query: ProductSearchQuery) => void;
   isParentLoading: boolean;
 }
 
@@ -76,6 +79,27 @@ export default function PlanetMenu({
     nextSystem = systems[nextIndex];
   }
 
+  const handleAnyClick = (flavorNames: string[]) => {
+    // Build flavor query for any click (strict=false)
+    const query: FlavorSearchQuery = {
+      type: 'flavor',
+      values: flavorNames,
+      strict: false
+    };
+    onShowProducts(query);
+  };
+
+  const handleAllClick = (flavorNames: string[]) => {
+    // Build flavor query for all click (strict=true)
+    const query: FlavorSearchQuery = {
+      type: 'flavor',
+      values: flavorNames,
+      strict: true
+    };
+    onShowProducts(query);
+  };
+
+
   return (
     <div className="flex flex-col h-full items-center justify-start bg-white p-4 overflow-y-auto">
       <div className="w-full flex items-center justify-center space-x-2 sm:space-x-4 mb-6">
@@ -131,7 +155,7 @@ export default function PlanetMenu({
 
       <div className="mt-auto w-full flex flex-row justify-center gap-2 sm:gap-4 border-black border-2 py-4 px-6 border-b-8">
         <Button
-          onClick={() => onShowProducts(selectedSubCategory, false)}
+          onClick={() => handleAnyClick(selectedSubCategory)}
           disabled={selectedSubCategory.length === 0 || isParentLoading}
           size="lg"
           variant="reverse"
@@ -140,7 +164,7 @@ export default function PlanetMenu({
           {isParentLoading ? "Loading Products..." : "Products With Any Notes"}
         </Button>
         <Button
-          onClick={() => onShowProducts(selectedSubCategory, true)}
+          onClick={() => handleAllClick(selectedSubCategory)}
           disabled={selectedSubCategory.length === 0 || isParentLoading}
           size="lg"
           variant="reverse"

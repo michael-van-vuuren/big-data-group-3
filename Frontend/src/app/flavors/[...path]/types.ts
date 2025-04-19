@@ -1,15 +1,34 @@
+import { ProductSearchQuery } from "@/context/ProductSearchContext";
+
 export interface Product {
-  id: string;
+  id: number | string;
   name: string;
   image?: string;
+  webpage?: string;
+  gram?: number;
   roastDegree?: string;
+  availability?: string;
   price?: number;
   pricePerCup?: number;
   bulkPricePerCup?: number;
-  gram?: number;
-  availability?: string; // "YES" or "NO"
+  roaster?: {
+    name: string;
+    country?: {
+      name: string;
+    };
+  };
+  process?: {
+    name: string;
+    tag?: string;
+  };
   flavors?: { name: string }[];
-  webpage?: string;
+  producers?: {
+    name: string;
+    tag?: string;
+    elevation?: string;
+    regions?: { name: string }[];
+    countries?: { name: string }[];
+  }[];
 }
 
 export type AvailabilityFilter = "All" | "Available" | "Unavailable";
@@ -20,12 +39,12 @@ export type PriceSortOrder = 'none' | 'asc' | 'desc';
 
 export interface UseProductSearchResult {
   // Products
-  matchingProducts: Product[]; 
+  matchingProducts: Product[];
   loadingProducts: boolean;
   productError: string | null;
-  triggerProductSearch: (subCategories: string[], searchStrictnessFlag?: boolean) => Promise<void>;
+  triggerProductSearch: (query: ProductSearchQuery) => Promise<void>;
   handleCloseProductsView: () => void;
-  
+
   // Filters
   maxPriceFilter: number;
   availabilityFilter: AvailabilityFilter;

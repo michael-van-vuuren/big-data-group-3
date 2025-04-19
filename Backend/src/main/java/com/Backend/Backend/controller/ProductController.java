@@ -52,5 +52,30 @@ public class ProductController {
         return ResponseEntity.ok(dtos);
     }
 
+    @GetMapping("/by-roaster")
+    public ResponseEntity<List<ProductResponseDTO>> getProductsByRoaster(
+            @RequestParam(name = "roasterName") String roasterName
+    ) {
+        List<Product> products = productService.getProductsByRoasterName(roasterName);
+
+        List<ProductResponseDTO> dtos = products.stream()
+                .map(ProductResponseDTO::fromEntity)
+                .toList();
+
+        return ResponseEntity.ok(dtos);
+    }
+
+    @GetMapping("/by-roaster-country")
+    public ResponseEntity<List<ProductResponseDTO>> getProductsByRoasterCountry(
+            @RequestParam(name = "countryName") String countryName
+    ) {
+        List<Product> products = productService.getProductsByRoasterCountry(countryName);
+
+        List<ProductResponseDTO> dtos = products.stream()
+                .map(ProductResponseDTO::fromEntity)
+                .toList();
+
+        return ResponseEntity.ok(dtos);
+    }
 
 }
