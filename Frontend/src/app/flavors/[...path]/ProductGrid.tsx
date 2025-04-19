@@ -25,6 +25,7 @@ interface ProductGridProps {
   minPrice: number;
   maxPrice: number;
   favoriteIds: Set<number>;
+  onDelete: (productId: number | string) => void;
 }
 
 export default function ProductGrid({
@@ -36,6 +37,7 @@ export default function ProductGrid({
   minPrice,
   maxPrice,
   favoriteIds,
+  onDelete
 }: ProductGridProps) {
   const [activeHistogramTab, setActiveHistogramTab] = useState<HistogramTab>('flavor');
 
@@ -313,6 +315,7 @@ export default function ProductGrid({
                   product={product}
                   priceStyle={priceStyle}
                   initiallyFavorited={isFavorited}
+                  onDelete={onDelete}
                 />
               );
             })}

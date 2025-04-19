@@ -5,7 +5,7 @@ import { toast } from "sonner";
 import { addFavoriteProduct, removeFavoriteProduct } from '@/lib/apiClient';
 
 import { useProductSearchContext } from '@/context/ProductSearchContext';
-import { useRouter } from "next/navigation";
+import { useRouter, usePathname } from "next/navigation";
 import { Button } from '@/components/ui/button';
 import ProductImage from './productImage';
 import FlavorTags from './FlavorTags';
@@ -15,21 +15,61 @@ import { RoasterSearchQuery, RoasterCountrySearchQuery } from '@/context/Product
 import { Separator } from '@/components/separator';
 import { countryCodeMap } from '@/lib/flagutil';
 
+import { deleteProductById } from '@/lib/apiClient';
+import { useAuth } from '@/context/AuthContext';
+
 interface ProductCardProps {
   product: Product;
   priceStyle: React.CSSProperties;
   initiallyFavorited?: boolean;
+  onDelete: (productId: number | string) => void;
 }
 
-export default function ProductCard({ product, priceStyle, initiallyFavorited }: ProductCardProps) {
-  const [isFavorited, setIsFavorited] = useState(initiallyFavorited);
+export default function ProductCard({ product, priceStyle, initiallyFavorited, onDelete }: ProductCardProps) {
   const router = useRouter();
+  const pathname = usePathname();
+
+  const [isFavorited, setIsFavorited] = useState(initiallyFavorited);
+  const [isDeleting, setIsDeleting] = useState(false);
+  const [deleteError, setDeleteError] = useState<string | null>(null);
+
   const { handleUnfavorite } = useProductSearchContext();
   const [showSpecs, setShowSpecs] = useState(false);
+
+  const { user } = useAuth();
 
   useEffect(() => {
     setIsFavorited(initiallyFavorited);
   }, [initiallyFavorited]);
+
+
+  const handleDeleteClick = async () => {
+
+    if (!window.confirm(`Are you sure you want to delete "${toTitleCase(product.name)}"?`)) return;
+
+    // Make sure only the creator of a product can delete it
+    if (product.roaster?.name == null) return;
+    if (user?.name == null) return;
+    if (product.roaster.name.toLowerCase() !== user.name.toLowerCase()) return;
+
+    setIsDeleting(true);
+    setDeleteError(null);
+
+    try {
+      const success = await deleteProductById(product.id);
+
+      if (success) {
+        onDelete(product.id);
+      } else {
+        setDeleteError("Failed to delete product. It might have already been removed.");
+        setIsDeleting(false);
+      }
+    } catch (error) {
+      console.error("Error during product deletion:", error);
+      setDeleteError("An error occurred while deleting the product. Please try again.");
+      setIsDeleting(false);
+    }
+  };
 
   const handleFavoriteToggle = async () => {
 
@@ -165,6 +205,28 @@ export default function ProductCard({ product, priceStyle, initiallyFavorited }:
       )}
       <ProductImage src={product.image} alt={toTitleCase(product?.name ?? "N/A")} isFavorited={isFavorited} />
 
+      {/* Delete product (BUSINESS only) */}
+      {user &&
+        user.role === "BUSINESS" &&
+        user.name.toLowerCase() === product.roaster?.name.toLowerCase() &&
+        pathname.startsWith("/business") && (
+          <>
+            <button
+              onClick={handleDeleteClick}
+              disabled={isDeleting}
+              className={`absolute -top-12 px-8 py-1 text-sm border-black border-2 shadow-light ${isDeleting
+                ? 'bg-slate-300 text-gray-700 cursor-not-allowed'
+                : 'bg-red-500 hover:bg-white hover:text-black text-white transition-all'
+                }`}
+            >
+              {isDeleting ? 'Deleting Product...' : 'Delete Product'}
+            </button>
+
+            {deleteError && (
+              <p className="text-red-600 text-xs mt-2">{deleteError}</p>
+            )}
+          </>
+        )}
 
       {/* --- Details section --- */}
       <div
@@ -175,15 +237,14 @@ export default function ProductCard({ product, priceStyle, initiallyFavorited }:
       >
         {/* Product name */}
         <h3
-          className={`text-lg font-semibold mb-4 text-center border-y-2  p-2 ${isFavorited ? 'border-white border-solid border-y-[1px]' : 'border-black border-double'
+          className={`text-lg font-semibold mb-4 text-center border-y-2  p-2 ${isFavorited ? 'border-white border-solid border-y-[1px]' : 'border-black border-double text-ellipsis overflow-hidden'
             }`}
           title={toTitleCase(product?.name ?? "N/A")}
         >
           {toTitleCase(
             product?.name
-              .replace("【", " [").replace("】", "] ")
-              .replace("【", " (").replace("】", ") ")
-              .replace("-", "—")
+              .replace(/【/g, " [").replace(/】/g, "] ")
+              .replace(/-/g, "—").replace(/_/g, " ")
             ?? "N/A"
           )}
         </h3>

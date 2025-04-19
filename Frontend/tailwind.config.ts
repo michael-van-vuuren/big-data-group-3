@@ -93,12 +93,15 @@ const config: Config = {
         },
         bounceYThree: {
           '0%':   { transform: 'translateY(0) scale(0.9)' },
-          '20%':  { transform: 'translateY(-4px) scale(0.9)' },
-          '40%':  { transform: 'translateY(4px) scale(0.9)' },
-          '60%':  { transform: 'translateY(-2px) scale(0.9)' },
-          '80%':  { transform: 'translateY(2px) scale(0.9)' },
-          '100%': { transform: 'translateY(0) scale(0.9)' },
+          '10%':  { transform: 'translateY(-20px) scale(0.9)' }, // big bounce
+          '25%':  { transform: 'translateY(0) scale(0.9)' },
+          '35%':  { transform: 'translateY(-12px) scale(0.9)' }, // smaller
+          '45%':  { transform: 'translateY(0) scale(0.9)' },
+          '55%':  { transform: 'translateY(-6px) scale(0.9)' },  // tiny
+          '65%':  { transform: 'translateY(0) scale(0.9)' },
+          '100%': { transform: 'translateY(0) scale(0.9)' },     // settle
         },
+        
       },
       animation: {
         'accordion-down': 'accordion-down 0.2s ease-out',
@@ -108,7 +111,7 @@ const config: Config = {
         fadeIn: 'fadeIn 1s ease-out',
         'spin-slow': 'spin 1.5s linear infinite',
         'bounce-y-once': 'bounceYOnce 0.5s ease-in-out',
-        'bounce-y-three': 'bounceYThree 0.9s ease-in-out',
+        'bounce-y-three': 'bounceYThree 1.2s linear',
       },
       screens: {
         w900: { raw: '(max-width: 900px)' },

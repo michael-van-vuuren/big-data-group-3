@@ -8,9 +8,10 @@ import { getFavoriteProducts } from '@/lib/apiClient';
 interface ProductDisplayProps {
   hideFilters?: boolean;
   hideCloseButton?: boolean;
+  onProductDelete: (productId: number | string) => void;
 }
 
-export default function ProductDisplay({ hideFilters = false, hideCloseButton = false }: ProductDisplayProps) {
+export default function ProductDisplay({ hideFilters = false, hideCloseButton = false, onProductDelete }: ProductDisplayProps) {
   const contextValues = useProductSearchContext();
   const {
     matchingProducts,
@@ -72,6 +73,7 @@ export default function ProductDisplay({ hideFilters = false, hideCloseButton = 
         minPrice={minPrice}
         maxPrice={maxPrice}
         favoriteIds={favoriteIds}
+        onDelete={onProductDelete}
       />
 
     </div>
