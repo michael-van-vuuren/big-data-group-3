@@ -40,7 +40,7 @@ body::-webkit-scrollbar-thumb {
   }
 
   .cosmic-bg {
-    @apply bg-gradient-to-b from-slate-900 via-logoBlue to-slate-900 bg-[length:200%_200%] animate-rainbow;
+    @apply bg-gradient-to-b from-slate-900 via-logoBlue to-slate-900 bg-[length:300%_200%] animate-rainbow;
   }
 
   .cosmic-border {

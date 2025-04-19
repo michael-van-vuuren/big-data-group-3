@@ -23,12 +23,7 @@ const optionalNumberWithNull = (numberSchema: z.ZodNumber) => {
     );
 };
 
-const optionalNumberToStringWithNull = (numberSchema: z.ZodNumber) => {
-    return z.preprocess(
-        val => (val === '' || val === null || val === undefined) ? undefined : val,
-        numberSchema.optional().transform(val => val === undefined ? undefined : String(val))
-    );
-};
+
 
 // Schemas
 const countrySchema = z.object({
@@ -84,12 +79,12 @@ const producerSchema = z.object({
         .default([]),
 });
 
+
 // Enums
 export enum AvailabilityOption {
     YES = "YES",
     NO = "NO",
 }
-
 export enum RoastDegreeOption {
     DARK = "dark",
     ESPRESSO = "espresso",
@@ -103,6 +98,7 @@ export enum RoastDegreeOption {
     OMNI = "omni",
     ULTRA_LIGHT = "ultra light",
 }
+
 
 // Product schema
 const baseProductSchema = z.object({
@@ -146,6 +142,7 @@ const baseProductSchema = z.object({
         .default([]),
 });
 
+
 // Product payload schema (dto)
 export const productPayloadSchema = baseProductSchema.extend({
     name: z.string()
@@ -163,13 +160,23 @@ export const productPayloadSchema = baseProductSchema.extend({
     }),
 });
 
+
+// Product form
 export const productSchema = z.object({
     product: baseProductSchema,
     roasterCountry: z.string()
         .transform(sanitizeRegularString)
         .optional(),
 });
-
 export type ProductFormData = z.infer<typeof productSchema>;
-
 export type ProductPayload = z.infer<typeof productPayloadSchema>;
+
+
+// Multiple product forms
+export const multiProductFormSchema = z.object({
+  products: z.array(productSchema.shape.product)
+           .min(1, "Please add at least one product."),
+  roasterCountry: z.string().trim().optional(),
+});
+export type ProductEntry = z.infer<typeof productSchema.shape.product>;
+export type MultiProductFormShape = z.infer<typeof multiProductFormSchema>;

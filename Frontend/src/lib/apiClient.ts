@@ -1,4 +1,4 @@
-import { ProductPayload } from "@/app/business/dashboard/productValidator";
+import { ProductPayload } from "@/app/business/add-products/productValidator";
 import { Product } from "@/app/flavors/[...path]/types";
 import { ProductSearchQuery } from "@/context/ProductSearchContext";
 

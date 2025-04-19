@@ -295,17 +295,45 @@ export default function ProductCard({ product, priceStyle, initiallyFavorited, o
 
           {/* Origin and process */}
           {(producerNames || originCountries || originRegions || producerElevation || processName) && (
-            <div>
-              <p className="font-semibold text-sm pt-1 mb-0.5">Origin & Process</p>
-              <div className="pl-3 grid grid-cols-[auto_1fr] gap-x-4 gap-y-0.5 text-xs">
-                {producerNames && <> <p className="font-medium">Producer:</p> <p>{producerNames}</p> </>}
-                {originCountries && <> <p className="font-medium">Countries:</p> <p>{originCountries}</p> </>}
-                {originRegions && <> <p className="font-medium">Regions:</p> <p>{originRegions}</p> </>}
-                {producerElevation && <> <p className="font-medium">Elevation:</p> <p>{producerElevation}</p> </>}
-                {processName && <> <p className="font-medium">Process:</p> <p>{processName}</p> </>}
+            <div className="flex gap-4 items-start">
+              <div>
+                <p className="font-semibold text-sm pt-1 mb-0.5">Origin & Process</p>
+                <div className="pl-3 grid grid-cols-[auto_1fr] gap-x-4 gap-y-0.5 text-xs">
+                  {producerNames && (
+                    <>
+                      <p className="font-medium">Producer:</p>
+                      <p>{producerNames}</p>
+                    </>
+                  )}
+                  {originCountries && (
+                    <>
+                      <p className="font-medium">Countries:</p>
+                      <p>{originCountries}</p>
+                    </>
+                  )}
+                  {originRegions && (
+                    <>
+                      <p className="font-medium">Regions:</p>
+                      <p>{originRegions}</p>
+                    </>
+                  )}
+                  {producerElevation && (
+                    <>
+                      <p className="font-medium">Elevation:</p>
+                      <p>{String(producerElevation).replace(/,/g, '')}</p>
+                    </>
+                  )}
+                  {processName && (
+                    <>
+                      <p className="font-medium">Process:</p>
+                      <p>{processName}</p>
+                    </>
+                  )}
+                </div>
               </div>
             </div>
           )}
+
 
           <Separator />
 
