@@ -17,12 +17,12 @@ const config: Config = {
         main: '#FFF',
         mainAccent: '#88cc19', // not needed for shadcn components
         overlay: 'rgba(0,0,0,0.8)', // background color overlay for alert dialogs, modals, etc.
-  
+
         // light mode
         bg: '#FFF',
         text: '#000',
         border: '#000',
-  
+
         // dark mode
         darkBg: '#1F283B',
         darkText: '#fff',
@@ -85,6 +85,20 @@ const config: Config = {
             opacity: "1",
           },
         },
+        bounceYOnce: {
+          '0%': { transform: 'translateY(0) scale(0.9)' },
+          '30%': { transform: 'translateY(-4px) scale(0.9)' },
+          '60%': { transform: 'translateY(4px) scale(0.9)' },
+          '100%': { transform: 'translateY(0) scale(0.9)' },
+        },
+        bounceYThree: {
+          '0%':   { transform: 'translateY(0) scale(0.9)' },
+          '20%':  { transform: 'translateY(-4px) scale(0.9)' },
+          '40%':  { transform: 'translateY(4px) scale(0.9)' },
+          '60%':  { transform: 'translateY(-2px) scale(0.9)' },
+          '80%':  { transform: 'translateY(2px) scale(0.9)' },
+          '100%': { transform: 'translateY(0) scale(0.9)' },
+        },
       },
       animation: {
         'accordion-down': 'accordion-down 0.2s ease-out',
@@ -93,6 +107,8 @@ const config: Config = {
         marquee2: 'marquee2 15s linear infinite',
         fadeIn: 'fadeIn 1s ease-out',
         'spin-slow': 'spin 1.5s linear infinite',
+        'bounce-y-once': 'bounceYOnce 0.5s ease-in-out',
+        'bounce-y-three': 'bounceYThree 0.9s ease-in-out',
       },
       screens: {
         w900: { raw: '(max-width: 900px)' },

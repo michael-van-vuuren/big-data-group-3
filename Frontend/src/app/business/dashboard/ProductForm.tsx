@@ -31,17 +31,8 @@ import { toTitleCase } from "@/lib/stringutils";
 
 import { useAuth } from "@/context/AuthContext";
 import { importProducts } from "@/lib/apiClient";
+import { Separator } from "@/components/separator";
 
-const Separator = ({ color = "slate" }) => {
-  const lineStyle = color === "black" ? "border-slate-700 border-t-2 border-dashed" : "border-slate-400 border-t-2 border-dotted";
-
-  return (
-    <>
-      <div className="h-0.5"></div>
-      <div className={`pb-2 ${lineStyle} h-1`} />
-    </>
-  );
-};
 
 const roastDegreeOptions = [
   { label: "Dark", value: RoastDegreeOption.DARK },
@@ -87,7 +78,7 @@ const ProductForm = () => {
           { name: "", elevation: undefined, tag: undefined, regions: [{ name: "" }], countries: [{ name: "" }] }
         ],
       },
-      roasterCountry: "undefined"
+      roasterCountry: undefined
     },
     mode: "onChange",
   });

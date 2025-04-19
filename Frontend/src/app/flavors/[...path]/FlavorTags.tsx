@@ -34,7 +34,7 @@ export default function FlavorTags({ product }: Props) {
 
 
   return (
-    <div className="flex flex-wrap flex-row">
+    <div className="flex flex-wrap flex-row justify-center pt-1">
       {product.flavors
         .slice()
         .sort((a, b) => a.name.localeCompare(b.name))

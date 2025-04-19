@@ -12,6 +12,8 @@ import FlavorTags from './FlavorTags';
 import { cn } from '@/lib/utils';
 
 import { RoasterSearchQuery, RoasterCountrySearchQuery } from '@/context/ProductSearchContext';
+import { Separator } from '@/components/separator';
+import { countryCodeMap } from '@/lib/flagutil';
 
 interface ProductCardProps {
   product: Product;
@@ -23,6 +25,7 @@ export default function ProductCard({ product, priceStyle, initiallyFavorited }:
   const [isFavorited, setIsFavorited] = useState(initiallyFavorited);
   const router = useRouter();
   const { handleUnfavorite } = useProductSearchContext();
+  const [showSpecs, setShowSpecs] = useState(false);
 
   useEffect(() => {
     setIsFavorited(initiallyFavorited);
@@ -75,7 +78,7 @@ export default function ProductCard({ product, priceStyle, initiallyFavorited }:
   const getUniqueCountries = (): string | null => {
     if (!product.producers || product.producers.length === 0) return null;
     const names = product.producers.flatMap(p =>
-      p.countries?.map(c => c.name?.toUpperCase()) ?? []
+      p.countries?.map(p => toTitleCase(p.name)) ?? []
     );
 
     const validNames = names.filter((name): name is string => {
@@ -138,8 +141,11 @@ export default function ProductCard({ product, priceStyle, initiallyFavorited }:
     <div
       key={product.id}
       className={cn(
-        "relative border-black border-2 border-b-8 h-full p-6 text-left flex flex-col justify-between items-center",
-        !isFavorited ? "bg-white" : "favorite-bg"
+        "relative border-black border-2 border-b-8 h-full p-6 text-left flex flex-col justify-between items-center transition-transform will-change-transform",
+        "scale-90",
+        isFavorited
+          ? "favorite-bg animate-bounce-y-three"
+          : "bg-white"
       )}
     >
       {/* --- Favorite button, price, image, flavors --- */}
@@ -158,7 +164,7 @@ export default function ProductCard({ product, priceStyle, initiallyFavorited }:
         </div>
       )}
       <ProductImage src={product.image} alt={toTitleCase(product?.name ?? "N/A")} isFavorited={isFavorited} />
-      <FlavorTags product={product} />
+
 
       {/* --- Details section --- */}
       <div
@@ -168,8 +174,18 @@ export default function ProductCard({ product, priceStyle, initiallyFavorited }:
         )}
       >
         {/* Product name */}
-        <h3 className="text-lg font-semibold mb-2 line-clamp-2" title={toTitleCase(product?.name ?? "N/A")}>
-          {toTitleCase(product?.name ?? "N/A")}
+        <h3
+          className={`text-lg font-semibold mb-4 text-center border-y-2  p-2 ${isFavorited ? 'border-white border-solid border-y-[1px]' : 'border-black border-double'
+            }`}
+          title={toTitleCase(product?.name ?? "N/A")}
+        >
+          {toTitleCase(
+            product?.name
+              .replace("【", " [").replace("】", "] ")
+              .replace("【", " (").replace("】", ") ")
+              .replace("-", "—")
+            ?? "N/A"
+          )}
         </h3>
         {/* Product description */}
         <div className="space-y-2 text-xs font-medium">
@@ -177,53 +193,85 @@ export default function ProductCard({ product, priceStyle, initiallyFavorited }:
           {(roasterName || roasterCountryUpper) && (
             <div className="mt-2">
               <p className="font-semibold text-sm mb-0.5">Roaster</p>
-              <div className="flex flex-wrap flex-row pl-3">
+              <div className="flex flex-nowrap items-stretch gap-2">
                 {roasterName && (
                   <span
                     onClick={() => handleRoasterClick(roasterName)}
-                    className="transition-all duration-100 ease-in-out py-1 px-2 m-0.5 text-xs border-black border-2 font-semibold cursor-pointer flex-grow bg-blue-600 text-white hover:shadow-light hover:-translate-y-boxShadowY hover:-translate-x-boxShadowX active:shadow-none active:translate-y-boxShadowYSm active:translate-x-boxShadowXSm"
+                    className={`border-dashed transition-all duration-100 ease-in-out py-2 px-2 text-xs border-[1px] font-semibold cursor-pointer flex-grow whitespace-nowrap overflow-hidden text-ellipsis hover:shadow-light hover:-translate-y-boxShadowY hover:-translate-x-boxShadowX active:shadow-none active:translate-y-boxShadowYSm active:translate-x-boxShadowXSm hover:border-solid ${isFavorited
+                      ? 'bg-slate-900 text-white border-white'
+                      : 'bg-white text-black border-black'
+                      }`}
                   >
                     {roasterName}
                   </span>
                 )}
-                {roasterCountryUpper && (
+                {roasterCountryUpper && countryCodeMap[roasterCountryUpper.toLowerCase()] && (
                   <span
                     onClick={() => handleRoasterCountryClick(roasterCountryUpper)}
-                    className="transition-all duration-100 ease-in-out py-1 px-2 m-0.5 text-xs border-black border-2 font-semibold cursor-pointer flex-grow bg-pink-400 text-white hover:shadow-light hover:-translate-y-boxShadowY hover:-translate-x-boxShadowX active:shadow-none active:translate-y-boxShadowYSm active:translate-x-boxShadowXSm"
+                    className={`border-dashed transition-all duration-100 ease-in-out px-1 text-xs border-[1px] font-semibold cursor-pointer flex items-center gap-2 shrink-0 max-w-[40%] overflow-hidden text-ellipsis whitespace-nowrap hover:shadow-light hover:-translate-y-boxShadowY hover:-translate-x-boxShadowX active:shadow-none active:translate-y-boxShadowYSm active:translate-x-boxShadowXSm hover:border-solid ${isFavorited
+                      ? 'bg-slate-900 text-white border-white'
+                      : 'bg-white text-black border-black'
+                      }`}
                   >
-                    {roasterCountryUpper}
+                    {
+                      roasterCountryUpper.length > 3
+                        ? roasterCountryUpper === "UNITED KINGDOM"
+                          ? "UK"
+                          : toTitleCase(roasterCountryUpper.toLowerCase())
+                        : roasterCountryUpper
+                    }
+                    <span
+                      style={{ width: '22px', height: '17px' }}
+                      className={`border-[1px] border-black shadow-lightSm h-fit fi fi-${countryCodeMap[roasterCountryUpper.toLowerCase()]}`}
+                    ></span>
                   </span>
                 )}
               </div>
             </div>
           )}
 
+
+
           {/* Origin and process */}
           {(producerNames || originCountries || originRegions || producerElevation || processName) && (
             <div>
-              <p className="font-semibold text-sm mb-0.5">Origin & Process</p>
+              <p className="font-semibold text-sm pt-1 mb-0.5">Origin & Process</p>
               <div className="pl-3 grid grid-cols-[auto_1fr] gap-x-4 gap-y-0.5 text-xs">
                 {producerNames && <> <p className="font-medium">Producer:</p> <p>{producerNames}</p> </>}
-                {originCountries && <> <p className="font-medium">Country:</p> <p>{originCountries}</p> </>}
-                {originRegions && <> <p className="font-medium">Region:</p> <p>{originRegions}</p> </>}
+                {originCountries && <> <p className="font-medium">Countries:</p> <p>{originCountries}</p> </>}
+                {originRegions && <> <p className="font-medium">Regions:</p> <p>{originRegions}</p> </>}
                 {producerElevation && <> <p className="font-medium">Elevation:</p> <p>{producerElevation}</p> </>}
                 {processName && <> <p className="font-medium">Process:</p> <p>{processName}</p> </>}
               </div>
             </div>
           )}
-          {/* Specifications */}
-          <div>
-            <p className="font-semibold text-sm mb-0.5">Specifications</p>
-            <div className="pl-3 grid grid-cols-[auto_1fr] gap-x-4 gap-y-0.5 text-xs">
-              <p className="font-medium">Roast:</p><p>{toTitleCase(product?.roastDegree ?? "N/A")}</p>
-              {product?.gram != null && <> <p className="font-medium">Weight:</p> <p>{product.gram.toFixed(0)} g</p> </>}
-              {product?.pricePerCup != null && <> <p className="font-medium">Price/Cup:</p> <p>${product.pricePerCup.toFixed(2)}</p> </>}
-              {product?.bulkPricePerCup != null && <> <p className="font-medium">Bulk/Cup:</p> <p>${product.bulkPricePerCup.toFixed(2)}</p> </>}
-              <p className="font-medium">Available:</p><p>{toTitleCase(product?.availability ?? "N/A")}</p>
-            </div>
+
+          <Separator />
+
+          <FlavorTags product={product} />
+
+          {/* Specifications (expandable) */}
+          <div className="pt-2">
+            <button
+              onClick={() => setShowSpecs((prev) => !prev)}
+              className="font-semibold text-sm mb-0.5 underline underline-offset-2 hover:text-pink-400 transition-colors"
+            >
+              {showSpecs ? 'Hide Specifications' : 'Show Specifications'}
+            </button>
+
+            {showSpecs && (
+              <div className="pl-3 mt-1 grid grid-cols-[auto_1fr] gap-x-4 gap-y-0.5 text-xs animate-fade-in">
+                <p className="font-medium">Roast:</p><p>{toTitleCase(product?.roastDegree ?? "N/A")}</p>
+                {product?.gram != null && <> <p className="font-medium">Weight:</p> <p>{product.gram.toFixed(0)} g</p> </>}
+                {product?.pricePerCup != null && <> <p className="font-medium">Price/Cup:</p> <p>${product.pricePerCup.toFixed(2)}</p> </>}
+                {product?.bulkPricePerCup != null && <> <p className="font-medium">Bulk/Cup:</p> <p>${product.bulkPricePerCup.toFixed(2)}</p> </>}
+                <p className="font-medium">Available:</p><p>{toTitleCase(product?.availability ?? "N/A")}</p>
+              </div>
+            )}
           </div>
         </div>
       </div>
+
       {/* --- View button --- */}
       <a
         href={product.webpage}

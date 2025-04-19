@@ -85,8 +85,8 @@ body::-webkit-scrollbar-thumb {
   .grid-bg-dark {
     background-image: linear-gradient(to right, #00000012 1px, transparent 0px),
       linear-gradient(to bottom, #00000012 1px, transparent 0px);
-    background-size: 60px 60px;
-    background-position: 7px 0px;
+    background-size: 50px 50px;
+    background-position: -13px 0px;
     z-index: -1;
   }
 
