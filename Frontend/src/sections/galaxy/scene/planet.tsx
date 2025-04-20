@@ -2,7 +2,7 @@ import { useRef, useState, useMemo, useEffect } from "react";
 import { useFrame } from "@react-three/fiber";
 import { Mesh, Vector3, CatmullRomCurve3, TubeGeometry, BackSide } from "three";
 
-import { createGradientTexture } from "@/lib/colorutils";
+import { createGradientTexture } from "@/lib/utils/colorutils";
 
 interface PlanetProps {
     name: string;

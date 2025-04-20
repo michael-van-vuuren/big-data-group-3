@@ -1,6 +1,6 @@
-import { Button } from "@/components/ui/button";
-import { getNoteColor } from "@/lib/colorutils";
-import { toTitleCase, toCompressedForm } from "@/lib/stringutils";
+import { Button } from "@/components/button";
+import { getNoteColor } from "@/lib/utils/colorutils";
+import { toTitleCase, toCompressedForm } from "@/lib/utils/stringutils";
 
 interface SubcategoriesProps {
     notes: string[];

@@ -1,4 +1,4 @@
-import { Button } from "@/components/ui/button";
+import { Button } from "@/components/button";
 import styles from "@/sections/styles.module.css";
 
 interface WelcomeButtonProps {

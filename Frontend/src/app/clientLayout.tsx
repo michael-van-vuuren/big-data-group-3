@@ -5,8 +5,8 @@ import { usePathname } from 'next/navigation';
 
 import { AuthProvider, useAuth } from '@/context/AuthContext';
 import NavigationMenuDemo from '@/components/navigation';
-import { logoutUser } from '@/lib/apiClient';
-import { Button } from '@/components/ui/button';
+import { authApi } from '@/lib/api';
+import { Button } from '@/components/button';
 
 function LogoutButton() {
   const { user } = useAuth();
@@ -15,7 +15,7 @@ function LogoutButton() {
   const handleLogout = async () => {
     setLoading(true);
     try {
-      await logoutUser();
+      await authApi.logoutUser();
       location.reload();
     } catch (err) {
       console.error("Logout failed:", err);

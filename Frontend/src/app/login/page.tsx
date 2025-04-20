@@ -3,12 +3,12 @@
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
-import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { loginUser, registerUser } from "@/lib/apiClient";
+import { Button } from "@/components/button";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/card";
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/form";
+import { Input } from "@/components/input";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/tabs";
+import { authApi } from "@/lib/api";
 import { useAuth } from "@/context/AuthContext";
 import { useRouter } from "next/navigation";
 import { useState, useEffect } from "react";
@@ -46,7 +46,11 @@ export default function LoginPage() {
   const handleLogin = async (values: z.infer<typeof loginSchema>) => {
     setLoginError(null);
     try {
-      const userData = await loginUser(values);
+      const userData = await authApi.loginUser(values);
+
+      if (!userData) {
+        throw new Error("No user data returned.");
+      }
       login(userData);
 
       // might be buggy? 
@@ -62,7 +66,7 @@ export default function LoginPage() {
   const handleRegister = async (values: z.infer<typeof registerSchema>, role: "USER" | "BUSINESS") => {
     setRegisterError(null);
     try {
-      await registerUser({ ...values, role });
+      await authApi.registerUser({ ...values, role });
       localStorage.setItem("registration-status", "Account created successfully! Please log in below:");
       registerForm.reset();
 

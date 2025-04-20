@@ -2,7 +2,7 @@ import { useRef } from "react";
 import { Mesh } from "three";
 
 import notesData from "@/data/tasting-notes-wheel.json";
-import { getNoteColor } from "@/lib/colorutils";
+import { getNoteColor } from "@/lib/utils/colorutils";
 import { PlanetData } from "@/sections/galaxy/types/planetdata";
 
 // generate planets based on path

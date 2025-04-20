@@ -2,11 +2,11 @@
 
 import { useEffect, useState, useCallback } from "react";
 import { ProductSearchContext } from "@/context/ProductSearchContext";
-import { createProductSearchFromProducts } from "@/app/flavors/[...path]/createProductSearchFromProducts";
-import ProductDisplay from "@/app/flavors/[...path]/ProductDisplay";
-import type { Product } from "@/app/flavors/[...path]/types";
+import { createProductSearchFromProducts } from "@/app/flavors/[...path]/util/createProductSearchFromProducts";
+import ProductDisplay from "@/app/flavors/[...path]/components/ProductDisplay";
+import type { Product } from "@/app/flavors/[...path]/types/types";
 import { useAuth } from "@/context/AuthContext";
-import { getProductsByRoaster } from "@/lib/apiClient";
+import { productsApi } from "@/lib/api";
 
 
 // Uses user.name when user.role is "BUSINESS" to fetch the business' products
@@ -29,7 +29,7 @@ export default function RoasterProductsPage() {
       setIsLoading(true);
       setError(null);
       try {
-        const result = await getProductsByRoaster(name);
+        const result = await productsApi.getProductsByRoaster(name);
         setProducts(result);
       } catch (e) {
         console.error(`Failed to fetch products for roaster: ${name}`, e);

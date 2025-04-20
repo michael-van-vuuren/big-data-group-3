@@ -12,24 +12,24 @@ import {
   NavigationMenuLink,
   NavigationMenuList,
   NavigationMenuTrigger,
-} from '@/components/ui/navigation-menu'
+} from '@/components/navigation-menu'
 
-import { cn } from '@/lib/utils'
+import { cn } from '@/lib/utils/utils'
 
 const exploreTabs = [
   {
     title: 'Introduction',
-    href: '/introduction',
+    href: '/explore/introduction',
     description: 'Learn about the world of coffee.',
   },
   {
     title: 'Flavors',
-    href: '/varieties',
+    href: '/explore/varieties',
     description: 'Understand different coffee flavor notes.',
   },
   {
     title: 'Producers',
-    href: '/countries',
+    href: '/explore/countries',
     description: 'Explore the countries that produce coffee beans.',
   },
 ]

@@ -18,16 +18,16 @@ import {
   ProductEntry
 } from "./productValidator";
 
-import { Button } from "@/components/ui/button";
+import { Button } from "@/components/button";
 import Link from "next/link";
-import { Input } from "@/components/ui/input";
+import { Input } from "@/components/input";
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@/components/ui/select";
+} from "@/components/select";
 import {
   Form,
   FormControl,
@@ -35,13 +35,13 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "@/components/ui/form";
-import Logo from "@/sections/logo";
-import { cn } from "@/lib/utils";
-import { toTitleCase } from "@/lib/stringutils";
+} from "@/components/form";
+import Logo from "@/components/logo";
+import { cn } from "@/lib/utils/utils";
+import { toTitleCase } from "@/lib/utils/stringutils";
 
 import { useAuth } from "@/context/AuthContext";
-import { importProducts } from "@/lib/apiClient";
+import { businessApi } from "@/lib/api";
 import { Separator } from "@/components/separator";
 
 
@@ -162,7 +162,7 @@ const ProductForm = () => {
     }
 
     try {
-      const result = await importProducts(payloads); 
+      const result = await businessApi.importProducts(payloads); 
 
       sessionStorage.setItem("submitStatus", JSON.stringify(result));
 

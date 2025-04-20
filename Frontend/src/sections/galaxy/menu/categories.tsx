@@ -1,7 +1,7 @@
-import { Button } from "@/components/ui/button";
+import { Button } from "@/components/button";
 
 import type { PlanetData } from "@/sections/galaxy/types/planetdata";
-import { getNoteColor } from "@/lib/colorutils";
+import { getNoteColor } from "@/lib/utils/colorutils";
 
 interface CategoriesProps {
     planetData: PlanetData[];

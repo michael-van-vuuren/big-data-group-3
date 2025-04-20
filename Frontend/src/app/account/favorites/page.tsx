@@ -2,10 +2,10 @@
 
 import { useEffect, useState } from "react";
 import { ProductSearchContext } from "@/context/ProductSearchContext";
-import { createProductSearchFromProducts } from "@/app/flavors/[...path]/createProductSearchFromProducts";
-import ProductDisplay from "@/app/flavors/[...path]/ProductDisplay";
-import type { Product } from "@/app/flavors/[...path]/types";
-import { getFavoriteProducts } from "@/lib/apiClient";
+import { createProductSearchFromProducts } from "@/app/flavors/[...path]/util/createProductSearchFromProducts";
+import ProductDisplay from "@/app/flavors/[...path]/components/ProductDisplay";
+import type { Product } from "@/app/flavors/[...path]/types/types";
+import { favoritesApi } from "@/lib/api";
 
 export default function FavoritesPage() {
   const [favorites, setFavorites] = useState<Product[] | null>(null);
@@ -13,7 +13,7 @@ export default function FavoritesPage() {
   useEffect(() => {
     const fetchFavorites = async () => {
       try {
-        const result = await getFavoriteProducts();
+        const result = await favoritesApi.getFavoriteProducts();
         setFavorites(result);
       } catch (e) {
         console.error("Failed to fetch favorites", e);

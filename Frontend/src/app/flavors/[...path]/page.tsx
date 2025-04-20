@@ -7,10 +7,10 @@ import Galaxy from "@/sections/galaxy/scene/galaxy";
 import PlanetMenu from "@/sections/galaxy/menu/galaxymenu";
 import { usePlanetData } from "@/sections/galaxy/hooks/usePlanetData";
 import { useIsMobile } from "@/hooks/useIsMobile";
-import { ResizableHandle, ResizablePanel, ResizablePanelGroup } from "@/components/ui/resizable";
+import { ResizableHandle, ResizablePanel, ResizablePanelGroup } from "@/components/resizable";
 
-import ProductDisplay from "./ProductDisplay";
-import { useProductSearch } from "./useProductSearch";
+import ProductDisplay from "./components/ProductDisplay";
+import { useProductSearch } from "./hooks/useProductSearch";
 import { ProductSearchContext } from '@/context/ProductSearchContext';
 import type { PlanetData } from "@/sections/galaxy/types/planetdata";
 
