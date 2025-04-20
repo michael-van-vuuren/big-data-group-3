@@ -31,7 +31,7 @@ export default function ProductDisplay({ hideFilters = false, hideCloseButton = 
       }
     };
     fetchFavorites();
-  }, [favoriteIds]);
+  }, []);
 
   // Calculate min/max prices from currently matching products for color styling
   const validPrices = matchingProducts
