@@ -42,6 +42,9 @@ public class SecurityConfig {
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/api/auth/**").permitAll()
                         .requestMatchers(HttpMethod.POST, "/api/products/import").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/api/products/by-id").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/api/products/by-ids").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/api/products/by-id-range").permitAll()
                         .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
                         .anyRequest().authenticated()
                 )

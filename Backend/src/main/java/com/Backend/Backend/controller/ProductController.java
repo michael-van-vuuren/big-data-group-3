@@ -81,4 +81,42 @@ public class ProductController {
         return ResponseEntity.ok(dtos);
     }
 
+    @GetMapping("/by-id")
+    public ResponseEntity<ProductResponseDTO> getProductById(
+            @RequestParam Long id
+    ) {
+       Product product = productService.getProductById(id);
+
+       ProductResponseDTO dto = ProductResponseDTO.fromEntity(product);
+       return ResponseEntity.ok(dto);
+    }
+
+    @GetMapping("by-ids")
+    public ResponseEntity<List<ProductResponseDTO>> getProductsByIds(
+            @RequestParam List<Long> ids
+    ) {
+        List<Product> products = productService.getProductsById(ids);
+
+        List<ProductResponseDTO> dtos = products.stream()
+                .map(ProductResponseDTO::fromEntity)
+                .toList();
+
+        return ResponseEntity.ok(dtos);
+    }
+
+    @GetMapping("/by-id-range")
+    public ResponseEntity<List<ProductResponseDTO>> getProductsByIdRange(
+            @RequestParam Long minId,
+            @RequestParam Long maxId
+    ) {
+        List<Product> products = productService.getProductsByIdRange(minId, maxId);
+
+        List<ProductResponseDTO> dtos = products.stream()
+                .map(ProductResponseDTO::fromEntity)
+                .toList();
+
+        return ResponseEntity.ok(dtos);
+    }
+
+
 }

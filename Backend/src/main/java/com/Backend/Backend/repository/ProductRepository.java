@@ -37,6 +37,8 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
 
     // Find by Roaster country
     List<Product> findByRoasterCountryNameIgnoreCase(String countryName);
+
+    List<Product> findByIdBetween(Long start, Long end);
 }
 
 

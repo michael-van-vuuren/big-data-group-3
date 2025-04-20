@@ -23,7 +23,22 @@ public class ProductService {
     private final CountryRepository countryRepository;
     private final RegionRepository regionRepository;
 
-    /* Delete a single product */
+    /* Get a single product by id */
+    public Product getProductById(Long id) {
+        return productRepository.findById(id).orElse(null);
+    }
+
+    /* Get multiple products by id */
+    public List<Product> getProductsById(List<Long> ids) {
+        return productRepository.findAllById(ids);
+    }
+
+    /* Get products by id range */
+    public List<Product> getProductsByIdRange(Long minId, Long maxId) {
+        return productRepository.findByIdBetween(minId, maxId);
+    }
+
+    /* Delete a single product by id */
     @Transactional
     public boolean deleteProductById(Long id) {
         if (productRepository.existsById(id)) {
