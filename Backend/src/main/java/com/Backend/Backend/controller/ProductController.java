@@ -31,7 +31,7 @@ public class ProductController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Map<String, String>> deleteProduct(@PathVariable Long id) { // Return JSON, e.g., Map
+    public ResponseEntity<Map<String, String>> deleteProduct(@PathVariable Long id) {
         boolean deleted = productService.deleteProductById(id);
         if (deleted) {
             Map<String, String> successBody = Map.of("message", "Product deleted successfully.");

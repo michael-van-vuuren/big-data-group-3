@@ -2,6 +2,9 @@ package com.Backend.Backend.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
+
 import java.util.Set;
 import java.util.HashSet;
 
@@ -24,6 +27,7 @@ public class Producer {
     private String tags;
 
     @ManyToMany(mappedBy = "producers")
+    @OnDelete(action = OnDeleteAction.CASCADE)
     private Set<Product> products = new HashSet<>();
 
     @ManyToMany

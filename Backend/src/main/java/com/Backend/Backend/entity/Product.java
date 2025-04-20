@@ -3,6 +3,8 @@ package com.Backend.Backend.entity;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 import java.math.BigDecimal;
 import java.util.HashSet;
@@ -55,6 +57,7 @@ public class Product {
     private Process process;
 
     @ManyToMany
+    @OnDelete(action = OnDeleteAction.CASCADE)
     @JoinTable(
             name = "product_flavor",
             joinColumns = @JoinColumn(name = "product_id"),
@@ -63,6 +66,7 @@ public class Product {
     private Set<Flavor> flavors = new HashSet<>();
 
     @ManyToMany
+    @OnDelete(action = OnDeleteAction.CASCADE)
     @JoinTable(
             name = "product_producer",
             joinColumns = @JoinColumn(name = "product_id"),
@@ -71,6 +75,7 @@ public class Product {
     private Set<Producer> producers = new HashSet<>();
 
     @ManyToMany(mappedBy = "favoriteProducts", fetch = FetchType.LAZY)
+    @OnDelete(action = OnDeleteAction.CASCADE)
     private Set<Account> favoritedByAccounts = new HashSet<>();
 
     public Product() {

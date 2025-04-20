@@ -18,11 +18,21 @@ def add_products(payload):
     headers = {'Content-Type': 'application/json'}
 
     start_time = time.time()
-    response = requests.post(url, headers=headers, json=payload)
-    end_time = time.time()
+    try:
+        response = requests.post(url, headers=headers, json=payload)
+        response.raise_for_status()
 
-    print('Status code:', response.status_code)
-    print('Response body:', response.text)
-    print(f'Time taken: {end_time - start_time:.4f} seconds')
+        print('Status code:', response.status_code)
+        print('Response body:', response.text)
+    except requests.exceptions.HTTPError as http_err:
+        print('HTTP error occurred:', http_err)
+        print('Response content:', response.text)
+    except requests.exceptions.RequestException as req_err:
+        print('Request error occurred:', req_err)
+    except Exception as err:
+        print('Unexpected error:', err)
+    finally:
+        end_time = time.time()
+        print(f'Time taken: {end_time - start_time:.4f} seconds')
 
 add_products(payload)

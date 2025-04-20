@@ -3,7 +3,7 @@ import { z } from "zod";
 import { fromCompressedForm } from "@/lib/stringutils";
 
 const sanitizeRegularString = (str: string) =>
-    str.toLowerCase().replace(/[^\w\s.]|_/g, "").replace(/\s+/g, " ").trim();
+    str.toLowerCase().replace(/[^\w\s.-]/g, "").replace(/\s+/g, " ").trim();
 
 const sanitizeTag = (str: string) => str.toLowerCase();
 const sanitizeUrl = (str: string) => str.trim();

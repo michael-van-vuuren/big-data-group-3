@@ -8,7 +8,7 @@ interface LazyProductCardWrapperProps {
   priceStyle: React.CSSProperties;
   placeholderHeight?: string;
   initiallyFavorited: boolean;
-  onDelete: (productId: number | string) => void;
+  onDelete?: (productId: number | string) => void;
 }
 
 const LazyProductCardWrapper: React.FC<LazyProductCardWrapperProps> = ({
