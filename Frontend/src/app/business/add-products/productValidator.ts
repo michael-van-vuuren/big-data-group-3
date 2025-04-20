@@ -1,6 +1,6 @@
 import { z } from "zod";
 
-import { fromCompressedForm } from "@/lib/stringutils";
+import { fromCompressedForm } from "@/lib/utils/stringutils";
 
 const sanitizeRegularString = (str: string) =>
     str.toLowerCase().replace(/[^\w\s.-]/g, "").replace(/\s+/g, " ").trim();

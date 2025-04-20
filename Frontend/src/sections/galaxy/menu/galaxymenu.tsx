@@ -3,10 +3,10 @@ import Link from 'next/link';
 
 import Categories from "./categories";
 import Subcategories from "./subcategories";
-import NoteTable from "@/sections/notetable";
+import NoteTable from "@/sections/galaxy/menu/notetable";
 import notesData from "@/data/tasting-notes-wheel.json";
 import type { PlanetData } from "@/sections/galaxy/types/planetdata";
-import { Button } from '@/components/ui/button';
+import { Button } from '@/components/button';
 
 import { ProductSearchQuery } from "@/context/ProductSearchContext";
 import { FlavorSearchQuery } from "@/context/ProductSearchContext";

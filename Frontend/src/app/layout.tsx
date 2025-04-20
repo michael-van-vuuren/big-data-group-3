@@ -2,7 +2,7 @@ import type { Metadata } from 'next';
 import { DM_Sans } from 'next/font/google';
 import './globals.css';
 import ClientLayout from './clientLayout';
-import { Toaster } from "@/components/ui/sonner";
+import { Toaster } from "@/components/sonner";
 import 'flag-icons/css/flag-icons.min.css';
 
 const dmSans = DM_Sans({ subsets: ['latin'] });

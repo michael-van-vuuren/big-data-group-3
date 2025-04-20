@@ -2,10 +2,10 @@
 
 import React, { useEffect, useState } from "react";
 import { useAuth } from "@/context/AuthContext";
-import { getFavoriteProducts } from "@/lib/apiClient";
-import type { Product } from "@/app/flavors/[...path]/types";
-import Logo from "@/sections/logo";
-import { toTitleCase } from "@/lib/stringutils";
+import { favoritesApi } from "@/lib/api";
+import type { Product } from "@/app/flavors/[...path]/types/types";
+import Logo from "@/components/logo";
+import { toTitleCase } from "@/lib/utils/stringutils";
 
 const UserProfilePage = () => {
     const { user, isLoading } = useAuth();
@@ -16,7 +16,7 @@ const UserProfilePage = () => {
     useEffect(() => {
         const fetchFavorites = async () => {
             try {
-                const favorites: Product[] = await getFavoriteProducts();
+                const favorites: Product[] = await favoritesApi.getFavoriteProducts();
                 setTargetCount(favorites.length);
             } catch (e) {
                 console.error("Failed to fetch favorite count", e);

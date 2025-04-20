@@ -8,7 +8,7 @@ import React, {
     useEffect,
     ReactNode
 } from 'react';
-import { getMe, logoutUser } from '@/lib/apiClient';
+import { authApi } from '@/lib/api';
 import { useRouter, usePathname } from 'next/navigation';
 
 interface User {
@@ -50,7 +50,10 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
     const checkAuthStatus = useCallback(async () => {
         setIsLoading(true);
         try {
-            const userData: User = await getMe();
+            const userData = await authApi.getMe();
+            if (!userData) {
+                throw new Error("No user data returned from /auth/me.");
+            }
             if (!userData.role) {
                 console.warn("User data fetched successfully but missing role:", userData);
             }
@@ -60,7 +63,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
             if (isPathProtected && pathname !== '/login') {
                 console.log("Auth check failed, redirect required for protected path:", pathname);
                 try {
-                    await logoutUser();
+                    await authApi.logoutUser();
                 } catch (logoutError) {
                     console.error("Failed to clear session during auto-logout:", logoutError);
                 }
@@ -93,7 +96,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
             businessPaths.some((path) => pathname.startsWith(path));
 
         try {
-            await logoutUser();
+            await authApi.logoutUser();
         } catch (error) {
             console.error("Logout API call failed:", error);
         } finally {

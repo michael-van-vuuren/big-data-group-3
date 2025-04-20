@@ -1,4 +1,4 @@
-import { getNoteColor } from "@/lib/colorutils";
+import { getNoteColor } from "@/lib/utils/colorutils";
 
 interface PlanetHeaderProps {
     planetName: string | null;

@@ -1,5 +1,5 @@
 import { createContext, useContext } from 'react';
-import type { UseProductSearchResult } from '@/app/flavors/[...path]/types';
+import type { UseProductSearchResult } from '@/app/flavors/[...path]/types/types';
 
 export type FlavorSearchQuery = {
   type: 'flavor';
