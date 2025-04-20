@@ -22,7 +22,7 @@ interface ProductCardProps {
   product: Product;
   priceStyle: React.CSSProperties;
   initiallyFavorited?: boolean;
-  onDelete: (productId: number | string) => void;
+  onDelete?: (productId: number | string) => void;
 }
 
 export default function ProductCard({ product, priceStyle, initiallyFavorited, onDelete }: ProductCardProps) {
@@ -59,7 +59,7 @@ export default function ProductCard({ product, priceStyle, initiallyFavorited, o
       const success = await deleteProductById(product.id);
 
       if (success) {
-        onDelete(product.id);
+        if (onDelete) onDelete(product.id);
       } else {
         setDeleteError("Failed to delete product. It might have already been removed.");
         setIsDeleting(false);

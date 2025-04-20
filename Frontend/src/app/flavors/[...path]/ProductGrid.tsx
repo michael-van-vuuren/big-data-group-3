@@ -25,7 +25,7 @@ interface ProductGridProps {
   minPrice: number;
   maxPrice: number;
   favoriteIds: Set<number>;
-  onDelete: (productId: number | string) => void;
+  onDelete?: (productId: number | string) => void;
 }
 
 export default function ProductGrid({
@@ -294,10 +294,9 @@ export default function ProductGrid({
 
       {/* --- Empty State --- */}
       {!loadingProducts && !productError && matchingProducts.length === 0 && (
-        <div className="flex items-center justify-center h-full">
+        <div className="flex items-center justify-center pt-32">
           <p className="text-center text-gray-500 text-lg">
-            No {isFilterInverted ? 'excluded' : 'matching'} products found.
-            {totalFetchedCount > 0 ? ` Try adjusting${isFilterInverted ? ' or resetting' : ''} the filters.` : " Try selecting a different category."}
+            No products.
           </p>
         </div>
       )}

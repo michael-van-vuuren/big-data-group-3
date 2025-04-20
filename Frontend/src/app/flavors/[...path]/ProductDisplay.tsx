@@ -8,7 +8,7 @@ import { getFavoriteProducts } from '@/lib/apiClient';
 interface ProductDisplayProps {
   hideFilters?: boolean;
   hideCloseButton?: boolean;
-  onProductDelete: (productId: number | string) => void;
+  onProductDelete?: (productId: number | string) => void;
 }
 
 export default function ProductDisplay({ hideFilters = false, hideCloseButton = false, onProductDelete }: ProductDisplayProps) {
@@ -31,7 +31,7 @@ export default function ProductDisplay({ hideFilters = false, hideCloseButton = 
       }
     };
     fetchFavorites();
-  }, []);
+  }, [favoriteIds]);
 
   // Calculate min/max prices from currently matching products for color styling
   const validPrices = matchingProducts

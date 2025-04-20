@@ -55,8 +55,6 @@ export default function RoasterProductsPage() {
     return <div className="p-4 text-red-500">{error}</div>;
   if (!products)
     return <div className="p-4">Could not load product information.</div>;
-  if (products.length === 0 && user?.name)
-    return <div className="p-4">No products found for {user.name}.</div>;
   if (products.length === 0 && !user?.name)
     return <div className="p-4">Please log in to see roaster products.</div>;
 

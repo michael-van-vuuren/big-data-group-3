@@ -2,6 +2,9 @@ package com.Backend.Backend.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
+
 import java.util.Set;
 import java.util.HashSet;
 
@@ -20,6 +23,7 @@ public class Flavor {
     private String name;
 
     @ManyToMany(mappedBy = "flavors")
+    @OnDelete(action = OnDeleteAction.CASCADE)
     private Set<Product> products = new HashSet<>();
 
     public Flavor(String name) {
