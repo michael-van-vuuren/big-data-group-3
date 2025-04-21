@@ -49,7 +49,7 @@ export default function FavoritesPage() {
             },
           }}
         >
-          <ProductDisplay hideCloseButton hideFilters />
+          <ProductDisplay hideCloseButton hideFilters favoritesPage={true} />
         </ProductSearchContext.Provider>
       )}
     </div>

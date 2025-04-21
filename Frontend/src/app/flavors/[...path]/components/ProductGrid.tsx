@@ -28,6 +28,7 @@ interface ProductGridProps {
   favoriteIds: Set<number>;
   onDelete?: (productId: number | string) => void;
   setFavoriteIds: React.Dispatch<React.SetStateAction<Set<number>>>;
+  favoritesPage?: boolean;
 }
 
 export default function ProductGrid({
@@ -40,7 +41,8 @@ export default function ProductGrid({
   maxPrice,
   favoriteIds,
   onDelete,
-  setFavoriteIds
+  setFavoriteIds,
+  favoritesPage
 }: ProductGridProps) {
   const [activeHistogramTab, setActiveHistogramTab] = useState<HistogramTab>('flavor');
 
@@ -118,18 +120,20 @@ export default function ProductGrid({
     triggerProductSearch(query);
   };
 
-  useEffect(() => {
-    const fetchFavorites = async () => {
-      try {
-        const favorites: Product[] = await favoritesApi.getFavoriteProducts();
-        const ids = new Set(favorites.map(f => Number(f.id)));
+  const fetchFavorites = async () => {
+    try {
+      const favorites: Product[] = await favoritesApi.getFavoriteProducts();
+      const ids = new Set(favorites.map(f => Number(f.id)));
       setFavoriteIds(ids);
-      } catch (e) {
-        console.error("Failed to fetch favorites", e);
-      }
-    };
+    } catch (e) {
+      console.error("Failed to fetch favorites", e);
+    }
+  };
+  
+  useEffect(() => {
     fetchFavorites();
   }, []);
+  
 
 
   return (
@@ -326,6 +330,8 @@ export default function ProductGrid({
                   priceStyle={priceStyle}
                   initiallyFavorited={isFavorited}
                   onDelete={onDelete}
+                  fetchFavorites={fetchFavorites}
+                  favoritesPage={favoritesPage}
                 />
               );
             })}

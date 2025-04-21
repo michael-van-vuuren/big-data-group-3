@@ -8,7 +8,7 @@ export default function IntroductionPage() {
 
         <div className="mb-10 flex justify-center">
           <Image
-            src="/hero-coffee-farm.png"
+            src="/types/hero-coffee-farm.png"
             alt="Coffee farm hero"
             width={600}
             height={340}
@@ -22,7 +22,7 @@ export default function IntroductionPage() {
 
         <div className="mb-10 flex justify-center">
           <Image
-            src="/coffee-beans-closeup.jpg"
+            src="/types/coffee-beans-closeup.jpg"
             alt="Close-up of roasted coffee beans"
             width={500}
             height={285}
@@ -40,7 +40,7 @@ export default function IntroductionPage() {
 
         <div className="mb-10 flex justify-center">
           <Image
-            src="/people-drinking-coffee.jpg"
+            src="/types/people-drinking-coffee.jpg"
             alt="People enjoying coffee together"
             width={500}
             height={285}

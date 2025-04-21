@@ -9,9 +9,10 @@ interface ProductDisplayProps {
   hideFilters?: boolean;
   hideCloseButton?: boolean;
   onProductDelete?: (productId: number | string) => void;
+  favoritesPage?: boolean;
 }
 
-export default function ProductDisplay({ hideFilters = false, hideCloseButton = false, onProductDelete }: ProductDisplayProps) {
+export default function ProductDisplay({ hideFilters = false, hideCloseButton = false, onProductDelete, favoritesPage }: ProductDisplayProps) {
   const contextValues = useProductSearchContext();
   const {
     matchingProducts,
@@ -34,7 +35,7 @@ export default function ProductDisplay({ hideFilters = false, hideCloseButton = 
       }
     };
     fetchFavorites();
-  }, [matchingProducts]);
+  }, []);
 
   // Calculate min/max prices from currently matching products for color styling
   const validPrices = matchingProducts
@@ -78,6 +79,7 @@ export default function ProductDisplay({ hideFilters = false, hideCloseButton = 
         favoriteIds={favoriteIds}
         onDelete={onProductDelete}
         setFavoriteIds={setFavoriteIds}
+        favoritesPage={favoritesPage}
       />
 
     </div>

@@ -9,6 +9,8 @@ interface LazyProductCardWrapperProps {
   placeholderHeight?: string;
   initiallyFavorited: boolean;
   onDelete?: (productId: number | string) => void;
+  fetchFavorites: () => void;
+  favoritesPage?: boolean;
 }
 
 const LazyProductCardWrapper: React.FC<LazyProductCardWrapperProps> = ({
@@ -16,7 +18,9 @@ const LazyProductCardWrapper: React.FC<LazyProductCardWrapperProps> = ({
   priceStyle,
   placeholderHeight = '10px',
   initiallyFavorited,
-  onDelete
+  onDelete,
+  fetchFavorites,
+  favoritesPage
 }) => {
   const { ref, inView } = useInView({
     triggerOnce: true,
@@ -30,6 +34,8 @@ const LazyProductCardWrapper: React.FC<LazyProductCardWrapperProps> = ({
           priceStyle={priceStyle}
           initiallyFavorited={initiallyFavorited}
           onDelete={onDelete}
+          fetchFavorites={fetchFavorites}
+          favoritesPage={favoritesPage}
         />
       ) : (
         null

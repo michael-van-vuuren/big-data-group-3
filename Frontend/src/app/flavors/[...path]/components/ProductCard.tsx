@@ -23,9 +23,11 @@ interface ProductCardProps {
   priceStyle: React.CSSProperties;
   initiallyFavorited?: boolean;
   onDelete?: (productId: number | string) => void;
+  fetchFavorites?: () => void;
+  favoritesPage?: boolean;
 }
 
-export default function ProductCard({ product, priceStyle, initiallyFavorited, onDelete }: ProductCardProps) {
+export default function ProductCard({ product, priceStyle, initiallyFavorited, onDelete, fetchFavorites, favoritesPage }: ProductCardProps) {
   const router = useRouter();
   const pathname = usePathname();
 
@@ -39,8 +41,13 @@ export default function ProductCard({ product, priceStyle, initiallyFavorited, o
   const { user } = useAuth();
 
   useEffect(() => {
-    setIsFavorited(initiallyFavorited);
-  }, [initiallyFavorited]);
+    // If on the favorites page, always mark as favorited (smoother ui)
+    if (favoritesPage) {
+      setIsFavorited(true);
+    } else {
+      setIsFavorited(initiallyFavorited);
+    }
+  }, [initiallyFavorited, favoritesPage]);
 
 
   const handleDeleteClick = async () => {
@@ -75,6 +82,9 @@ export default function ProductCard({ product, priceStyle, initiallyFavorited, o
   };
 
   const handleFavoriteToggle = async () => {
+    // Optimistic set
+    const newFavoriteStatus = !isFavorited;
+    setIsFavorited(newFavoriteStatus);
 
     const productId = Number(product.id);
 
@@ -84,14 +94,11 @@ export default function ProductCard({ product, priceStyle, initiallyFavorited, o
       return;
     }
 
-    const toastId = toast.loading(`${isFavorited ? 'Removing' : 'Adding'} ${toTitleCase(product.name)} ${isFavorited ? 'from' : 'to'} favorites...`);
+    const toastId = toast.loading(`${newFavoriteStatus ? 'Adding' : 'Removing'} ${toTitleCase(product.name)} ${newFavoriteStatus ? 'to' : 'from'} favorites...`);
     try {
-      if (isFavorited) {
-        await favoritesApi.removeFavoriteProduct(productId);
-        toast.success(`${toTitleCase(product.name)} removed from favorites.`, { id: toastId });
-        handleUnfavorite?.(productId);
-      } else {
+      if (newFavoriteStatus) {
         await favoritesApi.addFavoriteProduct(productId);
+        fetchFavorites?.();
         toast.success(`${toTitleCase(product.name)} added!`, {
           id: toastId,
           description: "Visit the account tab to view your favorites.",
@@ -100,11 +107,17 @@ export default function ProductCard({ product, priceStyle, initiallyFavorited, o
             onClick: () => router.push("/account/favorites"),
           }
         });
+      } else {
+        await favoritesApi.removeFavoriteProduct(productId);
+        fetchFavorites?.();
+        toast.success(`${toTitleCase(product.name)} removed from favorites.`, { id: toastId });
+        handleUnfavorite?.(productId);
       }
-      setIsFavorited(!isFavorited);
     } catch (error) {
       console.error("Favorite toggle failed:", error);
-      toast.error(`Failed to ${isFavorited ? 'remove' : 'add'} ${toTitleCase(product.name)}.`, {
+      // Rollback optimistic state on error
+      setIsFavorited(!newFavoriteStatus);
+      toast.error(`Failed to ${newFavoriteStatus ? 'add' : 'remove'} ${toTitleCase(product.name)}.`, {
         id: toastId,
         description: error instanceof Error ? error.message : "Please try again later.",
       });
