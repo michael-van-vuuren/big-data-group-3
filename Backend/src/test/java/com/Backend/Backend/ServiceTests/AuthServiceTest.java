@@ -1,4 +1,4 @@
-package com.Backend.Backend;
+package com.Backend.Backend.ServiceTests;
 
 import com.Backend.Backend.dto.LoginRequest;
 import com.Backend.Backend.dto.RegisterRequest;

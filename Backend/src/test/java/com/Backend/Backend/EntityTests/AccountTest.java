@@ -1,4 +1,4 @@
-package com.Backend.Backend;
+package com.Backend.Backend.EntityTests;
 
 import com.Backend.Backend.entity.Account;
 import org.junit.jupiter.api.Test;

@@ -1,4 +1,4 @@
-package com.Backend.Backend;
+package com.Backend.Backend.SecurityTests;
 
 import com.Backend.Backend.entity.Account;
 import com.Backend.Backend.repository.AccountRepository;

@@ -1,4 +1,4 @@
-package com.Backend.Backend;
+package com.Backend.Backend.ExceptionTests;
 
 import com.Backend.Backend.exception.EmailAlreadyExistsException;
 import com.Backend.Backend.exception.GlobalExceptionHandler;

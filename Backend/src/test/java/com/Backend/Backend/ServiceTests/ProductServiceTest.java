@@ -1,13 +1,10 @@
-package com.Backend.Backend;
+package com.Backend.Backend.ServiceTests;
 
 import com.Backend.Backend.repository.ProductRepository;
 import com.Backend.Backend.service.ProductService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
-
-import java.util.ArrayList;
-import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;

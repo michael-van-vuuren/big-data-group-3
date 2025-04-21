@@ -1,4 +1,4 @@
-package com.Backend.Backend;
+package com.Backend.Backend.SecurityTests;
 
 import com.Backend.Backend.security.JwtUtils;
 
