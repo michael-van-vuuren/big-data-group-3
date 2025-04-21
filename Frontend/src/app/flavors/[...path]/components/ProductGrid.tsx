@@ -10,7 +10,7 @@ import { useProductSearchContext } from '@/context/ProductSearchContext';
 import { FlavorSearchQuery, RoasterCountrySearchQuery } from '../types/types';
 import { countryCodeMap } from '@/lib/utils/flagutil';
 
-import { Orbit } from 'lucide-react';
+import Spinner from '@/components/spinner';
 import { cn } from '@/lib/utils/utils';
 
 import { favoritesApi } from '@/lib/api';
@@ -291,14 +291,7 @@ export default function ProductGrid({
 
       {/* --- Loading State --- */}
       {loadingProducts && (
-        <div className="flex items-center justify-center h-full grid-bg-dark overflow-hidden">
-          <Orbit
-            strokeWidth={1.0}
-            style={{ stroke: "#475773" }}
-            className="w-24 h-24 animate-spin-slow"
-          />
-
-        </div>
+        <Spinner />
       )}
 
 

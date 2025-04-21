@@ -6,6 +6,7 @@ import { createProductSearchFromProducts } from "@/app/flavors/[...path]/util/cr
 import ProductDisplay from "@/app/flavors/[...path]/components/ProductDisplay";
 import type { Product } from "@/app/flavors/[...path]/types/types";
 import { favoritesApi } from "@/lib/api";
+import Spinner from "@/components/spinner";
 
 export default function FavoritesPage() {
   const [favorites, setFavorites] = useState<Product[] | null>(null);
@@ -22,18 +23,6 @@ export default function FavoritesPage() {
     fetchFavorites();
   }, []);
 
-  if (!favorites) {
-    return <div className="p-4">Loading favorites…</div>;
-  }
-
-  const contextValue = {
-    ...createProductSearchFromProducts(favorites),
-    handleUnfavorite: (productId: number) => {
-      setFavorites((prev) => prev?.filter((p) => Number(p.id) !== productId) ?? null);
-    },
-  };
-  
-
   return (
     <div
       style={{
@@ -45,9 +34,24 @@ export default function FavoritesPage() {
       }}
       className="my-4 w-full lg:border-4 sm:border-t-2 border-border text-mtext flex flex-col"
     >
-      <ProductSearchContext.Provider value={contextValue}>
-        <ProductDisplay hideCloseButton hideFilters />
-      </ProductSearchContext.Provider>
+      {!favorites ? (
+        <div className="bg-white h-full">
+          <Spinner />
+        </div>
+      ) : (
+        <ProductSearchContext.Provider
+          value={{
+            ...createProductSearchFromProducts(favorites),
+            handleUnfavorite: (productId: number) => {
+              setFavorites((prev) =>
+                prev?.filter((p) => Number(p.id) !== productId) ?? null
+              );
+            },
+          }}
+        >
+          <ProductDisplay hideCloseButton hideFilters />
+        </ProductSearchContext.Provider>
+      )}
     </div>
   );
 }

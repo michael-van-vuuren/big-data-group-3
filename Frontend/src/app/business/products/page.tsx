@@ -7,9 +7,8 @@ import ProductDisplay from "@/app/flavors/[...path]/components/ProductDisplay";
 import type { Product } from "@/app/flavors/[...path]/types/types";
 import { useAuth } from "@/context/AuthContext";
 import { productsApi } from "@/lib/api";
+import Spinner from "@/components/spinner";
 
-
-// Uses user.name when user.role is "BUSINESS" to fetch the business' products
 export default function RoasterProductsPage() {
   const { user } = useAuth();
   const [products, setProducts] = useState<Product[] | null>(null);
@@ -49,16 +48,7 @@ export default function RoasterProductsPage() {
     });
   }, []);
 
-  if (isLoading)
-    return <div className="p-4">Loading products for {user?.name || 'roaster'}...</div>;
-  if (error)
-    return <div className="p-4 text-red-500">{error}</div>;
-  if (!products)
-    return <div className="p-4">Could not load product information.</div>;
-  if (products.length === 0 && !user?.name)
-    return <div className="p-4">Please log in to see roaster products.</div>;
-
-  const contextValue = createProductSearchFromProducts(products);
+  const contextValue = products ? createProductSearchFromProducts(products) : null;
 
   return (
     <div
@@ -71,13 +61,31 @@ export default function RoasterProductsPage() {
       }}
       className="my-4 w-full lg:border-4 sm:border-t-2 border-border text-mtext flex flex-col"
     >
-      <ProductSearchContext.Provider value={contextValue}>
-        <ProductDisplay
-          hideCloseButton
-          hideFilters
-          onProductDelete={handleProductDeleted}
-        />
-      </ProductSearchContext.Provider>
+      {isLoading &&
+        <div className="bg-white h-full">
+          <Spinner />
+        </div>
+      }
+
+      {!isLoading && error && (
+        <div className="p-4 text-red-500">{error}</div>
+      )}
+
+      {!isLoading && !error && products && (
+        <ProductSearchContext.Provider value={contextValue!}>
+          <ProductDisplay
+            hideCloseButton
+            hideFilters
+            onProductDelete={handleProductDeleted}
+          />
+        </ProductSearchContext.Provider>
+      )}
+
+      {!isLoading && !error && (!products || (products.length === 0 && !user?.name)) && (
+        <div className="p-4">
+          Please log in to see roaster products.
+        </div>
+      )}
     </div>
   );
 }
