@@ -1,5 +1,3 @@
-import { ProductSearchQuery } from "@/context/ProductSearchContext";
-
 export interface Product {
   id: number | string;
   name: string;
@@ -68,3 +66,21 @@ export interface UseProductSearchResult {
   handleToggleInvertFilter: () => void;
   handleUnfavorite?: (productId: number) => void;
 }
+
+export type FlavorSearchQuery = {
+  type: 'flavor';
+  values: string[];
+  strict?: boolean;
+};
+
+export type RoasterSearchQuery = {
+  type: 'roaster';
+  value: string;
+};
+
+export type RoasterCountrySearchQuery = {
+  type: 'roaster-country';
+  value: string;
+};
+
+export type ProductSearchQuery = FlavorSearchQuery | RoasterSearchQuery | RoasterCountrySearchQuery;

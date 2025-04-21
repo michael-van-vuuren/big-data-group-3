@@ -32,6 +32,11 @@ const exploreTabs = [
     href: '/explore/countries',
     description: 'Explore the countries that produce coffee beans.',
   },
+  {
+    title: 'Flavor Wall',
+    href: '/explore/flavor-wall',
+    description: 'Explore the flavors in our catalog.',
+  },
 ]
 
 export default function NavigationMenuDemo() {

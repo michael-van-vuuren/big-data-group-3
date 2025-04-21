@@ -38,7 +38,7 @@ export default function Home() {
   }
   if (user && user.role === "USER") {
     buttonMessage = "Get Started";
-    buttonLink = "/flavors/Fruity";
+    buttonLink = "/explore/flavor-wall";
     description = "Explore the catalog";
   }
 
@@ -68,7 +68,7 @@ export default function Home() {
                         </p>
 
                         {/* Image and gradient */}
-                        <div className="relative w-full max-w-3xl h-[300px] mx-auto mb-24 hover:animate-pulse" style={{ animationDuration: '1.5s' }}>
+                        <div className="relative w-full max-w-3xl h-[400px] mx-auto mb-24 hover:animate-pulse" style={{ animationDuration: '1.5s' }}>
                           <Image
                             src={system.image}
                             alt={system.name}

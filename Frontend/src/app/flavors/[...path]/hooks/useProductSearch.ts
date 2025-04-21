@@ -2,7 +2,7 @@ import { useState, useEffect, useCallback, useRef, useMemo } from "react";
 import { productsApi } from "@/lib/api";
 import type { Product, AvailabilityFilter, UseProductSearchResult, RoastDegreeFilter, PriceSortOrder } from "../types/types";
 import { toTitleCase } from "@/lib/utils/stringutils";
-import { ProductSearchQuery } from "@/context/ProductSearchContext";
+import { ProductSearchQuery } from "@/lib/api/core";
 
 const DEFAULT_MAX_PRICE = 60;
 const DEFAULT_ROAST_FILTER = "All";
@@ -67,7 +67,7 @@ export function useProductSearch(
       setMatchingProducts(fetchedProducts); 
 
       // DEBUG
-      console.log("Fetched Products:", fetchedProducts);
+      console.log("Fetched Products useProductSearch:", fetchedProducts);
 
       setMaxPriceFilter(DEFAULT_MAX_PRICE);
       setAvailabilityFilter('All');
@@ -85,17 +85,7 @@ export function useProductSearch(
     } finally {
       setLoadingProducts(false);
     }
-  }, [
-      setShowProductsView,
-      setLoadingProducts,
-      setProductError,
-      setIsFilterInverted,
-      setMatchingProducts,
-      setMaxPriceFilter,
-      setAvailabilityFilter,
-      setRoastDegreeFilter,
-      setPriceSortOrder
-  ]);
+  }, [setShowProductsView]);
 
 
   /* --- Filtering & Sorting logic --- */
