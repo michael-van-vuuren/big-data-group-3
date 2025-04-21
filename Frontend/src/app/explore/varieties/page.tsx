@@ -150,7 +150,7 @@ const categories: Category[] = [
   }
 ];
 
-export const TypesOfCoffeePage = () => {
+const TypesOfCoffeePage = () => {
   return (
     <div className="bg-blue-900 border-border border-4 flex items-center justify-center w-screen relative grid-bg-dot">
       <div className=" bg-white border-0 lg:border-2 border-black text-start h-full py-24 px-8 max-w-5xl shadow-light my-0 lg:my-24">

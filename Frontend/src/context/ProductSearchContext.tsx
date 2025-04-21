@@ -38,6 +38,8 @@ const defaultContextValue: UseProductSearchResult = {
 // Create context
 export const ProductSearchContext = createContext<UseProductSearchResult>(defaultContextValue);
 
+export type ProductSearchContextType = UseProductSearchResult;
+
 // Hook
 export const useProductSearchContext = () => {
   const context = useContext(ProductSearchContext);
