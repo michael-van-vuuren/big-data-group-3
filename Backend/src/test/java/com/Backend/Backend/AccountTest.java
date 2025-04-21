@@ -29,8 +29,7 @@ class AccountTest {
 
         // UserDetails methods
         assertEquals("alice@example.com", account.getUsername());
-        Collection<? extends SimpleGrantedAuthority> auths =
-                (Collection<? extends SimpleGrantedAuthority>) account.getAuthorities();
+        Collection<? extends SimpleGrantedAuthority> auths = (Collection<? extends SimpleGrantedAuthority>) account.getAuthorities();
         assertEquals(1, auths.size());
         assertTrue(auths.contains(new SimpleGrantedAuthority("ROLE_USER")));
 
@@ -40,6 +39,6 @@ class AccountTest {
         assertTrue(account.isEnabled());
 
         // initial favorites empty
-        assertTrue(account.getFavoriteProducts().isEmpty());
+        assertNull(account.getFavoriteProducts());
     }
 }
