@@ -189,7 +189,7 @@ export default function ProductFilterControls({
               className={`flex-shrink-0 text-xs text-white ${isFilterInverted ? "bg-emerald-500 hover:bg-emerald-600" : "bg-violet-500 hover:bg-violet-600"}`}
               aria-label={isFilterInverted ? "Show matching products" : "Show non-matching products"}
             >
-              {isFilterInverted ? "Show Matches" : "Show Non-Matches"}
+              {isFilterInverted ? "Matches" : "Non-Matches"}
             </Button>
           </div>
         </>

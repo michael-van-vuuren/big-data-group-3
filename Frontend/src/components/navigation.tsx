@@ -67,9 +67,11 @@ export default function NavigationMenuDemo() {
           <NavigationMenuContent>
             <ul className="grid gap-3 p-4 w-[380px]">
               {exploreTabs.map((item) => (
-                <ListItem key={item.title} title={item.title} href={item.href}>
-                  {item.description}
-                </ListItem>
+                item.title === 'Flavor Wall' && !user ? null : (
+                  <ListItem key={item.title} title={item.title} href={item.href}>
+                    {item.description}
+                  </ListItem>
+                )
               ))}
             </ul>
           </NavigationMenuContent>

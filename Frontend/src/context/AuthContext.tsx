@@ -33,7 +33,7 @@ interface AuthProviderProps {
 }
 
 /* --- Role-based paths --- */
-const userPaths = ['/quiz', '/flavors', '/account'];
+const userPaths = ['/flavors', '/account', '/explore/flavor-wall'];
 const businessPaths = [...userPaths, '/business'];
 
 export const AuthProvider = ({ children }: AuthProviderProps) => {
