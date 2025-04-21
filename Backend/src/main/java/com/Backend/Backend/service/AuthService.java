@@ -3,6 +3,7 @@ package com.Backend.Backend.service;
 import com.Backend.Backend.dto.LoginRequest;
 import com.Backend.Backend.dto.RegisterRequest;
 import com.Backend.Backend.entity.Account;
+import com.Backend.Backend.exception.EmailAlreadyExistsException;
 import com.Backend.Backend.repository.AccountRepository;
 import com.Backend.Backend.security.JwtUtils;
 import lombok.RequiredArgsConstructor;
@@ -26,10 +27,10 @@ public class AuthService {
 
     public Account register(RegisterRequest request) {
         if (accountRepository.existsByEmail(request.getEmail())) {
-            throw new RuntimeException("Email is already in use!");
+            throw new EmailAlreadyExistsException("Email is already in use!");
         }
         if (accountRepository.existsByName(request.getName())) {
-            throw new RuntimeException("Name is already in use!");
+            throw new EmailAlreadyExistsException("Name is already in use!");
         }
 
         Account user = Account.builder()
