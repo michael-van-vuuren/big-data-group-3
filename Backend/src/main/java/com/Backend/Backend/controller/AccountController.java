@@ -53,25 +53,20 @@ public class AccountController {
             return authenticationError;
         }
 
-        try {
-            Account account = getAuthenticatedAccount();
-            Set<Product> favoriteProducts = account.getFavoriteProducts();
+        Account account = getAuthenticatedAccount();
 
-            if (favoriteProducts == null) {
-                return ResponseEntity.ok(List.of());
-            }
-
-            List<ProductResponseDTO> dtos = favoriteProducts.stream()
-                    .map(ProductResponseDTO::fromEntity)
-                    .toList();
-
-            return ResponseEntity.ok(dtos);
-
-        } catch (UsernameNotFoundException e) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new MessageResponse(e.getMessage()));
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new MessageResponse("An internal error occurred while fetching favorites."));
+        List<Long> productIds = productRepository.findFavoriteProductIds(account.getId().longValue());
+        if (productIds.isEmpty()) {
+            return ResponseEntity.ok(List.of());
         }
+
+        List<Product> products = productRepository.findProductsWithDetailsByIds(productIds);
+
+        List<ProductResponseDTO> dtos = products.stream()
+                .map(ProductResponseDTO::fromEntity)
+                .toList();
+
+        return ResponseEntity.ok(dtos);
     }
 
     // Add a user's favorite product
@@ -142,4 +137,27 @@ public class AccountController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new MessageResponse("An internal error occurred while removing favorite."));
         }
     }
+
+    // Get the count of a user's favorite products
+    @GetMapping("/favorites/count")
+    @Transactional(readOnly = true)
+    public ResponseEntity<?> getFavoriteProductCount() {
+        ResponseEntity<?> authenticationError = handleAuthentication();
+        if (authenticationError != null) {
+            return authenticationError;
+        }
+
+        try {
+            Account account = getAuthenticatedAccount();
+            Long count = accountRepository.countFavoriteProductsByAccountId(account.getId().longValue());
+            return ResponseEntity.ok(count);
+        } catch (UsernameNotFoundException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body(new MessageResponse(e.getMessage()));
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body(new MessageResponse("An error occurred while fetching favorite count."));
+        }
+    }
+
 }

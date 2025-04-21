@@ -40,31 +40,55 @@ public class ProductService {
             return List.of();
         }
 
-        if (strict) {
-            return productRepository.findProductsByAllFlavors(flavorNames, flavorNames.size());
-        } else {
-            return productRepository.findProductsByAnyFlavor(flavorNames);
+        List<Long> productIds = strict
+                ? productRepository.findProductIdsByAllFlavorNames(flavorNames, flavorNames.size())
+                : productRepository.findProductIdsByAnyFlavor(flavorNames);
+
+        if (productIds.isEmpty()) {
+            return List.of();
         }
+
+        return productRepository.findProductsWithDetailsByIds(productIds);
     }
 
+
+    /* Get products by roaster */
     @Transactional(readOnly = true)
     public List<Product> getProductsByRoasterName(String roasterName) {
         if (roasterName == null || roasterName.isBlank()) {
             return List.of();
         }
-        return productRepository.findByRoasterNameIgnoreCase(roasterName);
+
+        List<Long> productIds = productRepository.findProductIdsByRoasterName(roasterName);
+        if (productIds.isEmpty()) {
+            return List.of();
+        }
+
+        return productRepository.findProductsWithDetailsByIds(productIds);
     }
 
+
+    /* Get products by roaster country */
     @Transactional(readOnly = true)
     public List<Product> getProductsByRoasterCountry(String countryName) {
         if (countryName == null || countryName.isBlank()) {
             return List.of();
         }
-        return productRepository.findByRoasterCountryNameIgnoreCase(countryName);
+
+        List<Long> productIds = productRepository.findProductIdsByRoasterCountry(countryName);
+        if (productIds.isEmpty()) {
+            return List.of();
+        }
+
+        return productRepository.findProductsWithDetailsByIds(productIds);
     }
 
 
-    /* Import multiple products */
+
+    /* Import multiple products
+     * This is very long and definitely should be refactored
+     * into multiple files (this is how JSON -> SQL tables)
+     */
     @Transactional
     public ProductImportResult importProducts(List<ProductDTO> productDTOs) {
 

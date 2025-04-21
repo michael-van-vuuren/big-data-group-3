@@ -9,11 +9,13 @@ export const addFavoriteProduct = (productId: number): Promise<any> => {
 };
 
 // Get a user's favorites
-export const getFavoriteProducts = (): Promise<Product[]> => {
-    return fetchApi<Product[]>('/account/favorites', {
+export const getFavoriteProducts = async (): Promise<Product[]> => {
+    const data = await fetchApi<Product[]>('/account/favorites', {
         method: 'GET',
-    }).then(data => data || []);
+    });
+    return data || [];
 };
+
 
 // Remove a favorite from a user's account
 export const removeFavoriteProduct = (productId: number): Promise<void> => {
@@ -21,3 +23,12 @@ export const removeFavoriteProduct = (productId: number): Promise<void> => {
         method: 'DELETE',
     })
 };
+
+// Get only the count of favorite products
+export const getFavoriteCount = async (): Promise<number> => {
+    const data = await fetchApi<number>('/account/favorites/count', {
+        method: 'GET',
+    });
+    return data ?? 0;
+};
+

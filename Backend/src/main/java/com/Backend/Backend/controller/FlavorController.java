@@ -18,12 +18,9 @@ public class FlavorController {
     private final FlavorRepository flavorRepository;
 
     @GetMapping("/all")
-    public ResponseEntity<List<FlavorDTO>> getAllFlavors(){
-        List<Flavor> flavors = flavorRepository.findAll();
-
-        List<FlavorDTO> dtos = flavors.stream()
-                .map(FlavorDTO::fromEntity)
-                .toList();
+    public ResponseEntity<List<FlavorDTO>> getAllFlavors() {
+        List<FlavorDTO> dtos = flavorRepository.findAllFlavorsAsDTO();
         return ResponseEntity.ok(dtos);
     }
+
 }
