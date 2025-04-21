@@ -11,7 +11,7 @@ import ProductImage from './productImage';
 import FlavorTags from './FlavorTags';
 import { cn } from '@/lib/utils/utils';
 
-import { RoasterSearchQuery, RoasterCountrySearchQuery } from '@/context/ProductSearchContext';
+import { RoasterSearchQuery, RoasterCountrySearchQuery } from '../types/types';
 import { Separator } from '@/components/separator';
 import { countryCodeMap } from '@/lib/utils/flagutil';
 
@@ -59,6 +59,9 @@ export default function ProductCard({ product, priceStyle, initiallyFavorited, o
       const success = await businessApi.deleteProductById(product.id);
 
       if (success) {
+        toast.success(`${toTitleCase(product.name)} deleted successfully.`, {
+          description: `${toTitleCase(product.name)} is no longer accessible to users.`,
+        });
         if (onDelete) onDelete(product.id);
       } else {
         setDeleteError("Failed to delete product. It might have already been removed.");

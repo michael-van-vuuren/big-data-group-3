@@ -7,6 +7,7 @@ import { AuthProvider, useAuth } from '@/context/AuthContext';
 import NavigationMenuDemo from '@/components/navigation';
 import { authApi } from '@/lib/api';
 import { Button } from '@/components/button';
+import { ProductSearchProvider } from '@/context/ProductSearchContext';
 
 function LogoutButton() {
   const { user } = useAuth();
@@ -71,7 +72,9 @@ export default function ClientLayout({ children }: { children: ReactNode }) {
       </header>
 
       <main style={{ position: 'absolute', top: '58px' }}>
-         {children}
+        <ProductSearchProvider>
+          {children}
+        </ProductSearchProvider>
       </main>
     </AuthProvider>
   );

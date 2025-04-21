@@ -1,6 +1,6 @@
 import { ProductPayload } from "@/app/business/add-products/productValidator";
 import { Product } from "@/app/flavors/[...path]/types/types";
-import { ProductSearchQuery } from "@/context/ProductSearchContext";
+import { ProductSearchQuery } from "@/app/flavors/[...path]/types/types";
 
 // Backend api URL
 const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8080/api';

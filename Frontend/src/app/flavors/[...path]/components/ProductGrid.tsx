@@ -7,8 +7,7 @@ import { toTitleCase, toCompressedForm } from '@/lib/utils/stringutils';
 
 import LazyProductCardWrapper from './LazyProductCardWrapper';
 import { useProductSearchContext } from '@/context/ProductSearchContext';
-import { FlavorSearchQuery } from '@/context/ProductSearchContext';
-import { RoasterCountrySearchQuery } from '@/context/ProductSearchContext';
+import { FlavorSearchQuery, RoasterCountrySearchQuery } from '../types/types';
 import { countryCodeMap } from '@/lib/utils/flagutil';
 
 import { Orbit } from 'lucide-react';

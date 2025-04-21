@@ -8,8 +8,8 @@ import notesData from "@/data/tasting-notes-wheel.json";
 import type { PlanetData } from "@/sections/galaxy/types/planetdata";
 import { Button } from '@/components/button';
 
-import { ProductSearchQuery } from "@/context/ProductSearchContext";
-import { FlavorSearchQuery } from "@/context/ProductSearchContext";
+import { ProductSearchQuery } from "@/lib/api/core";
+import { FlavorSearchQuery } from "@/app/flavors/[...path]/types/types";
 
 interface System {
   name: string;

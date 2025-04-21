@@ -3,12 +3,13 @@ import { Color, Texture } from "three";
 import notesColors from "@/data/notes-wheel-colors.json";
 
 export const getNoteColor = (note: string | null) => {
-    let colors = notesColors as Record<string, string>;
-    if (note) {
+    const colors = notesColors as Record<string, string>;
+    if (note && note in colors) {
         return colors[note];
     }
     return "#000";
 };
+
 
 const expandShorthandHex = (hex: string): string => {
     if (!hex) return "#FFF";
