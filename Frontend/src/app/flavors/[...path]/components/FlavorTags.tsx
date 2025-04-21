@@ -14,6 +14,7 @@ type Flavor = {
 
 type Props = {
   product?: {
+    id: string | number;
     flavors?: Flavor[];
   };
   flavorNames?: FlavorDTO[];

@@ -1,4 +1,4 @@
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useEffect } from 'react';
 import type { Product } from '../types/types';
 import { getPriceColorStyle } from '../util/styleutils';
 import Logo from '@/components/logo';
@@ -13,6 +13,8 @@ import { countryCodeMap } from '@/lib/utils/flagutil';
 import { Orbit } from 'lucide-react';
 import { cn } from '@/lib/utils/utils';
 
+import { favoritesApi } from '@/lib/api';
+
 type HistogramTab = 'flavor' | 'country';
 
 interface ProductGridProps {
@@ -25,6 +27,7 @@ interface ProductGridProps {
   maxPrice: number;
   favoriteIds: Set<number>;
   onDelete?: (productId: number | string) => void;
+  setFavoriteIds: React.Dispatch<React.SetStateAction<Set<number>>>;
 }
 
 export default function ProductGrid({
@@ -36,7 +39,8 @@ export default function ProductGrid({
   minPrice,
   maxPrice,
   favoriteIds,
-  onDelete
+  onDelete,
+  setFavoriteIds
 }: ProductGridProps) {
   const [activeHistogramTab, setActiveHistogramTab] = useState<HistogramTab>('flavor');
 
@@ -94,6 +98,8 @@ export default function ProductGrid({
     triggerProductSearch
   } = useProductSearchContext();
 
+
+
   const handleFlavorClick = (flavorName: string) => {
     // Build flavor query
     const query: FlavorSearchQuery = {
@@ -111,6 +117,19 @@ export default function ProductGrid({
     };
     triggerProductSearch(query);
   };
+
+  useEffect(() => {
+    const fetchFavorites = async () => {
+      try {
+        const favorites: Product[] = await favoritesApi.getFavoriteProducts();
+        const ids = new Set(favorites.map(f => Number(f.id)));
+      setFavoriteIds(ids);
+      } catch (e) {
+        console.error("Failed to fetch favorites", e);
+      }
+    };
+    fetchFavorites();
+  }, []);
 
 
   return (

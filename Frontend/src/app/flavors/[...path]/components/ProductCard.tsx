@@ -162,16 +162,6 @@ export default function ProductCard({ product, priceStyle, initiallyFavorited, o
     triggerProductSearch
   } = useProductSearchContext();
 
-  const fetchFavorites = async () => {
-    try {
-      const favorites: Product[] = await favoritesApi.getFavoriteProducts();
-      setIsFavorited(favorites.some(p => Number(p.id) === product.id));
-    } catch (e) {
-      console.error("Failed to fetch favorites", e);
-    }
-  };
-  fetchFavorites();
-
   const handleRoasterClick = (roasterName: string) => {
     // Build roaster name query
     const query: RoasterSearchQuery = {
@@ -179,7 +169,6 @@ export default function ProductCard({ product, priceStyle, initiallyFavorited, o
       value: roasterName
     };
     triggerProductSearch(query);
-    fetchFavorites();
   };
 
   const handleRoasterCountryClick = (roasterCountry: string) => {
@@ -189,7 +178,6 @@ export default function ProductCard({ product, priceStyle, initiallyFavorited, o
       value: roasterCountry
     };
     triggerProductSearch(query);
-    fetchFavorites();
   };
 
   return (

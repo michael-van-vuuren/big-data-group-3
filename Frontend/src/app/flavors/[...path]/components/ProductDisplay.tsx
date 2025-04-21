@@ -21,6 +21,9 @@ export default function ProductDisplay({ hideFilters = false, hideCloseButton = 
 
   const [favoriteIds, setFavoriteIds] = useState<Set<number>>(new Set());
 
+  // BUG: currently this sends a getFavorites request on every filter change,
+  // which is really inefficient, will fix this after refactoring the 
+  // filtering system
   useEffect(() => {
     const fetchFavorites = async () => {
       try {
@@ -31,7 +34,7 @@ export default function ProductDisplay({ hideFilters = false, hideCloseButton = 
       }
     };
     fetchFavorites();
-  }, []);
+  }, [matchingProducts]);
 
   // Calculate min/max prices from currently matching products for color styling
   const validPrices = matchingProducts
@@ -74,6 +77,7 @@ export default function ProductDisplay({ hideFilters = false, hideCloseButton = 
         maxPrice={maxPrice}
         favoriteIds={favoriteIds}
         onDelete={onProductDelete}
+        setFavoriteIds={setFavoriteIds}
       />
 
     </div>
