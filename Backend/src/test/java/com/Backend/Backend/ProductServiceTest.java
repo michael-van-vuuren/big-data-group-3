@@ -4,9 +4,16 @@ import com.Backend.Backend.repository.ProductRepository;
 import com.Backend.Backend.service.ProductService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.*;
+
+import java.util.ArrayList;
+import java.util.List;
+
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.*;
+import static org.skyscreamer.jsonassert.JSONAssert.assertEquals;
+
 public class ProductServiceTest {
     private ProductRepository productRepository;
     private ProductService productService;
@@ -37,5 +44,18 @@ public class ProductServiceTest {
 
         assertFalse(result);
         verify(productRepository, never()).deleteById(productId);
+    }
+
+    @Test
+    void testDeleteProductWithInvalidId() {
+        Long productId = null;
+        boolean result = productService.deleteProductById(productId);
+        assertFalse(result);
+        verify(productRepository, never()).deleteById(productId);
+    }
+
+    @Test
+    void testGetProductByRoasterName() {
+        assertNotNull(productService.getProductsByRoasterName("Roaster 1"));
     }
 }
