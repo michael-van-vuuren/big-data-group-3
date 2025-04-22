@@ -95,9 +95,11 @@ Open the `CoffeeApplication.ipynb` in Jupyter Notebook to explore or run the dat
 4. Push to the branch (`git push origin feature/FeatureName`)
 5. Open a Pull Request
 
-## 📄 License
+## 📊 Project Presentation Slides
 
-This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
+Want the full story? Check out our presentation slides for a comprehensive overview of the project’s goals, architecture, and implementation details:
+
+👉 [Project Slides (Google Drive)](https://o365coloradoedu-my.sharepoint.com/:p:/r/personal/meko4807_colorado_edu/Documents/Big%20Data%20Presentation.pptx?d=w27a08705fa834a74828745ef4b151a30&csf=1&web=1&e=JlapEE)
 
 ## 📬 Contact
 
