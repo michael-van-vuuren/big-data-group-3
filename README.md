@@ -87,13 +87,14 @@ npm start
 
 Open the `CoffeeApplication.ipynb` in Jupyter Notebook to explore or run the data processing steps.
 
-## 🤝 Contributing
+## 🎯 Recommendation System
 
-1. Fork the repository
-2. Create your feature branch (`git checkout -b feature/FeatureName`)
-3. Commit your changes (`git commit -m 'Add new feature'`)
-4. Push to the branch (`git push origin feature/FeatureName`)
-5. Open a Pull Request
+The web app includes a built-in recommendation engine that analyzes user input (such as a selected coffee bean product) and suggests similar coffee beans. The similarity is calculated based on shared characteristics like:
+
+- Flavor profile  
+- Altitude of growth  
+- Genetic lineage  
+- Origin country  
 
 ## 📊 Project Presentation Slides
 
