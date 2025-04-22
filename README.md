@@ -30,7 +30,7 @@ big-data-group-3/
 ├── backend/                     # Java backend source code
 ├── frontend/                    # TypeScript frontend application
 ├── TempData/                    # Sample and temporary data files
-├── CoffeeApplication.ipynb      # Data processing Jupyter Notebook
+├── CoffeeApplication.ipynb      # Data processing with AI Powered Recommendation system Jupyter Notebook 
 ├── backend.zip                  # Archived backend code
 ├── .gitignore                   # Git ignore rules
 └── README.md                    # This file
