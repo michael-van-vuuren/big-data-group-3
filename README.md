@@ -1,6 +1,104 @@
-# Coffee Bean Web App
 
-Coffee beans come in many varieties, each with distinct characteristics such as origin, flavor profile, genetic lineage, and growth altitude. This web app will provide a way to visually explore these varieties. Additionally, it will help users find real-world coffee bean products by recommending similar options based on the characteristics of a input coffee bean product (like Spotify recommendations for coffee beans).
+# ☕️ Coffee Bean Web App
 
-Docker Images:
-[https://hub.docker.com/repositories/michaelvanvuuren](https://hub.docker.com/repositories/michaelvanvuuren)
+The Coffee Bean Web App is an interactive platform designed to help users explore various coffee bean varieties. It provides detailed insights into each bean's origin, flavor profile, genetic lineage, and growth altitude. Additionally, the app offers personalized recommendations for similar coffee bean products, akin to how Spotify suggests music tracks.
+
+## 🚀 Features
+
+- **Visual Exploration**: Navigate through a rich database of coffee bean varieties with intuitive visual tools.
+- **Personalized Recommendations**: Input a coffee bean product to receive suggestions for similar beans based on shared characteristics.
+- **Comprehensive Bean Profiles**: Access detailed information on each bean, including its origin, flavor notes, genetic background, and cultivation altitude.
+
+## 🛠️ Technologies Used
+
+- **Frontend**: TypeScript
+- **Backend**: Java
+- **Database**: MySQL
+- **Scripting & Data Processing**: Python
+- **Containerization**: Docker
+
+## 📦 Docker Images
+
+Pre-built Docker images for the application are available at:  
+👉 [Docker Hub - michaelvanvuuren](https://hub.docker.com/repositories/michaelvanvuuren)
+
+## 📂 Repository Structure
+
+```
+big-data-group-3/
+│
+├── backend/                     # Java backend source code
+├── frontend/                    # TypeScript frontend application
+├── TempData/                    # Sample and temporary data files
+├── CoffeeApplication.ipynb      # Data processing Jupyter Notebook
+├── backend.zip                  # Archived backend code
+├── .gitignore                   # Git ignore rules
+└── README.md                    # This file
+```
+
+## 🔧 Getting Started
+
+### Prerequisites
+
+- Docker
+- (Optional) Docker Compose
+
+### Installation
+
+1. **Clone the Repository**
+   ```bash
+   git clone https://github.com/michael-van-vuuren/big-data-group-3.git
+   cd big-data-group-3
+   ```
+
+2. **Build and Run with Docker**
+   ```bash
+   docker build -t coffee-bean-app .
+   docker run -p 3000:3000 coffee-bean-app
+   ```
+
+   Or with Docker Compose:
+   ```bash
+   docker-compose up --build
+   ```
+
+3. **Access the App**
+   Open your browser and go to:  
+   [http://localhost:3000](http://localhost:3000)
+
+## 🧪 Development & Testing
+
+### Backend
+
+```bash
+cd backend
+# compile and run with your preferred Java toolchain
+```
+
+### Frontend
+
+```bash
+cd frontend
+npm install
+npm start
+```
+
+### Data Analysis
+
+Open the `CoffeeApplication.ipynb` in Jupyter Notebook to explore or run the data processing steps.
+
+## 🤝 Contributing
+
+1. Fork the repository
+2. Create your feature branch (`git checkout -b feature/FeatureName`)
+3. Commit your changes (`git commit -m 'Add new feature'`)
+4. Push to the branch (`git push origin feature/FeatureName`)
+5. Open a Pull Request
+
+## 📄 License
+
+This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
+
+## 📬 Contact
+
+For questions or suggestions, open an issue or contact the maintainer.
