@@ -1,15 +1,18 @@
 
-# ☕️ Coffee Bean Web App
+# Cosmic Coffee Catalog
 
 The Coffee Bean Web App is an interactive platform designed to help users explore various coffee bean varieties. It provides detailed insights into each bean's origin, flavor profile, genetic lineage, and growth altitude. Additionally, the app offers personalized recommendations for similar coffee bean products, akin to how Spotify suggests music tracks.
 
-## 🚀 Features
+## Demo Video
+[https://youtu.be/au9oAL0jE3k](https://youtu.be/au9oAL0jE3k)
+
+## Features
 
 - **Visual Exploration**: Navigate through a rich database of coffee bean varieties with intuitive visual tools.
 - **Personalized Recommendations**: Input a coffee bean product to receive suggestions for similar beans based on shared characteristics.
 - **Comprehensive Bean Profiles**: Access detailed information on each bean, including its origin, flavor notes, genetic background, and cultivation altitude.
 
-## 🛠️ Technologies Used
+## Technologies Used
 
 - **Frontend**: TypeScript
 - **Backend**: Java
@@ -17,12 +20,12 @@ The Coffee Bean Web App is an interactive platform designed to help users explor
 - **Scripting & Data Processing**: Python
 - **Containerization**: Docker
 
-## 📦 Docker Images
+## Docker Images
 
 Pre-built Docker images for the application are available at:  
-👉 [Docker Hub - michaelvanvuuren](https://hub.docker.com/repositories/michaelvanvuuren)
+[Docker Hub](https://hub.docker.com/repositories/michaelvanvuuren)
 
-## 📂 Repository Structure
+## Repository Structure
 
 ```
 big-data-group-3/
@@ -36,7 +39,7 @@ big-data-group-3/
 └── README.md                    # This file
 ```
 
-## 🔧 Getting Started
+## Getting Started
 
 ### Prerequisites
 
@@ -66,7 +69,7 @@ big-data-group-3/
    Open your browser and go to:  
    [http://localhost:3000](http://localhost:3000)
 
-## 🧪 Development & Testing
+## Development & Testing
 
 ### Backend
 
@@ -87,7 +90,7 @@ npm start
 
 Open the `CoffeeApplication.ipynb` in Jupyter Notebook to explore or run the data processing steps.
 
-## 🎯 Recommendation System
+## Recommendation System
 
 The web app includes a built-in recommendation engine that analyzes user input (such as a selected coffee bean product) and suggests similar coffee beans. The similarity is calculated based on shared characteristics like:
 
@@ -96,12 +99,8 @@ The web app includes a built-in recommendation engine that analyzes user input (
 - Genetic lineage  
 - Origin country  
 
-## 📊 Project Presentation Slides
+## Project Presentation Slides
 
 Want the full story? Check out our presentation slides for a comprehensive overview of the project’s goals, architecture, and implementation details:
 
-👉 [Project Slides (Google Drive)](https://o365coloradoedu-my.sharepoint.com/:p:/r/personal/meko4807_colorado_edu/Documents/Big%20Data%20Presentation.pptx?d=w27a08705fa834a74828745ef4b151a30&csf=1&web=1&e=JlapEE)
-
-## 📬 Contact
-
-For questions or suggestions, open an issue or contact the maintainer.
+[Project Slides (Google Drive)](https://o365coloradoedu-my.sharepoint.com/:p:/r/personal/meko4807_colorado_edu/Documents/Big%20Data%20Presentation.pptx?d=w27a08705fa834a74828745ef4b151a30&csf=1&web=1&e=JlapEE)
